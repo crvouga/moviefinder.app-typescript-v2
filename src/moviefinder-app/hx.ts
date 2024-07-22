@@ -1,8 +1,8 @@
-import  { Route } from "./route";
+import { Route, toRoute } from "./route/route"
 
-export const hxHandlers = new Map<string, (request: Request) => Response>()
+export const hxHandlers = new Map<string, (request: Request) => (Response | Promise<Response>)>()
 
-export const hx = (route: Route.Route, handler: (request: Request) => Response) => {
+export const hx = (route: Route, handler: (request: Request) => (Promise<Response> | Response)) => {
     hxHandlers.set(route.routeName, handler)
 }
 
@@ -12,16 +12,18 @@ export const isHxRequest = (request: Request) => {
     return request.headers.get("HX-Request") === "true"
 }
 
-export const handleRequest = (request: Request) => {
+export const handleRequest = async (request: Request) => {
     if(!isHxRequest(request)) {
         return null
     }
     
-    const route = Route.toRoute(request.url)
+    const route = toRoute(request.url)
     
     if(!route) {
         return null
     }
+
+    console.log(route)
 
     const handler = hxHandlers.get(route.routeName)
 

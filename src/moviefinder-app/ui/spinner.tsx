@@ -1,5 +1,10 @@
 import type { CustomElementHandler } from "typed-html";
+import { IconSpinner } from "./icon/icon-spinner";
 
 export const Spinner: CustomElementHandler = () => {
-  return <div>spinner</div>;
+  return (
+    <div class="animate-spin">
+      <IconSpinner />
+    </div>
+  );
 };

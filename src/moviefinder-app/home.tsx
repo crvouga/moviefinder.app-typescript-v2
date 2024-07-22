@@ -1,9 +1,8 @@
 import type { CustomElement } from "./element";
 import { hx } from "./hx";
-import { html } from "./response";
+import { RouteLoginPage } from "./login/login";
+import { html, redirect } from "./response";
 import { encode, Route } from "./route/route";
-
-export const RouteHome = Route("home");
 
 let count = 0;
 
@@ -27,7 +26,15 @@ hx(RouteInc, () => {
   return html(<Counter count={countNew} />);
 });
 
+export const RouteHome = Route("home");
+
+const isLoggedOut = true;
+
 hx(RouteHome, (request) => {
+  if (isLoggedOut) {
+    return redirect(RouteLoginPage());
+  }
+
   return html(
     <div>
       Home
