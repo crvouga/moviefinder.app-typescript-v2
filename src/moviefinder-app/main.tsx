@@ -1,10 +1,10 @@
 import * as elements from "typed-html";
 import { RouteHome } from "./home";
-import { handleRequest, isHxRequest } from "./hx";
-import { Route } from "./route";
-import { Spinner } from "./ui/spinner";
-import type { CustomElement } from "./element";
-import type { EncodedRoute } from "./route/route";
+import { handleRequest, isHxRequest } from "./shared/hx";
+import { Route } from "./shared/route";
+import { Spinner } from "./shared/ui/spinner";
+import type { CustomElement } from "./shared/element";
+import type { EncodedRoute } from "./shared/route/route";
 import { getDeps, type Deps } from "./deps";
 // @ts-ignore
 globalThis.elements = elements;
@@ -37,7 +37,9 @@ const Document: CustomElement<{ route: EncodedRoute }> = (
           hx-trigger="load"
           id="root"
         >
-          <Spinner />
+          <div class="w-full h-full flex items-center justify-center">
+            <Spinner />
+          </div>
         </div>
       </body>
     </html>

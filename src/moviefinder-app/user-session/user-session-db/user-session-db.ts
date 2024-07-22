@@ -1,5 +1,5 @@
-import type { UserSessionId } from "../../data/user-session-id"
-import type { Result } from "../../utils/result"
+import type { UserSessionId } from "../../shared/user-session-id"
+import type { Result } from "../../shared/result"
 import type { UserSession } from "../user-session"
 
 export type UserSessionDb = {
