@@ -1,0 +1,17 @@
+{
+  "name": "moviefinder-app",
+  "module": "main.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "scripts": {
+    "server": "bun --watch src/moviefinder-app/main.tsx"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "typed-html": "^3.0.1"
+  }
+}
