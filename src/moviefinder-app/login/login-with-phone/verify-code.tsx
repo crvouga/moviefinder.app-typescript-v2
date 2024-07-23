@@ -38,18 +38,19 @@ export const VerifyCodeForm: CustomElement = (attrs, content) => {
       hx-post={encode(RouteVerifyCode())}
       hx-swap="outerHTML"
     >
-      <p>Enter the code sent to your phone number</p>
+      <p class="w-full text-left">Enter the code sent to your phone number</p>
+
       <TextField
         label="Code"
         type="tel"
         name="phone"
-        placeholder="Enter your phone number"
+        placeholder="Enter the code"
         required
         class="w-full"
       />
 
       <div class="w-full pt-3">
-        <Button class="w-full" label="Send code" />
+        <Button class="w-full" label="Verify code" />
       </div>
     </form>
   );
