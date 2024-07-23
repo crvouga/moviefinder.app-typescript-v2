@@ -1,9 +1,9 @@
-import type { CustomElement } from "../../shared/element";
-import { hx } from "../../shared/hx";
-import { html } from "../../shared/res";
-import { encode, Route } from "../../shared/route/route";
-import { Spinner } from "../../shared/ui/spinner";
-import { TopBar } from "../../shared/ui/top-bar";
+import type { CustomElement } from "../../element";
+import { hx } from "../../hx";
+import { html } from "../../res";
+import { encode, Route } from "../../route/route";
+import { Spinner } from "../../ui/spinner";
+import { TopBar } from "../../ui/top-bar";
 import { RouteLoginPage } from "../login";
 import { RouteSendCodeForm } from "./send-code";
 

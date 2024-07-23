@@ -1,8 +1,8 @@
-import type { CustomElement } from "./shared/element";
-import { hx } from "./shared/hx";
+import type { CustomElement } from "./element";
+import { hx } from "./hx";
 import { RouteLoginPage } from "./login/login";
-import { html, redirect } from "./shared/res";
-import { encode, Route } from "./shared/route/route";
+import { html, redirect } from "./res";
+import { encode, Route } from "./route/route";
 
 let count = 0;
 

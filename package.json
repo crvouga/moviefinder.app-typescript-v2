@@ -6,7 +6,8 @@
     "@types/bun": "latest"
   },
   "scripts": {
-    "server": "bun --watch src/moviefinder-app/main.tsx"
+    "server": "bun --watch src/moviefinder-app/main.tsx",
+    "tc": "bun x tsc --noEmit --watch"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

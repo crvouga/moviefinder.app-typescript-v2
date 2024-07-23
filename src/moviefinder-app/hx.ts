@@ -12,6 +12,7 @@ export const isHxRequest = (request: Request) => {
     return request.headers.get("HX-Request") === "true"
 }
 
+
 export const handleRequest = async (request: Request) => {
     if(!isHxRequest(request)) {
         return null
