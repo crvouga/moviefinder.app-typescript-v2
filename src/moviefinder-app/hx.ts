@@ -1,4 +1,4 @@
-import { Route, toRoute } from "./route/route"
+import { Route, toRoute } from "./shared/route/route"
 
 export const hxHandlers = new Map<string, (request: Request) => (Response | Promise<Response>)>()
 

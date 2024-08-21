@@ -1,4 +1,4 @@
-import { Err } from "../../result";
+import { Err } from "../../shared/result";
 import type { MediaDb } from "./media-db";
 
 

@@ -1,8 +1,8 @@
-import type { CustomElement } from "../element";
+import type { CustomElement } from "../shared/element";
 import { hx } from "../hx";
-import { html } from "../res";
-import { encode, Route } from "../route/route";
-import { Button } from "../ui/button";
+import { html } from "../shared/res";
+import { encode, Route } from "../shared/route/route";
+import { Button } from "../shared/ui/button";
 import { RouteLoginWithPhonePage } from "./login-with-phone/login-with-phone";
 
 export const RouteLoginPage = Route("login-page");

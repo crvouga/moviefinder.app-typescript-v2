@@ -1,4 +1,4 @@
-import { Err } from "../../result"
+import { Err } from "../../shared/result"
 import type { UserSessionDb } from "./user-session-db"
 
 export const UserSessionDbImplDb = (): UserSessionDb => {

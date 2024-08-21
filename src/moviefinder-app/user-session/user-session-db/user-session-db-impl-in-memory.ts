@@ -1,5 +1,5 @@
-import { Err, Ok } from "../../result"
-import type { UserSessionId } from "../../user-session-id"
+import { Err, Ok } from "../../shared/result"
+import type { UserSessionId } from "../../shared/user-session-id"
 import type { UserSession } from "../user-session"
 import type { UserSessionDb } from "./user-session-db"
 
