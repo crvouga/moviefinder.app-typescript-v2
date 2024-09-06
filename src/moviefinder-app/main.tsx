@@ -20,10 +20,8 @@ const ViewDocument: elements.CustomElementHandler = (attributes, content) => {
         {...attributes}
       >
         <div
-          class="border border-neutral-600 w-full h-full max-w-[500px] max-h-[800px] rounded overflow-hidden"
+          class="border w-full h-full max-w-[500px] max-h-[800px] rounded overflow-hidden"
           hx-boost
-          hx-get={attributes.route}
-          hx-trigger="load"
           id="root"
         >
           <div class="w-full h-full flex items-center justify-center">
@@ -41,7 +39,7 @@ Bun.serve({
     // const url = new URL(request.url);
     // const ctx = Ctx.init();
     // const decoded = Route.parse(JSON.parse(atob(url.pathname)));
-    const res = <div>hello</div>;
+    const res = <ViewDocument />;
     return new Response(res, {
       status: 404,
       headers: {
