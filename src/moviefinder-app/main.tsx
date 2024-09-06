@@ -1,17 +1,11 @@
 import * as elements from "typed-html";
-import { RouteHome } from "./home";
-import { handleRequest, isHxRequest } from "./hx";
+import * as Ctx from "./ctx";
 import { Route } from "./route";
 import { Spinner } from "./ui/spinner";
-import type { CustomElement } from "./element";
-import type { EncodedRoute } from "./route/route";
-import { getDeps, type Deps } from "./deps";
-// @ts-ignore
-globalThis.elements = elements;
 
 const port = import.meta.env["PORT"] ?? 3000;
 
-const Document: CustomElement<{ route: EncodedRoute }> = (
+const ViewDocument: elements.CustomElementHandler = (
   attributes,
   content
 ) => {
@@ -46,35 +40,15 @@ const Document: CustomElement<{ route: EncodedRoute }> = (
   );
 };
 
-const deps = getDeps();
-
 Bun.serve({
   port,
   async fetch(request, server) {
-    const response = await handleRequest(request);
-
-    if (response) {
-      return response;
-    }
-
-    if (isHxRequest(request)) {
-      return new Response(null, {
-        status: 404,
-      });
-    }
-
-    return new Response(
-      (
-        <Document
-          route={Route.encode(Route.toRoute(request.url) ?? RouteHome())}
-        />
-      ),
-      {
-        headers: {
-          "Content-Type": "text/html",
-        },
-      }
-    );
+    const url = new URL(request.url);
+    const ctx = Ctx.init()
+    const decoded = Route.parse(JSON.parse(atob(url.pathname)));
+    return new Response(null, {
+      status: 404,
+    });
   },
 });
 console.log(`Server running at http://localhost:${port}`);

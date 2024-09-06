@@ -1,20 +1,22 @@
-import { Route } from "./route"
 
-export const html = (content: string) => {
-    return new Response(content, {
-        headers: {
-            "Content-Type": "text/html",
-        },
-    })
+
+
+export type Res = {
+    type: "html"
+    html: string
+} | {
+    type: "redirect"
 }
 
+export const html = (html: string): Res => {
+    return {
+        type: "html",
+        html
+    }
+}
 
-export const redirect = (route: Route.Route) => {
-    const encodedRoute = Route.encode(route)
-    return new Response(null, {
-        status: 302,
-        headers: {
-            "Location": encodedRoute,
-        },
-    })
+export const redirect = (): Res => {
+    return {
+        type: "redirect"
+    }
 }

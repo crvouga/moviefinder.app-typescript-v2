@@ -1,13 +1,7 @@
-import type { CustomElement } from "../element";
-import { hx } from "../hx";
-import { html } from "../res";
-import { encode, Route } from "../route/route";
+import * as elements from "typed-html";
 import { Button } from "../ui/button";
-import { RouteLoginWithPhonePage } from "./login-with-phone/login-with-phone";
 
-export const RouteLoginPage = Route("login-page");
-
-export const LoginPage: CustomElement = (attrs, content) => {
+export const LoginPage: elements.CustomElementHandler = (attrs, content) => {
   return (
     <div class="w-full h-full flex flex-col justify-center items-center p-6 gap-6 truncate">
       <div class="w-full flex flex-col truncate">
@@ -19,14 +13,10 @@ export const LoginPage: CustomElement = (attrs, content) => {
       <Button
         class="w-full"
         label="Login with phone"
-        hx-get={encode(RouteLoginWithPhonePage())}
+        hx-get="/"
         hx-push-url="true"
         hx-target="#root"
       />
     </div>
   );
 };
-
-hx(RouteLoginPage, () => {
-  return html(<LoginPage />);
-});
