@@ -1,7 +1,7 @@
-import type { CustomElementHandler } from "typed-html";
+import * as elements from "typed-html";
 import { IconSpinner } from "./icon/icon-spinner";
 
-export const Spinner: CustomElementHandler = () => {
+export const Spinner: elements.CustomElementHandler = () => {
   return (
     <div class="animate-spin">
       <IconSpinner />

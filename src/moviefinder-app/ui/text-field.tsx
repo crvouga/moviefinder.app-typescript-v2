@@ -1,6 +1,6 @@
-import type { CustomElement } from "../element";
+import * as elements from "typed-html";
 
-export const TextField: CustomElement = (attrs, _content) => {
+export const TextField: elements.CustomElementHandler = (attrs, _content) => {
   return (
     <div class="w-full">
       <label class="block text-sm font-bold mb-2 text-white">

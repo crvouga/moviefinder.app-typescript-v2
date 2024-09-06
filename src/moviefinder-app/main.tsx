@@ -1,14 +1,9 @@
 import * as elements from "typed-html";
-import * as Ctx from "./ctx";
-import { Route } from "./route";
 import { Spinner } from "./ui/spinner";
 
 const port = import.meta.env["PORT"] ?? 3000;
 
-const ViewDocument: elements.CustomElementHandler = (
-  attributes,
-  content
-) => {
+const ViewDocument: elements.CustomElementHandler = (attributes, content) => {
   return (
     <html>
       <head>
@@ -43,11 +38,15 @@ const ViewDocument: elements.CustomElementHandler = (
 Bun.serve({
   port,
   async fetch(request, server) {
-    const url = new URL(request.url);
-    const ctx = Ctx.init()
-    const decoded = Route.parse(JSON.parse(atob(url.pathname)));
-    return new Response(null, {
+    // const url = new URL(request.url);
+    // const ctx = Ctx.init();
+    // const decoded = Route.parse(JSON.parse(atob(url.pathname)));
+    const res = <div>hello</div>;
+    return new Response(res, {
       status: 404,
+      headers: {
+        "Content-Type": "text/html",
+      },
     });
   },
 });

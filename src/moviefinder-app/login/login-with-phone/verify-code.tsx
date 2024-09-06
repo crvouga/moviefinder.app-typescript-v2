@@ -1,41 +1,19 @@
-import type { CustomElement } from "../../element";
-import { hx } from "../../hx";
-import { html, redirect } from "../../res";
-import { encode, Route } from "../../route/route";
+import type { CustomElementHandler } from "typed-html";
+import * as elements from "typed-html";
 import { Button } from "../../ui/button";
 import { TextField } from "../../ui/text-field";
 
-const RouteCodeVerified = Route("code-verified");
 
-export const ViewCodeVerified: CustomElement = (attrs, content) => {
+export const ViewCodeVerified: CustomElementHandler = (attrs, content) => {
   return <p>Code verified</p>;
 };
 
-hx(RouteCodeVerified, async () => {
-  console.log("code verified");
 
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
-  return html(<ViewCodeVerified />);
-});
-
-const RouteVerifyCode = Route("verify-code");
-
-hx(RouteVerifyCode, async (request) => {
-  console.log("verify code");
-
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
-  return redirect(RouteCodeVerified());
-});
-
-export const RouteVerifyCodeForm = Route("verify-code-form");
-
-export const VerifyCodeForm: CustomElement = (attrs, content) => {
+export const VerifyCodeForm: CustomElementHandler = (attrs, content) => {
   return (
     <form
       class="w-full h-full flex flex-col items-center p-4 gap-4"
-      hx-post={encode(RouteVerifyCode())}
+      hx-post="/"
       hx-swap="outerHTML"
     >
       <p class="w-full text-left">Enter the code sent to your phone number</p>
@@ -55,7 +33,3 @@ export const VerifyCodeForm: CustomElement = (attrs, content) => {
     </form>
   );
 };
-
-hx(RouteVerifyCodeForm, () => {
-  return html(<VerifyCodeForm />);
-});

@@ -1,26 +1,13 @@
-import type { CustomElement } from "../../element";
-import { hx } from "../../hx";
-import { html, redirect } from "../../res";
-import { encode, Route } from "../../route/route";
+import * as elements from "typed-html";
 import { Button } from "../../ui/button";
 import { TextField } from "../../ui/text-field";
-import { RouteVerifyCodeForm } from "./verify-code";
 
-const RouteSendCode = Route("send-code");
 
-hx(RouteSendCode, async () => {
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-
-  return redirect(RouteVerifyCodeForm());
-});
-
-export const RouteSendCodeForm = Route("send-code-form");
-
-export const SendCodeForm: CustomElement = (attrs, content) => {
+export const SendCodeForm: elements.CustomElementHandler = (attrs, content) => {
   return (
     <form
       class="w-full h-full flex flex-col items-center p-4 gap-4"
-      hx-post={encode(RouteSendCode())}
+      hx-post="/"
       hx-swap="outerHTML"
     >
       <TextField
@@ -38,7 +25,3 @@ export const SendCodeForm: CustomElement = (attrs, content) => {
     </form>
   );
 };
-
-hx(RouteSendCodeForm, () => {
-  return html(<SendCodeForm />);
-});
