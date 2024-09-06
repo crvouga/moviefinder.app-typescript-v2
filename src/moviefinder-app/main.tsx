@@ -9,7 +9,6 @@ const server = Bun.serve({
     const url = new URL(request.url);
     const ctx = Ctx.init();
     const decoded = Route.decode(url.pathname) ?? Route.init();
-    console.log(decoded);
 
     const isHxRequest = request.headers.get("HX-Request") === "true";
 
