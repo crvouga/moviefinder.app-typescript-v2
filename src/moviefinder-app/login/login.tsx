@@ -1,7 +1,6 @@
-import * as elements from "typed-html";
 import { Button } from "../ui/button";
 
-export const LoginPage: elements.CustomElementHandler = (attrs, content) => {
+export const LoginPage = () => {
   return (
     <div class="w-full h-full flex flex-col justify-center items-center p-6 gap-6 truncate">
       <div class="w-full flex flex-col truncate">

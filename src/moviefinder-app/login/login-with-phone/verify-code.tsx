@@ -1,13 +1,10 @@
 import type { CustomElementHandler } from "typed-html";
-import * as elements from "typed-html";
 import { Button } from "../../ui/button";
 import { TextField } from "../../ui/text-field";
-
 
 export const ViewCodeVerified: CustomElementHandler = (attrs, content) => {
   return <p>Code verified</p>;
 };
-
 
 export const VerifyCodeForm: CustomElementHandler = (attrs, content) => {
   return (
@@ -23,7 +20,7 @@ export const VerifyCodeForm: CustomElementHandler = (attrs, content) => {
         type="tel"
         name="phone"
         placeholder="Enter the code"
-        required
+        required="true"
         class="w-full"
       />
 

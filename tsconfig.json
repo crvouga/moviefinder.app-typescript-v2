@@ -4,12 +4,11 @@
     "target": "ESNext",
     "module": "ESNext",
     "moduleDetection": "force",
-    "jsx": "react",
-    "jsxFactory": "elements.createElement",
+    
     "allowJs": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    
     "allowImportingTsExtensions": true,
     "verbatimModuleSyntax": true,
     "noEmit": true,
@@ -19,6 +18,10 @@
     "strict": true,
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["typed-html", "bun"]
+    // 
+    "types": ["typed-htmx", "bun"],
+    "jsx": "react-jsx",
+    "jsxImportSource": "typed-htmx/typed-html",
+    "moduleResolution": "Bundler" 
   },
 }

@@ -1,7 +1,6 @@
-import * as elements from "typed-html";
 import type { Ctx } from "../ctx";
-import type { Res } from "../res";
-import { html } from "../res";
+import type { Res } from "../res/res";
+import { html } from "../res/res";
 import type { Route } from "./route";
 
 export const routeHx = async ({

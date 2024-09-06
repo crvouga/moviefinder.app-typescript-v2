@@ -1,9 +1,7 @@
-import * as elements from "typed-html";
 import { Button } from "../../ui/button";
 import { TextField } from "../../ui/text-field";
 
-
-export const SendCodeForm: elements.CustomElementHandler = (attrs, content) => {
+export const SendCodeForm = () => {
   return (
     <form
       class="w-full h-full flex flex-col items-center p-4 gap-4"
@@ -15,7 +13,7 @@ export const SendCodeForm: elements.CustomElementHandler = (attrs, content) => {
         type="tel"
         name="phone"
         placeholder="Enter your phone number"
-        required
+        required="true"
         class="w-full"
       />
 

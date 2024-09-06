@@ -1,9 +1,7 @@
-import * as elements from "typed-html";
-
-export const IconButton: elements.CustomElementHandler = (attrs, content) => {
+export const IconButton = (input: HtmxAttributes) => {
   return (
-    <button class="p-4 flex items-center justify-center" {...attrs}>
-      {content}
+    <button class="p-4 flex items-center justify-center" {...input}>
+      {input.children}
     </button>
   );
 };
