@@ -1,6 +1,7 @@
-import type { Paginated } from "../../shared/paginated";
-import type { Query } from "../../shared/query";
-import type { Result } from "../../shared/result";
+
+import type { Paginated } from "../../paginated";
+import type { Query } from "../../query";
+import type { Result } from "../../result";
 import type { Media } from "../media";
 
 export type MediaDb = {

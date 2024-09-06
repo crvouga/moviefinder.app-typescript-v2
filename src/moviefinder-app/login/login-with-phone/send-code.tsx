@@ -1,9 +1,9 @@
-import type { CustomElement } from "../../shared/element";
+import type { CustomElement } from "../../element";
 import { hx } from "../../hx";
-import { html, redirect } from "../../shared/res";
-import { encode, Route } from "../../shared/route/route";
-import { Button } from "../../shared/ui/button";
-import { TextField } from "../../shared/ui/text-field";
+import { html, redirect } from "../../res";
+import { encode, Route } from "../../route/route";
+import { Button } from "../../ui/button";
+import { TextField } from "../../ui/text-field";
 import { RouteVerifyCodeForm } from "./verify-code";
 
 const RouteSendCode = Route("send-code");

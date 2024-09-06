@@ -1,3 +1,9 @@
 {
-    "tailwindCSS.includeLanguages": { "typescriptreact": "html",   "plaintext": "javascript" },
+    "tailwindCSS.includeLanguages": {
+        "typescriptreact": "html",
+        "plaintext": "javascript"
+    },
+    "cSpell.words": [
+        "moviefinder"
+    ],
 }
