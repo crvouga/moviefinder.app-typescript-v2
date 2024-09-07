@@ -26,7 +26,7 @@ export const ViewDocument = (input: { route: Route }) => {
               class="flex h-full w-full items-center justify-center"
               hx-get={encode(input.route)}
               hx-trigger="load"
-              hx-target="#root"
+              hx-target={ROOT_SELECTOR}
               hx-swap="innerHTML"
             >
               <Spinner />

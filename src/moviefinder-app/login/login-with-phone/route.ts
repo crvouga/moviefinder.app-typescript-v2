@@ -5,7 +5,11 @@ export const Route = z.discriminatedUnion("type", [
     type: z.literal("send-code"),
   }),
   z.object({
+    type: z.literal("clicked-send-code"),
+  }),
+  z.object({
     type: z.literal("verify-code"),
+    phoneNumber: z.string(),
   }),
 ]);
 

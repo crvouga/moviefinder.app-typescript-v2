@@ -1,7 +1,8 @@
-import { ViewDocument } from "./app/document";
-import * as Ctx from "./ctx";
+import { fromRequest } from "src/core/req/adapter-fetch-api";
 import { html } from "../core/res";
 import { toResponse } from "../core/res/adapter-fetch-api";
+import { ViewDocument } from "./app/document";
+import * as Ctx from "./ctx";
 import * as Route from "./route";
 import { routeHx } from "./router";
 
@@ -12,7 +13,11 @@ const server = Bun.serve({
     const route = toRoute(request);
 
     if (isHxRequest(request)) {
-      const res = await routeHx({ route, ctx });
+      const res = await routeHx({
+        route,
+        ctx,
+        req: await fromRequest(request),
+      });
 
       return toResponse(res);
     }

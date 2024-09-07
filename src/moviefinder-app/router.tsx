@@ -1,3 +1,4 @@
+import type { Req } from "src/core/req";
 import { redirect, type Res } from "src/core/res";
 import * as Account from "./account/router";
 import type { Ctx } from "./ctx";
@@ -6,6 +7,7 @@ import * as Login from "./login/router";
 import { encode, type Route } from "./route";
 
 export const routeHx = async (input: {
+  req: Req;
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
