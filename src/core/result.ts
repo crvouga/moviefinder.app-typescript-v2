@@ -19,3 +19,11 @@ export const Err = <Error>(error: Error): Err<Error> => ({
   type: "err",
   error,
 });
+
+export const isErr = <Error, Value>(
+  result: Result<Error, Value>,
+): result is Err<Error> => result.type === "err";
+
+export const isOk = <Error, Value>(
+  result: Result<Error, Value>,
+): result is Ok<Value> => result.type === "ok";

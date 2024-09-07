@@ -1,6 +1,10 @@
 import type { ILogger } from "./interface";
 
-export const Logger = (input?: { namespace: string[] }): ILogger => {
+export type Config = {
+  namespace: string[];
+};
+
+export const Logger = (input: Config): ILogger => {
   return {
     log: (...args: unknown[]) => console.log(...args),
     error: (...args: unknown[]) => console.error(...args),
@@ -10,7 +14,7 @@ export const Logger = (input?: { namespace: string[] }): ILogger => {
     trace: (...args: unknown[]) => console.trace(...args),
     child: (namespace: string[]) =>
       Logger({
-        namespace: [...(input?.namespace ?? []), ...namespace],
+        namespace: [...input.namespace, ...namespace],
       }),
   };
 };

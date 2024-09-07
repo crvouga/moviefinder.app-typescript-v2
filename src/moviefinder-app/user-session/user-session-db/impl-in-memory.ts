@@ -1,9 +1,9 @@
 import { Ok } from "../../../core/result";
 import type { UserSessionId } from "../user-session-id";
 import type { UserSession } from "../user-session";
-import type { UserSessionDb } from "./user-session-db";
+import type { IUserSessionDb } from "./interface";
 
-export const UserSessionDbImplInMemory = (): UserSessionDb => {
+export const UserSessionDb = (): IUserSessionDb => {
   const userSessions = new Map<UserSessionId, UserSession>();
   return {
     async get(userSessionId) {

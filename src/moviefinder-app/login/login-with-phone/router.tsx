@@ -8,6 +8,7 @@ import { encode } from "src/moviefinder-app/route";
 import { Button } from "../../ui/button";
 import { TextField } from "../../ui/text-field";
 import { Route } from "./route";
+import { isErr } from "src/core/result";
 
 export const routeHx = async (input: {
   req: Req;
@@ -26,6 +27,18 @@ export const routeHx = async (input: {
 
       if (typeof phone !== "string" || phone.trim().length === 0) {
         return html(<SendCodeForm phoneError="Invalid phone number" />);
+      }
+
+      const sentCode = await input.ctx.verifySms.sendCode({
+        phone,
+      });
+
+      if (isErr(sentCode)) {
+        switch (sentCode.error.type) {
+          case "unknown": {
+            return html(<SendCodeForm error={sentCode.error.message} />);
+          }
+        }
       }
 
       return redirect(
@@ -57,6 +70,30 @@ export const routeHx = async (input: {
         );
       }
 
+      const verifiedCode = await input.ctx.verifySms.verifyCode({
+        phone: input.route.phone,
+        code,
+      });
+
+      if (isErr(verifiedCode)) {
+        switch (verifiedCode.error.type) {
+          case "unknown": {
+            return html(
+              <VerifyCode
+                phone={input.route.phone}
+                error={verifiedCode.error.message}
+              />,
+            );
+          }
+
+          case "wrong-code": {
+            return html(
+              <VerifyCode phone={input.route.phone} codeError="Wrong code" />,
+            );
+          }
+        }
+      }
+
       return redirect(
         encode({
           type: "account",
@@ -69,7 +106,7 @@ export const routeHx = async (input: {
   }
 };
 
-const SendCodeForm = (input: { phoneError?: string }) => {
+const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
   return (
     <div class="flex h-full w-full flex-1 flex-col">
       <TopBar
@@ -106,6 +143,8 @@ const SendCodeForm = (input: { phoneError?: string }) => {
           error={input.phoneError}
         />
 
+        {input.error && <div>Error: {input.error}</div>}
+
         <div class="w-full pt-3">
           <Button type="submit" class="w-full" label="Send code" />
         </div>
@@ -114,7 +153,11 @@ const SendCodeForm = (input: { phoneError?: string }) => {
   );
 };
 
-const VerifyCode = (input: { phone: string; codeError?: string }) => {
+const VerifyCode = (input: {
+  phone: string;
+  codeError?: string;
+  error?: string;
+}) => {
   return (
     <div class="flex h-full w-full flex-1 flex-col">
       <TopBar
@@ -158,6 +201,8 @@ const VerifyCode = (input: { phone: string; codeError?: string }) => {
           class="w-full"
           error={input.codeError}
         />
+
+        {input.error && <div>Error: {input.error}</div>}
 
         <div class="w-full pt-3">
           <Button type="submit" class="w-full" label="Verify code" />

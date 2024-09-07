@@ -4,7 +4,8 @@
   "scripts": {
     "start": "bun --watch src/moviefinder-app/main.tsx",
     "tc": "bun x tsc --noEmit --watch",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "cloc": "bun x cloc ./src"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

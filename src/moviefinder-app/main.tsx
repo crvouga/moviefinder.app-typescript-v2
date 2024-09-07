@@ -13,7 +13,7 @@ const server = Bun.serve({
     const route = toRoute(request);
     const req = await fromRequest(request);
 
-    console.log({ timestamp: new Date().toISOString(), route, req });
+    ctx.logger.info(new Date().toISOString(), route, req);
 
     if (isHxRequest(request)) {
       const res = await routeHx({
@@ -31,7 +31,7 @@ const server = Bun.serve({
   },
 });
 
-console.log(`Server running at http://localhost:${server.port}`);
+ctx.logger.log(`Server running at http://localhost:${server.port}`);
 
 const isHxRequest = (request: Request): boolean =>
   request.headers.get("HX-Request") === "true";

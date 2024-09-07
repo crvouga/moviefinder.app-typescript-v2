@@ -1,7 +1,7 @@
 import { Err } from "src/core/result";
-import type { UserSessionDb } from "./user-session-db";
+import type { IUserSessionDb } from "./interface";
 
-export const UserSessionDbImplDb = (): UserSessionDb => {
+export const UserSessionDb = (): IUserSessionDb => {
   return {
     async get(userSessionId) {
       return Err("not implemented");
