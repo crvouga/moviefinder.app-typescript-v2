@@ -1,16 +1,17 @@
-import type { CustomElementHandler } from "typed-html";
-
 import { cn } from "./cn";
 
-export const Button: CustomElementHandler = (attrs, _content) => {
+export const Button = ({
+  label,
+  ...input
+}: HtmxAttributes & { label: string }) => {
   return (
     <button
-      {...attrs}
+      {...input}
       class={cn(
-        "rounded bg-blue-600 px-2 py-3 text-lg font-bold text-white hover:opacity-80 active:opacity-60",
+        "rounded bg-blue-600 px-4 py-3 text-lg font-bold text-white hover:opacity-80 active:opacity-60",
       )}
     >
-      {attrs.label}
+      {label}
     </button>
   );
 };

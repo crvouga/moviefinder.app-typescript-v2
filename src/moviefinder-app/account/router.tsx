@@ -3,15 +3,14 @@ import { html } from "src/core/res";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import type { Route } from "./route";
+import { IconDoorOpen } from "../ui/icon";
+import { Button } from "../ui/button";
 
-export const routeHx = async ({
-  route,
-  ctx,
-}: {
+export const routeHx = async (input: {
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
-  switch (route.type) {
+  switch (input.route.type) {
     case "account": {
       return html(<AccountPage />);
     }
@@ -31,5 +30,17 @@ const Layout = (input: { children: string }) => {
 };
 
 export const AccountPage = () => {
-  return <Layout children={<div>Account</div>} />;
+  return (
+    <Layout
+      children={
+        <div class="flex h-full w-full flex-col items-center justify-center gap-4">
+          <IconDoorOpen class="size-24" />
+          <p class="text-center text-xl font-bold">
+            Login to access your account.
+          </p>
+          <Button label="Login" />
+        </div>
+      }
+    />
+  );
 };
