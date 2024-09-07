@@ -45,30 +45,38 @@ export const routeHx = async ({
   }
 };
 
-export const FeedPageLoad = () => {
+const Layout = (input: { children: string }) => {
   return (
-    <div
-      class="flex h-full w-full items-center justify-center"
-      hx-get={encode({
-        type: "feed",
-        child: {
-          type: "feed.load",
-        },
-      })}
-      hx-trigger="load"
-      hx-target={ROOT_SELECTOR}
-      hx-swap="innerHTML"
-    >
-      <Spinner />
+    <div class="flex h-full w-full flex-col">
+      <div class="flex w-full flex-1 flex-col">{input.children}</div>
+      <AppBottomButtonBar active="feed" />
     </div>
   );
 };
 
-export const FeedPage = () => {
+export const FeedPageLoad = () => {
   return (
-    <div class="flex h-full w-full flex-col">
-      <div class="w-full flex-1"></div>
-      <AppBottomButtonBar active="feed" />
-    </div>
+    <Layout
+      children={
+        <div
+          class="flex h-full w-full items-center justify-center"
+          hx-get={encode({
+            type: "feed",
+            child: {
+              type: "feed.load",
+            },
+          })}
+          hx-trigger="load"
+          hx-target={ROOT_SELECTOR}
+          hx-swap="innerHTML"
+        >
+          <Spinner />
+        </div>
+      }
+    />
   );
+};
+
+export const FeedPage = () => {
+  return <Layout children={<div>Feed</div>} />;
 };

@@ -21,11 +21,15 @@ export const routeHx = async ({
   }
 };
 
-export const AccountPage = () => {
+const Layout = (input: { children: string }) => {
   return (
     <div class="flex h-full w-full flex-col">
-      <div class="w-full flex-1"></div>
+      <div class="flex w-full flex-1 flex-col">{input.children}</div>
       <AppBottomButtonBar active="account" />
     </div>
   );
+};
+
+export const AccountPage = () => {
+  return <Layout children={<div>Account</div>} />;
 };
