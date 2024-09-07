@@ -1,5 +1,6 @@
 import { encode } from "../route";
 import { BottomButtonBar } from "../ui/bottom-button-bar";
+import { IconHome, IconUserCircle } from "../ui/icon";
 import { ROOT_SELECTOR } from "./document";
 
 export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
@@ -14,6 +15,7 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
               type: "feed",
             },
           }),
+          icon: <IconHome />,
           hxTarget: ROOT_SELECTOR,
           text: "Feed",
         },
@@ -25,6 +27,7 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
               type: "account",
             },
           }),
+          icon: <IconUserCircle />,
           hxTarget: ROOT_SELECTOR,
           text: "Account",
         },

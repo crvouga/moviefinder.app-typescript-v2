@@ -11,12 +11,15 @@ const ctx = Ctx.init();
 const server = Bun.serve({
   async fetch(request) {
     const route = toRoute(request);
+    const req = await fromRequest(request);
+
+    console.log({ timestamp: new Date().toISOString(), route, req });
 
     if (isHxRequest(request)) {
       const res = await routeHx({
         route,
         ctx,
-        req: await fromRequest(request),
+        req,
       });
 
       return toResponse(res);

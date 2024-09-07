@@ -24,8 +24,8 @@ export const routeHx = async (input: {
 
       const phone = input.req.formData["phone"];
 
-      if (typeof phone !== "string") {
-        return html(<SendCodeForm />);
+      if (typeof phone !== "string" || phone.trim().length === 0) {
+        return html(<SendCodeForm phoneError="Phone number is required" />);
       }
 
       return redirect(
@@ -35,7 +35,7 @@ export const routeHx = async (input: {
             type: "login-with-phone",
             child: {
               type: "verify-code",
-              phoneNumber: phone,
+              phone: phone,
             },
           },
         }),
@@ -43,12 +43,31 @@ export const routeHx = async (input: {
     }
 
     case "verify-code": {
-      return html(<VerifyCode />);
+      return html(<VerifyCode phone={input.route.phone} />);
+    }
+
+    case "clicked-verify-code": {
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
+      const code = input.req.formData["code"];
+
+      if (typeof code !== "string" || code.trim().length === 0) {
+        return html(<VerifyCode phone={input.route.phone} />);
+      }
+
+      return redirect(
+        encode({
+          type: "account",
+          child: {
+            type: "account",
+          },
+        }),
+      );
     }
   }
 };
 
-const SendCodeForm = (input?: { phoneNumberError?: string }) => {
+const SendCodeForm = (input: { phoneError?: string }) => {
   return (
     <div class="flex h-full w-full flex-1 flex-col">
       <TopBar
@@ -80,8 +99,9 @@ const SendCodeForm = (input?: { phoneNumberError?: string }) => {
           type="tel"
           name="phone"
           placeholder="Enter your phone number"
-          required="true"
+          // required="true"
           class="w-full"
+          error={input.phoneError}
         />
 
         <div class="w-full pt-3">
@@ -92,7 +112,7 @@ const SendCodeForm = (input?: { phoneNumberError?: string }) => {
   );
 };
 
-const VerifyCode = () => {
+const VerifyCode = (input: { phone: string }) => {
   return (
     <div class="flex h-full w-full flex-1 flex-col">
       <TopBar
@@ -107,9 +127,27 @@ const VerifyCode = () => {
           },
         }}
       />
-      <form class="flex h-full w-full flex-col items-center gap-4 p-4">
+      <form
+        class="flex h-full w-full flex-col items-center gap-4 p-4"
+        hx-target={ROOT_SELECTOR}
+        hx-push-url="true"
+        hx-swap="innerHTML"
+        hx-post={encode({
+          type: "login",
+          child: {
+            type: "login-with-phone",
+            child: {
+              type: "clicked-verify-code",
+              phone: input.phone,
+            },
+          },
+        })}
+      >
+        <p class="w-full text-left text-lg">
+          Enter the code sent to <strong>{input.phone}</strong>
+        </p>
         <TextField
-          label="code"
+          label="Code"
           type="tel"
           name="code"
           placeholder="Enter code"

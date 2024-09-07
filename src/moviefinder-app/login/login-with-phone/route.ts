@@ -9,7 +9,11 @@ export const Route = z.discriminatedUnion("type", [
   }),
   z.object({
     type: z.literal("verify-code"),
-    phoneNumber: z.string(),
+    phone: z.string(),
+  }),
+  z.object({
+    type: z.literal("clicked-verify-code"),
+    phone: z.string(),
   }),
 ]);
 
