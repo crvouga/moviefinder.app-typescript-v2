@@ -16,9 +16,6 @@ export const routeHx = async (input: {
     case "account": {
       return html(<AccountPage />);
     }
-    case "account.load": {
-      return html(<AccountPage />);
-    }
   }
 };
 
