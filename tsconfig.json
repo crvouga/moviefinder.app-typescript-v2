@@ -23,6 +23,7 @@
     "jsx": "react-jsx",
     "jsxImportSource": "typed-htmx/typed-html",
     "moduleResolution": "Bundler",
-    "baseUrl": "."
+    "baseUrl": ".",
+    "alwaysStrict": true
   }
 }

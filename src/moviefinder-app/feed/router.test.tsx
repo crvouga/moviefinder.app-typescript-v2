@@ -13,7 +13,7 @@ describe("feed router", () => {
     });
     expect(res.type).toBe("html");
     if (res.type === "html") {
-      expect(res.html).toBe(<ViewFeedPage />);
+      expect(res.html).toEqual(<ViewFeedPage />);
     }
   });
 });

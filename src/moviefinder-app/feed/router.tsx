@@ -1,6 +1,6 @@
-import type { Ctx } from "../ctx";
-import type { Res } from "../res/res";
-import { html } from "../res/res";
+import type { Res } from "src/core/res";
+import { html } from "src/core/res";
+import type { Ctx } from "src/moviefinder-app/ctx";
 import type { Route } from "./route";
 
 export const routeHx = async ({
@@ -40,5 +40,5 @@ export const routeHx = async ({
 };
 
 export const ViewFeedPage = () => {
-  return <div>FeedPage</div>;
+  return <div>Hello</div>;
 };

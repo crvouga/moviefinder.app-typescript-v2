@@ -1,6 +1,6 @@
 import type { Ctx } from "./ctx";
 import * as FeedRouter from "./feed/router";
-import type { Res } from "./res";
+import type { Res } from "../core/res";
 import type { Route } from "./route";
 
 export const routeHx = async (input: {
