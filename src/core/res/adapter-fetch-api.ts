@@ -15,6 +15,7 @@ export const toResponse = (res: Res): Response => {
         status: 302,
         headers: {
           Location: res.to,
+          "Hx-Push-Url": res.to,
         },
       });
     }

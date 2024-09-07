@@ -17,11 +17,11 @@ export const ViewDocument = (input: { route: Route }) => {
         />
       </head>
       <body
-        class="flex items-center justify-center bg-black text-white"
+        class="flex h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center bg-black text-white"
         hx-boost="true"
       >
         <div class="h-full max-h-[800px] w-full max-w-[500px] overflow-hidden rounded border">
-          <div id={ROOT_ID} class="flex h-full w-full flex-col">
+          <div id={ROOT_ID} class="flex h-full w-full flex-col overflow-hidden">
             <div
               class="flex h-full w-full items-center justify-center"
               hx-get={encode(input.route)}

@@ -30,5 +30,9 @@ const isHxRequest = (request: Request): boolean =>
 
 const toRoute = (request: Request): Route.Route => {
   const url = new URL(request.url);
-  return Route.decode(url.pathname.substring(1)) ?? Route.init();
+  return (
+    Route.decode(url.pathname.substring(1)) ?? {
+      type: "unknown",
+    }
+  );
 };
