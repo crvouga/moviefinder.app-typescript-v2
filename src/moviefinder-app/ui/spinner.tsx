@@ -1,4 +1,4 @@
-import { IconSpinner } from "./icon/icon-spinner";
+import { IconSpinner } from "./icon";
 
 export const Spinner = () => {
   return (

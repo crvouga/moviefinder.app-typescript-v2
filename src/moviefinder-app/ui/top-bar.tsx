@@ -1,5 +1,5 @@
+import { IconArrowLeft } from "./icon";
 import { IconButton } from "./icon-button";
-import { IconArrowLeft } from "./icon/icon-arrow-left";
 
 export const TopBar = (props: { title: string; backRoute: string }) => {
   return (
