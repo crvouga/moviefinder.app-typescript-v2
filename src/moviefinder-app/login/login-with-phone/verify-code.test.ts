@@ -55,4 +55,23 @@ describe(import.meta.file, () => {
     expect(before).toBe(null);
     expect(after).not.toBe(null);
   });
+
+  test("new user and new user session are associated ", async () => {
+    const f = Fixture();
+
+    await verifyCode({
+      code: f.verifySmsCode,
+      ctx: f.ctx,
+      phone: f.phone,
+      sessionId: f.req.sessionId,
+    });
+    const userSession = unwrap(
+      await f.ctx.userSessionDb.findBySessionId(f.req.sessionId),
+    );
+    const user = unwrap(await f.ctx.userDb.findByPhone({ phone: f.phone }));
+    expect(user?.userId).not.toBeNull();
+    if (user?.userId) {
+      expect(userSession?.userId).toEqual(user?.userId);
+    }
+  });
 });

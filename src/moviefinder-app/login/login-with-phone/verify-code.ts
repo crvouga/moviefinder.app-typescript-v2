@@ -27,14 +27,16 @@ export const verifyCode = async ({
     return verifiedCode;
   }
 
+  const userId = UserId.generate();
+
   await ctx.userDb.put({
     phone,
-    userId: UserId.generate(),
+    userId,
   });
 
   await ctx.userSessionDb.put({
-    sessionId: sessionId,
-    userId: UserId.generate(),
+    sessionId,
+    userId,
     userSessionId: UserSessionId.generate(),
   });
 
