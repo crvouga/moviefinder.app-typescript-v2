@@ -2,13 +2,13 @@ type Props = {
   class?: string;
 };
 
-export const IconSpinner = () => {
+export const IconSpinner = (props: Props) => {
   return `<svg
         xmlns="http://www.w3.org/2000/svg"
         fill="currentColor"
         stroke="currentColor"
         viewBox="0 0 24 24"
-        class="size-12"
+        class="$CLASS"
       >
         <path
           fill-rule="evenodd"
@@ -17,7 +17,7 @@ export const IconSpinner = () => {
           opacity="0.2"
         />
         <path d="M2 12C2 6.477 6.477 2 12 2v3a7 7 0 00-7 7H2z" />
-      </svg>`;
+      </svg>`.replace("$CLASS", props.class ?? "size-6");
 };
 
 export const IconArrowLeft = () => {

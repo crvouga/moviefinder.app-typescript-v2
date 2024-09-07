@@ -32,7 +32,10 @@ export const AccountPage = () => {
   return (
     <Layout
       children={
-        <div class="flex h-full w-full flex-col items-center justify-center gap-4">
+        <div
+          class="flex h-full w-full flex-col items-center justify-center gap-4"
+          data-loading-states
+        >
           <IconDoorOpen class="size-24" />
           <p class="text-center text-xl font-bold">
             Login to access your account.

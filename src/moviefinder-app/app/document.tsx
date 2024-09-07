@@ -11,12 +11,14 @@ export const ViewDocument = (input: { route: Route }) => {
         <title>moviefinder.app</title>
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/htmx.org@2.0.1"></script>
+        <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/loading-states.js"></script>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
         />
       </head>
       <body
+        hx-ext="loading-states"
         class="flex h-[100dvh] max-h-[100dvh] w-full flex-col items-center justify-center bg-black text-white"
         hx-boost="true"
       >

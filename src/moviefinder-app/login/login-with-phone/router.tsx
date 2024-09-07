@@ -25,7 +25,7 @@ export const routeHx = async (input: {
       const phone = input.req.formData["phone"];
 
       if (typeof phone !== "string" || phone.trim().length === 0) {
-        return html(<SendCodeForm phoneError="Phone number is required" />);
+        return html(<SendCodeForm phoneError="Invalid phone number" />);
       }
 
       return redirect(
@@ -52,7 +52,9 @@ export const routeHx = async (input: {
       const code = input.req.formData["code"];
 
       if (typeof code !== "string" || code.trim().length === 0) {
-        return html(<VerifyCode phone={input.route.phone} />);
+        return html(
+          <VerifyCode phone={input.route.phone} codeError="Invalid code" />,
+        );
       }
 
       return redirect(
@@ -84,6 +86,7 @@ const SendCodeForm = (input: { phoneError?: string }) => {
         hx-swap="innerHTML"
         hx-target={ROOT_SELECTOR}
         hx-push-url="true"
+        data-loading-states
         hx-post={encode({
           type: "login",
           child: {
@@ -99,7 +102,6 @@ const SendCodeForm = (input: { phoneError?: string }) => {
           type="tel"
           name="phone"
           placeholder="Enter your phone number"
-          // required="true"
           class="w-full"
           error={input.phoneError}
         />
@@ -112,7 +114,7 @@ const SendCodeForm = (input: { phoneError?: string }) => {
   );
 };
 
-const VerifyCode = (input: { phone: string }) => {
+const VerifyCode = (input: { phone: string; codeError?: string }) => {
   return (
     <div class="flex h-full w-full flex-1 flex-col">
       <TopBar
@@ -132,6 +134,7 @@ const VerifyCode = (input: { phone: string }) => {
         hx-target={ROOT_SELECTOR}
         hx-push-url="true"
         hx-swap="innerHTML"
+        data-loading-states
         hx-post={encode({
           type: "login",
           child: {
@@ -146,13 +149,14 @@ const VerifyCode = (input: { phone: string }) => {
         <p class="w-full text-left text-lg">
           Enter the code sent to <strong>{input.phone}</strong>
         </p>
+
         <TextField
           label="Code"
           type="tel"
           name="code"
           placeholder="Enter code"
-          required="true"
           class="w-full"
+          error={input.codeError}
         />
 
         <div class="w-full pt-3">
