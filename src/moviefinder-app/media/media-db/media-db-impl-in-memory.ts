@@ -1,5 +1,5 @@
 
-import { Err, Ok } from "../../result";
+import { Err, Ok } from "../../../core/result";
 import type { Media } from "../media";
 import type { MediaDb } from "./media-db";
 

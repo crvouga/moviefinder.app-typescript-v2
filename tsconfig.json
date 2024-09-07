@@ -22,6 +22,7 @@
     "types": ["typed-htmx", "bun"],
     "jsx": "react-jsx",
     "jsxImportSource": "typed-htmx/typed-html",
-    "moduleResolution": "Bundler" 
+    "moduleResolution": "Bundler" ,
+    "baseUrl": "."
   },
 }

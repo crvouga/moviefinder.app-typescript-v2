@@ -1,7 +1,7 @@
 
 import type { Paginated } from "../../paginated";
 import type { Query } from "../../query";
-import type { Result } from "../../result";
+import type { Result } from "../../../core/result";
 import type { Media } from "../media";
 
 export type MediaDb = {
