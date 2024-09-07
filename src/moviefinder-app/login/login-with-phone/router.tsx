@@ -9,6 +9,7 @@ import { Button } from "../../ui/button";
 import { TextField } from "../../ui/text-field";
 import { Route } from "./route";
 import { isErr } from "src/core/result";
+import { verifyCode } from "./verify-code";
 
 export const routeHx = async (input: {
   req: Req;
@@ -60,8 +61,6 @@ export const routeHx = async (input: {
     }
 
     case "clicked-verify-code": {
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-
       const code = input.req.formData["code"];
 
       if (typeof code !== "string" || code.trim().length === 0) {
@@ -70,9 +69,11 @@ export const routeHx = async (input: {
         );
       }
 
-      const verifiedCode = await input.ctx.verifySms.verifyCode({
-        phone: input.route.phone,
+      const verifiedCode = await verifyCode({
         code,
+        ctx: input.ctx,
+        phone: input.route.phone,
+        sessionId: input.req.sessionId,
       });
 
       if (isErr(verifiedCode)) {

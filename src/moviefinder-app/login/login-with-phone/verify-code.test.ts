@@ -12,7 +12,7 @@ const Fixture = () => {
   };
 };
 
-describe(import.meta.file, () => {
+describe("verify code", () => {
   test("ok", async () => {
     const f = Fixture();
     const verify = await verifyCode({
