@@ -1,5 +1,4 @@
-
 export type Feed = {
-    feedId: string
-    activeIndex: number
-}
+  feedId: string;
+  activeIndex: number;
+};

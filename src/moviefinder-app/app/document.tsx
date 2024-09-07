@@ -13,14 +13,14 @@ export const ViewDocument = (input: { route: Route }) => {
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
         />
       </head>
-      <body class="bg-black text-white flex items-center justify-center">
+      <body class="flex items-center justify-center bg-black text-white">
         <div
-          class="border w-full h-full max-w-[500px] max-h-[800px] rounded overflow-hidden"
+          class="h-full max-h-[800px] w-full max-w-[500px] overflow-hidden rounded border"
           hx-boost="true"
           id="root"
         >
           <div
-            class="w-full h-full flex items-center justify-center"
+            class="flex h-full w-full items-center justify-center"
             hx-get={encode(input.route)}
             hx-trigger="load"
             hx-target="#root"

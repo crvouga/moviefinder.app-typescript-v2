@@ -1,14 +1,13 @@
-import { Err } from "src/core/result"
-import type { UserSessionDb } from "./user-session-db"
+import { Err } from "src/core/result";
+import type { UserSessionDb } from "./user-session-db";
 
 export const UserSessionDbImplDb = (): UserSessionDb => {
-    return {
-        async get(userSessionId) {
-            return Err('not implemented')
-        },
-    async    put(userSession) {
-            return Err('not implemented')
-        }
-    }
-}
-    
+  return {
+    async get(userSessionId) {
+      return Err("not implemented");
+    },
+    async put(userSession) {
+      return Err("not implemented");
+    },
+  };
+};

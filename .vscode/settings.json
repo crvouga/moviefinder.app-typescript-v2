@@ -1,11 +1,7 @@
 {
-    "tailwindCSS.includeLanguages": {
-        "typescriptreact": "html",
-        "plaintext": "javascript"
-    },
-    "cSpell.words": [
-        "htmx",
-        "moviefinder",
-        "tailwindcss"
-    ],
+  "tailwindCSS.includeLanguages": {
+    "typescriptreact": "html",
+    "plaintext": "javascript"
+  },
+  "cSpell.words": ["htmx", "moviefinder", "tailwindcss"]
 }

@@ -1,6 +1,6 @@
 export const IconButton = (input: HtmxAttributes) => {
   return (
-    <button class="p-4 flex items-center justify-center" {...input}>
+    <button class="flex items-center justify-center p-4" {...input}>
       {input.children}
     </button>
   );

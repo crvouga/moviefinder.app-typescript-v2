@@ -18,6 +18,6 @@ export const html = (html: string): Res => {
 export const redirect = (to: string): Res => {
   return {
     type: "redirect",
-    to
+    to,
   };
 };

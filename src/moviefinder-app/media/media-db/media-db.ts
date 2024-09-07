@@ -1,4 +1,3 @@
-
 import type { Paginated } from "../../paginated";
 import type { Query } from "../../query";
 import type { Result } from "../../../core/result";

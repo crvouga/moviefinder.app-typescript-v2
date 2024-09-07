@@ -1,1 +1,1 @@
-export type UserSessionId = string & { readonly brand: unique symbol }
+export type UserSessionId = string & { readonly brand: unique symbol };

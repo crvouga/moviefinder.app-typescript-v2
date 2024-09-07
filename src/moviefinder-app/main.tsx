@@ -3,17 +3,19 @@ import * as Ctx from "./ctx";
 import { html } from "./res";
 import { toResponse } from "./res/adapter-fetch-api";
 import * as Route from "./route";
+import { routeHx } from "./router";
 
 const server = Bun.serve({
-  async fetch(request, server) {
+  async fetch(request) {
     const url = new URL(request.url);
-    const ctx = Ctx.init();
-    const decoded = Route.decode(url.pathname) ?? Route.init();
-
+    const decoded = Route.decode(url.pathname.substring(1)) ?? Route.init();
     const isHxRequest = request.headers.get("HX-Request") === "true";
 
-    if (isHxRequest && decoded.type === "feed") {
-      return toResponse(html(<div>hello</div>));
+    const ctx = Ctx.init();
+
+    if (isHxRequest) {
+      const res = await routeHx({ route: decoded, ctx });
+      return toResponse(res);
     }
 
     const res = html(<ViewDocument route={decoded} />);

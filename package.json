@@ -3,11 +3,14 @@
   "module": "main.ts",
   "type": "module",
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "prettier": "^3.3.3",
+    "prettier-plugin-tailwindcss": "^0.6.6"
   },
   "scripts": {
     "server": "bun --watch src/moviefinder-app/main.tsx",
-    "tc": "bun x tsc --noEmit --watch"
+    "tc": "bun x tsc --noEmit --watch",
+    "format": "prettier --write ."
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

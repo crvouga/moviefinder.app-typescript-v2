@@ -9,7 +9,7 @@ export const ViewCodeVerified: CustomElementHandler = (attrs, content) => {
 export const VerifyCodeForm: CustomElementHandler = (attrs, content) => {
   return (
     <form
-      class="w-full h-full flex flex-col items-center p-4 gap-4"
+      class="flex h-full w-full flex-col items-center gap-4 p-4"
       hx-post="/"
       hx-swap="outerHTML"
     >
