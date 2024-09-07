@@ -13,6 +13,7 @@ const server = Bun.serve({
 
     if (isHxRequest(request)) {
       const res = await routeHx({ route, ctx });
+
       return toResponse(res);
     }
 

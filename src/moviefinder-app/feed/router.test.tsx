@@ -1,7 +1,7 @@
 import { describe, expect, it } from "bun:test";
 
 import * as Ctx from "../ctx";
-import { routeHx, ViewFeedPage } from "./router";
+import { routeHx, FeedPage } from "./router";
 
 describe("feed router", () => {
   it("should return feed", async () => {
@@ -13,7 +13,7 @@ describe("feed router", () => {
     });
     expect(res.type).toBe("html");
     if (res.type === "html") {
-      expect(res.html).toEqual(<ViewFeedPage />);
+      expect(res.html).toEqual(<FeedPage />);
     }
   });
 });

@@ -1,10 +1,18 @@
 import { z } from "zod";
 import * as Feed from "./feed/route";
+import * as Account from "./account/route";
 
 export const Route = z.discriminatedUnion("type", [
   z.object({
     type: z.literal("feed"),
     child: Feed.Route,
+  }),
+  z.object({
+    type: z.literal("account"),
+    child: Account.Route,
+  }),
+  z.object({
+    type: z.literal("unknown"),
   }),
 ]);
 
