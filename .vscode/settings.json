@@ -3,5 +3,10 @@
     "typescriptreact": "html",
     "plaintext": "javascript"
   },
-  "cSpell.words": ["htmx", "moviefinder", "tailwindcss"]
+  "cSpell.words": [
+    "htmx",
+    "moviefinder",
+    "tailwindcss",
+    "Tmdb"
+  ]
 }

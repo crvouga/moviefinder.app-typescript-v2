@@ -1,7 +1,8 @@
 import { redirect, type Res } from "src/core/res";
+import * as Account from "./account/router";
 import type { Ctx } from "./ctx";
 import * as Feed from "./feed/router";
-import * as Account from "./account/router";
+import * as Login from "./login/router";
 import { encode, type Route } from "./route";
 
 export const routeHx = async (input: {
@@ -14,6 +15,9 @@ export const routeHx = async (input: {
     }
     case "account": {
       return Account.routeHx({ ...input, route: input.route.child });
+    }
+    case "login": {
+      return Login.routeHx({ ...input, route: input.route.child });
     }
     case "unknown": {
       return redirect(

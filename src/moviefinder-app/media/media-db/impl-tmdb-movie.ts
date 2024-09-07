@@ -1,7 +1,7 @@
 import { Err } from "../../../core/result";
-import type { MediaDb } from "./media-db";
+import type { IMediaDb } from "./interface";
 
-export const MediaDbImplTmdbMovie = (): MediaDb => {
+export const MediaDb = (): IMediaDb => {
   return {
     async put(media) {
       return Err("Not implemented");

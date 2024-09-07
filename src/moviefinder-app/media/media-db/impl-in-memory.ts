@@ -1,8 +1,8 @@
 import { Err, Ok } from "../../../core/result";
 import type { Media } from "../media";
-import type { MediaDb } from "./media-db";
+import type { IMediaDb } from "./interface";
 
-export const MediaDbImplInMemory = (): MediaDb => {
+export const MediaDb = (): IMediaDb => {
   const mediaDb = new Map<string, Media>();
   return {
     async put(media) {

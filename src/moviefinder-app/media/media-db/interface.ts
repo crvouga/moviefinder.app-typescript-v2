@@ -3,7 +3,7 @@ import type { Query } from "src/core/query";
 import type { Result } from "src/core/result";
 import type { Media } from "src/moviefinder-app/media/media";
 
-export type MediaDb = {
+export type IMediaDb = {
   put: (media: Media) => Promise<Result<string, null>>;
   query: (query: Query<Media>) => Promise<Result<string, Paginated<Media>>>;
 };

@@ -1,12 +1,14 @@
-import type { MediaDb } from "./media/media-db/media-db";
-import { MediaDbImplInMemory } from "./media/media-db/media-db-impl-in-memory";
+import type { IMediaDb } from "./media/media-db/interface";
+import { MediaDb } from "./media/media-db";
 
 export type Ctx = {
-  mediaDb: MediaDb;
+  mediaDb: IMediaDb;
 };
 
 export const init = (): Ctx => {
   return {
-    mediaDb: MediaDbImplInMemory(),
+    mediaDb: MediaDb({
+      type: "tmdb-movie",
+    }),
   };
 };

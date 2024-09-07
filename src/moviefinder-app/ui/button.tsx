@@ -3,7 +3,7 @@ import { cn } from "./cn";
 export const Button = ({
   label,
   ...input
-}: HtmxAttributes & { label: string }) => {
+}: JSX.HtmlButtonTag & HtmxAttributes & { label: string }) => {
   return (
     <button
       {...input}

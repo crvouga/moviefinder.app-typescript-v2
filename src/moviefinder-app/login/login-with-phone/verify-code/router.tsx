@@ -1,12 +1,17 @@
+import { html } from "src/core/res";
 import type { CustomElementHandler } from "typed-html";
-import { Button } from "../../ui/button";
-import { TextField } from "../../ui/text-field";
+import { Button } from "../../../ui/button";
+import { TextField } from "../../../ui/text-field";
 
-export const ViewCodeVerified: CustomElementHandler = (attrs, content) => {
+export const routeHx = async () => {
+  return html(<VerifyCodeForm />);
+};
+
+const ViewCodeVerified: CustomElementHandler = (attrs, content) => {
   return <p>Code verified</p>;
 };
 
-export const VerifyCodeForm: CustomElementHandler = (attrs, content) => {
+const VerifyCodeForm: CustomElementHandler = (attrs, content) => {
   return (
     <form
       class="flex h-full w-full flex-col items-center gap-4 p-4"

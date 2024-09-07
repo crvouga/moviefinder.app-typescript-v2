@@ -1,7 +1,12 @@
-import { Button } from "../../ui/button";
-import { TextField } from "../../ui/text-field";
+import { html } from "src/core/res";
+import { Button } from "../../../ui/button";
+import { TextField } from "../../../ui/text-field";
 
-export const SendCodeForm = () => {
+export const routeHx = async () => {
+  return html(<SendCodeForm />);
+};
+
+const SendCodeForm = () => {
   return (
     <form
       class="flex h-full w-full flex-col items-center gap-4 p-4"

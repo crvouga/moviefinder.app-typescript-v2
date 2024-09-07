@@ -2,9 +2,11 @@ import type { Res } from "src/core/res";
 import { html } from "src/core/res";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
-import type { Route } from "./route";
-import { IconDoorOpen } from "../ui/icon";
+import { ROOT_SELECTOR } from "../app/document";
+import { encode } from "../route";
 import { Button } from "../ui/button";
+import { IconDoorOpen } from "../ui/icon";
+import type { Route } from "./route";
 
 export const routeHx = async (input: {
   route: Route;
@@ -38,7 +40,22 @@ export const AccountPage = () => {
           <p class="text-center text-xl font-bold">
             Login to access your account.
           </p>
-          <Button label="Login" />
+
+          <Button
+            label="Login"
+            hx-swap="innerHTML"
+            hx-target={ROOT_SELECTOR}
+            hx-push-url="true"
+            hx-get={encode({
+              type: "login",
+              child: {
+                type: "login-with-phone",
+                child: {
+                  type: "send-code",
+                },
+              },
+            })}
+          />
         </div>
       }
     />
