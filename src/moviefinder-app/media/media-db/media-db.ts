@@ -1,7 +1,7 @@
-import type { Result } from "../../../core/result";
-import type { Paginated } from "../../pagination/paginated";
-import type { Query } from "../../query/query";
-import type { Media } from "../media";
+import type { Result } from "src/core/result";
+import type { Media } from "src/moviefinder-app/media/media";
+import type { Paginated } from "src/moviefinder-app/pagination/paginated";
+import type { Query } from "src/moviefinder-app/query/query";
 
 export type MediaDb = {
   put: (media: Media) => Promise<Result<string, null>>;
