@@ -9,5 +9,8 @@ export const UserSessionDb = (): IUserSessionDb => {
     async put(userSession) {
       return Err("not implemented");
     },
+    async findBySessionId(sessionId) {
+      return Err("not implemented");
+    },
   };
 };

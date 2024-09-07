@@ -1,4 +1,4 @@
-import { fromRequest } from "src/core/req/adapter-fetch-api";
+import { fromRequest, wrapSessionId } from "src/core/req/adapter-fetch-api";
 import { html } from "../core/res";
 import { toResponse } from "../core/res/adapter-fetch-api";
 import { ViewDocument } from "./app/document";
@@ -9,26 +9,30 @@ import { routeHx } from "./router";
 const ctx = Ctx.init();
 
 const server = Bun.serve({
-  async fetch(request) {
-    const route = toRoute(request);
-    const req = await fromRequest(request);
+  fetch: wrapSessionId({
+    cookieName: "moviefinder-app-session-id",
+    fetch: async (sessionId, request) => {
+      const route = toRoute(request);
 
-    ctx.logger.info(new Date().toISOString(), route, req);
+      const req = await fromRequest(request, sessionId);
 
-    if (isHxRequest(request)) {
-      const res = await routeHx({
-        route,
-        ctx,
-        req,
-      });
+      ctx.logger.info(new Date().toISOString(), route, req);
+
+      if (isHxRequest(request)) {
+        const res = await routeHx({
+          route,
+          ctx,
+          req,
+        });
+
+        return toResponse(res);
+      }
+
+      const res = html(<ViewDocument route={route} />);
 
       return toResponse(res);
-    }
-
-    const res = html(<ViewDocument route={route} />);
-
-    return toResponse(res);
-  },
+    },
+  }),
 });
 
 ctx.logger.log(`Server running at http://localhost:${server.port}`);

@@ -27,3 +27,10 @@ export const isErr = <Error, Value>(
 export const isOk = <Error, Value>(
   result: Result<Error, Value>,
 ): result is Ok<Value> => result.type === "ok";
+
+export const unwrap = <Error, Value>(result: Result<Error, Value>): Value => {
+  if (isErr(result)) {
+    throw new Error("tried to unwrap an Err");
+  }
+  return result.value;
+};

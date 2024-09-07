@@ -1,15 +1,17 @@
+import type { ILogger } from "src/core/logger";
 import { Err, Ok } from "src/core/result";
 import type { IVerifySms } from "./interface";
-import type { ILogger } from "src/core/logger";
 
 export type Config = {
   code: string;
   logger: ILogger;
+  sleep: (ms: number) => Promise<unknown>;
 };
 
 export const VerifySms = (config: Config): IVerifySms => {
   return {
     async sendCode(input) {
+      await config.sleep(100);
       config.logger.info(`Sending code ${config.code} to phone ${input.phone}`);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       if (Math.random() < 0.5) {
@@ -22,6 +24,7 @@ export const VerifySms = (config: Config): IVerifySms => {
       return Ok(null);
     },
     async verifyCode(input) {
+      await config.sleep(100);
       config.logger.info(
         `Verifying code ${input.code} for phone ${input.phone}`,
       );

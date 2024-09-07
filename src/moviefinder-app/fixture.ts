@@ -4,12 +4,16 @@ import type { Ctx } from "./ctx";
 import { VerifySms } from "./login/login-with-phone/verify-sms";
 import { MediaDb } from "./media/media-db";
 import { UserSessionDb } from "./user-session/user-session-db";
+import { UserDb } from "./user/user-db";
+import { SessionId } from "src/core/req/session-id";
 
 export const BaseFixture = () => {
   const logger = Logger({
     type: "console",
     namespace: ["app"],
   });
+  const verifySmsCode = "123";
+  const sleep = async () => {};
   const ctx: Ctx = {
     logger,
     mediaDb: MediaDb({
@@ -17,21 +21,29 @@ export const BaseFixture = () => {
     }),
     verifySms: VerifySms({
       type: "fake",
-      code: "123",
+      code: verifySmsCode,
       logger: logger.child(["verify-sms"]),
+      sleep,
     }),
     userSessionDb: UserSessionDb({
       type: "in-memory",
+      sleep,
+    }),
+    userDb: UserDb({
+      type: "in-memory",
+      sleep,
     }),
   };
 
   const req: Req = {
     formData: {},
+    sessionId: SessionId.generate(),
   };
 
   return {
     req,
     ctx,
+    verifySmsCode,
     logger,
   };
 };

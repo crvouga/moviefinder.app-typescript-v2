@@ -8,12 +8,14 @@ import {
   UserSessionDb,
   type IUserSessionDb,
 } from "./user-session/user-session-db";
+import { UserDb, type IUserDb } from "./user/user-db";
 
 export type Ctx = {
   mediaDb: IMediaDb;
   verifySms: IVerifySms;
   userSessionDb: IUserSessionDb;
   logger: ILogger;
+  userDb: IUserDb;
 };
 
 export const init = (): Ctx => {
@@ -21,6 +23,9 @@ export const init = (): Ctx => {
     type: "console",
     namespace: ["app"],
   });
+
+  const sleep = (ms: number) =>
+    new Promise((resolve) => setTimeout(resolve, ms));
 
   return {
     logger,
@@ -31,9 +36,15 @@ export const init = (): Ctx => {
       type: "fake",
       code: "123",
       logger: logger.child(["verify-sms"]),
+      sleep,
     }),
     userSessionDb: UserSessionDb({
       type: "in-memory",
+      sleep,
+    }),
+    userDb: UserDb({
+      type: "in-memory",
+      sleep,
     }),
   };
 };
