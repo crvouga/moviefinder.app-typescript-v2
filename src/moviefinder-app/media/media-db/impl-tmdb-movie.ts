@@ -5,6 +5,7 @@ import * as TmdbApi from "./tmdb-api";
 import type { Media } from "../media";
 import { MediaId } from "../media-id";
 import { ImageSet } from "src/core/image-set";
+import { GenreId } from "../genre/genre-id";
 
 export type Config = TmdbApi.Config;
 
@@ -40,7 +41,7 @@ export const MediaDb = (config: Config): IMediaDb => {
             mediaId: MediaId.init(result.id),
             mediaTitle: result.title,
             mediaType: "movie",
-            mediaGenreIds: result.genre_ids.map((id) => id.toString()),
+            mediaGenreIds: result.genre_ids.map((id) => GenreId.init(id)),
             mediaPoster: TmdbApi.toPosterImageSet({
               configuration,
               posterPath: result.poster_path,

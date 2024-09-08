@@ -4,6 +4,7 @@ import * as Account from "./account/router";
 import type { Ctx } from "./ctx";
 import * as Feed from "./feed/router";
 import * as Login from "./login/router";
+import * as Media from "./media/router";
 import { encode, type Route } from "./route";
 
 export const routeHx = async (input: {
@@ -15,12 +16,19 @@ export const routeHx = async (input: {
     case "feed": {
       return Feed.routeHx({ ...input, route: input.route.child });
     }
+
     case "account": {
       return Account.routeHx({ ...input, route: input.route.child });
     }
+
     case "login": {
       return Login.routeHx({ ...input, route: input.route.child });
     }
+
+    case "media": {
+      return Media.routeHx({ ...input, route: input.route.child });
+    }
+
     case "unknown": {
       return redirect(
         encode({

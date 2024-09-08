@@ -10,6 +10,7 @@ import { SwiperContainer, SwiperSlide } from "../ui/swiper";
 import type { FeedItem } from "./feed-item";
 import type { Route } from "./route";
 import { ImageSet } from "src/core/image-set";
+import { ROOT_SELECTOR } from "../app/document";
 
 export const routeHx = async ({
   route,
@@ -30,7 +31,7 @@ export const routeHx = async ({
         limit: 10,
         offset: 0,
         order: [["mediaGenreIds", "asc"]],
-        where: ["<", "mediaGenreIds", ["action", "comedy"]],
+        where: ["<", "mediaGenreIds", []],
       });
 
       if (isErr(queried)) {
@@ -116,12 +117,27 @@ const ViewFeedItem = (input: { feedItem: FeedItem }) => {
 
 const ViewFeedItemMedia = (input: { media: Media }) => {
   return (
-    <div class="h-full w-full">
+    <a
+      class="h-full w-full"
+      hx-target={ROOT_SELECTOR}
+      hx-push-url="true"
+      hx-get={encode({
+        type: "media",
+        child: {
+          type: "details",
+          child: {
+            mediaId: input.media.mediaId,
+            mediaType: input.media.mediaType,
+            type: "index",
+          },
+        },
+      })}
+    >
       <img
-        class="h-full w-full"
+        class="h-full w-full object-cover"
         alt={input.media.mediaTitle}
         src={ImageSet.highestRes(input.media.mediaPoster) ?? " "}
       />
-    </div>
+    </a>
   );
 };
