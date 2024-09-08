@@ -1,11 +1,10 @@
 // https://developer.themoviedb.org/reference/discover-movie
 import { Err, isErr, Ok } from "src/core/result";
-import type { IMediaDb } from "./interface";
-import * as TmdbApi from "./tmdb-api";
+import { GenreId } from "../genre/genre-id";
 import type { Media } from "../media";
 import { MediaId } from "../media-id";
-import { ImageSet } from "src/core/image-set";
-import { GenreId } from "../genre/genre-id";
+import type { IMediaDb } from "./interface";
+import * as TmdbApi from "./tmdb-api";
 
 export type Config = TmdbApi.Config;
 

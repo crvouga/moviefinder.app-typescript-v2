@@ -129,6 +129,7 @@ const ViewFeedItemMedia = (input: { media: Media }) => {
             mediaId: input.media.mediaId,
             mediaType: input.media.mediaType,
             type: "index",
+            mediaTitle: input.media.mediaTitle,
           },
         },
       })}

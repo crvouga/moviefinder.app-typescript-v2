@@ -7,11 +7,13 @@ export const Route = z.discriminatedUnion("type", [
     type: z.literal("index"),
     mediaId: MediaId.parser,
     mediaType: MediaType.parser,
+    mediaTitle: z.string(),
   }),
   z.object({
     type: z.literal("load"),
     mediaId: MediaId.parser,
     mediaType: MediaType.parser,
+    mediaTitle: z.string(),
   }),
 ]);
 export type Route = z.infer<typeof Route>;

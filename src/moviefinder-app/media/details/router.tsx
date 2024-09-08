@@ -42,7 +42,11 @@ export const routeHx = async (input: {
   }
 };
 
-const DetailsLoad = (input: { mediaId: MediaId; mediaType: MediaType }) => {
+const DetailsLoad = (input: {
+  mediaId: MediaId;
+  mediaType: MediaType;
+  mediaTitle: string;
+}) => {
   return (
     <div
       class="flex h-full w-full flex-col"
@@ -54,6 +58,7 @@ const DetailsLoad = (input: { mediaId: MediaId; mediaType: MediaType }) => {
           type: "details",
           child: {
             ...input,
+
             type: "load",
           },
         },
