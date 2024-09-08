@@ -2,14 +2,14 @@ import type { ILogger } from "./interface";
 
 import * as ImplConsole from "./impl-console";
 
-export type Impl = ImplConsole.Config & {
+export type Config = ImplConsole.Config & {
   type: "console";
 };
 
-export const Logger = (impl: Impl): ILogger => {
-  switch (impl.type) {
+export const Logger = (config: Config): ILogger => {
+  switch (config.type) {
     case "console": {
-      return ImplConsole.Logger(impl);
+      return ImplConsole.Logger(config);
     }
   }
 };

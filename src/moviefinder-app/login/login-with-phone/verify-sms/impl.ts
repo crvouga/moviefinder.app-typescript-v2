@@ -1,14 +1,14 @@
 import * as ImplFake from "./impl-fake";
 import type { IVerifySms } from "./interface";
 
-export type Impl = ImplFake.Config & {
+export type Config = ImplFake.Config & {
   type: "fake";
 };
 
-export const VerifySms = (impl: Impl): IVerifySms => {
-  switch (impl.type) {
+export const VerifySms = (config: Config): IVerifySms => {
+  switch (config.type) {
     case "fake": {
-      return ImplFake.VerifySms(impl);
+      return ImplFake.VerifySms(config);
     }
   }
 };

@@ -2,7 +2,7 @@ import type { IUserSessionDb } from "./interface";
 import * as ImplDb from "./impl-db";
 import * as ImplInMemory from "./impl-in-memory";
 
-type Impl =
+type Config =
   | {
       type: "db-conn";
     }
@@ -10,13 +10,13 @@ type Impl =
       type: "in-memory";
     });
 
-export const UserSessionDb = (impl: Impl): IUserSessionDb => {
-  switch (impl.type) {
+export const UserSessionDb = (config: Config): IUserSessionDb => {
+  switch (config.type) {
     case "db-conn": {
       return ImplDb.UserSessionDb();
     }
     case "in-memory": {
-      return ImplInMemory.UserSessionDb(impl);
+      return ImplInMemory.UserSessionDb(config);
     }
   }
 };

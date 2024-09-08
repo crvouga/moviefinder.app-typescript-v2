@@ -1,13 +1,13 @@
 import * as ImplSql from "./impl-sql";
 
-export type Impl = ImplSql.Config & {
+export type Config = ImplSql.Config & {
   type: "sql";
 };
 
-export const KeyValueStore = (impl: Impl) => {
-  switch (impl.type) {
+export const KeyValueStore = (config: Config) => {
+  switch (config.type) {
     case "sql": {
-      return ImplSql.KeyValueStore(impl);
+      return ImplSql.KeyValueStore(config);
     }
   }
 };

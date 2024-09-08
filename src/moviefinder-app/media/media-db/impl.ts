@@ -3,7 +3,7 @@ import type { IMediaDb } from "./interface";
 import * as ImplInMemory from "./impl-in-memory";
 import * as ImplTmdbMovie from "./impl-tmdb-movie";
 
-export type Impl =
+export type Config =
   | {
       type: "in-memory";
     }
@@ -11,13 +11,13 @@ export type Impl =
       type: "tmdb-movie";
     });
 
-export const MediaDb = (impl: Impl): IMediaDb => {
-  switch (impl.type) {
+export const MediaDb = (config: Config): IMediaDb => {
+  switch (config.type) {
     case "in-memory": {
       return ImplInMemory.MediaDb();
     }
     case "tmdb-movie": {
-      return ImplTmdbMovie.MediaDb(impl);
+      return ImplTmdbMovie.MediaDb(config);
     }
   }
 };
