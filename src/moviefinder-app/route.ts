@@ -33,6 +33,7 @@ export const init = (): Route => {
     type: "feed",
     child: {
       type: "feed",
+      feedId: null,
     },
   };
 };

@@ -13,6 +13,7 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
             type: "feed",
             child: {
               type: "feed",
+              feedId: null,
             },
           }),
           icon: <IconHome />,

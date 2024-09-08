@@ -70,6 +70,7 @@ const DetailsLoad = (input: {
           type: "feed",
           child: {
             type: "feed",
+            feedId: null,
           },
         }}
       />
@@ -90,6 +91,7 @@ const Details = (input: { media: Media }) => {
           type: "feed",
           child: {
             type: "feed",
+            feedId: null,
           },
         }}
       />

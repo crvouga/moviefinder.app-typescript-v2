@@ -1,16 +1,17 @@
+import { ImageSet } from "src/core/image-set";
 import type { Res } from "src/core/res";
-import { html } from "src/core/res";
+import { html, redirect } from "src/core/res";
 import { isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
+import { ROOT_SELECTOR } from "../app/document";
 import type { Media } from "../media/media";
 import { encode } from "../route";
 import { Spinner } from "../ui/spinner";
 import { SwiperContainer, SwiperSlide } from "../ui/swiper";
+import { FeedId } from "./feed-id";
 import type { FeedItem } from "./feed-item";
 import type { Route } from "./route";
-import { ImageSet } from "src/core/image-set";
-import { ROOT_SELECTOR } from "../app/document";
 
 export const routeHx = async ({
   route,
@@ -21,10 +22,23 @@ export const routeHx = async ({
 }): Promise<Res> => {
   switch (route.type) {
     case "feed": {
-      return html(<FeedPage />);
+      if (!route.feedId) {
+        const defaultFeedId = FeedId.generate();
+        return redirect(
+          encode({
+            type: "feed",
+            child: {
+              type: "feed",
+              feedId: defaultFeedId,
+            },
+          }),
+        );
+      }
+
+      return html(<FeedPage feedId={route.feedId} />);
     }
     case "feed.controls": {
-      return html(<FeedPage />);
+      return html(<FeedPage feedId={route.feedId} />);
     }
     case "feed.load-more": {
       const queried = await ctx.mediaDb.query({
@@ -45,7 +59,9 @@ export const routeHx = async ({
         }),
       );
 
-      return html(<ViewFeedItems feedItems={feedItems} />);
+      return html(
+        <ViewFeedItems feedId={route.feedId} feedItems={feedItems} />,
+      );
     }
   }
 };
@@ -63,23 +79,24 @@ const Layout = (input: HtmxAttributes) => {
   );
 };
 
-export const FeedPage = () => {
+export const FeedPage = (input: { feedId: FeedId }) => {
   return (
     <Layout>
       <SwiperContainer class="h-full w-full">
-        <ViewFeedItemLoadNext />
+        <ViewFeedItemLoadNext feedId={input.feedId} />
       </SwiperContainer>
     </Layout>
   );
 };
 
-const ViewFeedItemLoadNext = () => {
+const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
   return (
     <SwiperSlide
       hx-get={encode({
         type: "feed",
         child: {
           type: "feed.load-more",
+          feedId: input.feedId,
         },
       })}
       hx-trigger="intersect"
@@ -92,7 +109,10 @@ const ViewFeedItemLoadNext = () => {
   );
 };
 
-export const ViewFeedItems = (input: { feedItems: FeedItem[] }) => {
+export const ViewFeedItems = (input: {
+  feedId: FeedId;
+  feedItems: FeedItem[];
+}) => {
   return (
     <>
       {input.feedItems
@@ -102,7 +122,7 @@ export const ViewFeedItems = (input: { feedItems: FeedItem[] }) => {
           </SwiperSlide>
         ))
         .join("")}
-      <ViewFeedItemLoadNext />
+      <ViewFeedItemLoadNext feedId={input.feedId} />
     </>
   );
 };

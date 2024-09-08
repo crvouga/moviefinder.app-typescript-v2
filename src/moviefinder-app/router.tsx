@@ -35,6 +35,7 @@ export const routeHx = async (input: {
           type: "feed",
           child: {
             type: "feed",
+            feedId: null,
           },
         }),
       );

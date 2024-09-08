@@ -1,6 +1,6 @@
 import type { IDbConnSql } from "src/core/db-conn-sql";
 import { isErr, Ok } from "src/core/result";
-import type { IKeyValueStore } from "./interface";
+import { toKey, type IKeyValueStore } from "./interface";
 import { z } from "zod";
 
 export type Config = {
@@ -42,6 +42,20 @@ export const KeyValueStore = (config: Config): IKeyValueStore => {
         return result;
       }
       return Ok(null);
+    },
+
+    child(namespace) {
+      const keyValueStore = KeyValueStore(config);
+      return {
+        ...keyValueStore,
+        async get(key) {
+          const got = await keyValueStore.get(toKey(namespace, key));
+          return got;
+        },
+        async set(key, value) {
+          return await keyValueStore.set(toKey(namespace, key), value);
+        },
+      };
     },
   };
 };
