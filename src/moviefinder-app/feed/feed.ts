@@ -1,4 +1,31 @@
-export type Feed = {
-  feedId: string;
-  activeIndex: number;
+import { Ok, unknownToErr, type Result } from "src/core/result";
+import { z } from "zod";
+
+const parser = z.object({
+  feedId: z.string(),
+  activeIndex: z.number(),
+});
+export type Feed = z.infer<typeof parser>;
+
+const encode = (feed: Feed): string => {
+  try {
+    return JSON.stringify(feed);
+  } catch (error) {
+    return "";
+  }
+};
+
+const decode = (data: string): Result<string, Feed> => {
+  try {
+    const parsed = parser.parse(JSON.parse(data));
+    return Ok(parsed);
+  } catch (error) {
+    return unknownToErr(error);
+  }
+};
+
+export const Feed = {
+  parser,
+  encode,
+  decode,
 };

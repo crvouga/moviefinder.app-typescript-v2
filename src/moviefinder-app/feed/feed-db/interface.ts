@@ -4,5 +4,5 @@ import type { FeedId } from "../feed-id";
 
 export type IFeedDb = {
   get: (feedId: FeedId) => Promise<Result<string, Feed>>;
-  set: (feed: Feed) => Promise<Result<string, null>>;
+  put: (feed: Feed) => Promise<Result<string, null>>;
 };

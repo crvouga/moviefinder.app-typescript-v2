@@ -1,6 +1,7 @@
-import { Err } from "src/core/result";
+import { Err, isErr } from "src/core/result";
 import type { IFeedDb } from "./interface";
 import type { IKeyValueStore } from "src/moviefinder-app/key-value-store";
+import { Feed } from "../feed";
 
 export type Config = {
   keyValueStore: IKeyValueStore;
@@ -9,10 +10,17 @@ export type Config = {
 export const FeedDb = (config: Config): IFeedDb => {
   return {
     async get(feedId) {
-      return Err("Not implemented");
+      const got = await config.keyValueStore.get(feedId);
+      if (isErr(got)) {
+        return got;
+      }
+      if (!got.value) {
+        return Err("not found");
+      }
+      return Feed.decode(got.value);
     },
-    async set(feed) {
-      return Err("Not implemented");
+    async put(feed) {
+      return await config.keyValueStore.set(feed.feedId, Feed.encode(feed));
     },
   };
 };
