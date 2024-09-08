@@ -40,9 +40,10 @@ export const wrapSessionId =
     const cookies = toCookies(request);
 
     const sessionIdCookieValue = cookies[input.cookieName];
-    const maybeSessionId = SessionId.is(sessionIdCookieValue)
-      ? sessionIdCookieValue
-      : null;
+    const maybeSessionId =
+      sessionIdCookieValue && SessionId.is(sessionIdCookieValue)
+        ? sessionIdCookieValue
+        : null;
     const sessionId = maybeSessionId ?? SessionId.generate();
     const response = await input.fetch(sessionId, request);
     if (!maybeSessionId) {

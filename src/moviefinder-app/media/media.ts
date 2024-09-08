@@ -6,6 +6,7 @@ import type { MediaType } from "./media-type";
 export type Media = {
   mediaId: MediaId;
   mediaTitle: string;
+  mediaDescription: string;
   mediaType: MediaType;
   mediaGenreIds: GenreId[];
   mediaPoster: ImageSet;

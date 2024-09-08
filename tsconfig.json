@@ -24,6 +24,7 @@
     "jsxImportSource": "typed-htmx/typed-html",
     "moduleResolution": "Bundler",
     "baseUrl": ".",
-    "alwaysStrict": true
+    "alwaysStrict": true,
+    "noUncheckedIndexedAccess": true
   }
 }

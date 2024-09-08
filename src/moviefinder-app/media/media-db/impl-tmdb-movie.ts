@@ -46,6 +46,7 @@ export const MediaDb = (config: Config): IMediaDb => {
               configuration,
               posterPath: result.poster_path,
             }),
+            mediaDescription: result.overview,
             mediaBackdrop: TmdbApi.toBackdropImageSet({
               configuration,
               backdropPath: result.backdrop_path,
