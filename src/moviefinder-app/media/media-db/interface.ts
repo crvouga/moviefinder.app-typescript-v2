@@ -15,6 +15,6 @@ export const q: Query<Media> = {
   where: [
     "and",
     ["=", "mediaType", "movie"],
-    ["in", "mediaGenre", ["action", "comedy"]],
+    ["in", "mediaGenreIds", ["action", "comedy"]],
   ],
 };

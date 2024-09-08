@@ -12,6 +12,7 @@ export const ViewDocument = (input: { route: Route }) => {
         <script src="https://cdn.tailwindcss.com"></script>
         <script src="https://unpkg.com/htmx.org@2.0.1"></script>
         <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/loading-states.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-element-bundle.min.js"></script>
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"

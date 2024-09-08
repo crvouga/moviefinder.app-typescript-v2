@@ -6,7 +6,15 @@ import * as Ctx from "./ctx";
 import * as Route from "./route";
 import { routeHx } from "./router";
 
-const ctx = Ctx.init();
+const tmdbApiReadAccessToken = import.meta.env.TMDB_API_READ_ACCESS_TOKEN;
+
+if (typeof tmdbApiReadAccessToken !== "string") {
+  throw new Error("TMDB_API_READ_ACCESS_TOKEN not set");
+}
+
+const ctx = Ctx.init({
+  tmdbApiReadAccessToken,
+});
 
 const server = Bun.serve({
   fetch: wrapSessionId({

@@ -7,9 +7,9 @@ export type Impl =
   | {
       type: "in-memory";
     }
-  | {
+  | (ImplTmdbMovie.Config & {
       type: "tmdb-movie";
-    };
+    });
 
 export const MediaDb = (impl: Impl): IMediaDb => {
   switch (impl.type) {
@@ -17,7 +17,7 @@ export const MediaDb = (impl: Impl): IMediaDb => {
       return ImplInMemory.MediaDb();
     }
     case "tmdb-movie": {
-      return ImplTmdbMovie.MediaDb();
+      return ImplTmdbMovie.MediaDb(impl);
     }
   }
 };

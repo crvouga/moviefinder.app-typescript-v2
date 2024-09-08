@@ -10,7 +10,7 @@ export const BottomButtonBar = (props: {
   }[];
 }) => {
   return (
-    <div class="flex w-full items-center divide-x border-t">
+    <div class="flex w-full items-center divide-x border-t" data-loading-states>
       {props.buttons.map((button) => (
         <a
           key={button.text}

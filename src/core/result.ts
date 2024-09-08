@@ -34,3 +34,7 @@ export const unwrap = <Error, Value>(result: Result<Error, Value>): Value => {
   }
   return result.value;
 };
+
+export const unknownToErr = (unknown: unknown): Err<string> => {
+  return Err(String(unknown));
+};

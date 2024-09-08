@@ -5,9 +5,6 @@ export const Route = z.discriminatedUnion("type", [
     type: z.literal("feed"),
   }),
   z.object({
-    type: z.literal("feed.load"),
-  }),
-  z.object({
     type: z.literal("feed.load-more"),
   }),
   z.object({

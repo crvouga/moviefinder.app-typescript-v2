@@ -18,7 +18,11 @@ export type Ctx = {
   userDb: IUserDb;
 };
 
-export const init = (): Ctx => {
+type Config = {
+  tmdbApiReadAccessToken: string;
+};
+
+export const init = (config: Config): Ctx => {
   const logger = Logger({
     type: "console",
     namespace: ["app"],
@@ -30,6 +34,7 @@ export const init = (): Ctx => {
   return {
     logger,
     mediaDb: MediaDb({
+      ...config,
       type: "tmdb-movie",
     }),
     verifySms: VerifySms({

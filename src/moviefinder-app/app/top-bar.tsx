@@ -6,7 +6,7 @@ import { ROOT_SELECTOR } from "./document";
 export const TopBar = (props: { title: string; backRoute: Route }) => {
   return (
     <div class="flex h-16 w-full items-center justify-center border-b">
-      <div class="flex-1">
+      <div class="flex-1" data-loading-states>
         <IconButton
           hx-get={encode(props.backRoute)}
           hx-push-url="true"
