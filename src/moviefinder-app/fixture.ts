@@ -1,39 +1,67 @@
+import { DbConnSql } from "src/core/db-conn-sql";
 import { Logger } from "src/core/logger";
 import type { Req } from "src/core/req";
 import { SessionId } from "src/core/req/session-id";
-import { TMDB_API_READ_ACCESS_TOKEN } from "src/moviefinder-app/env";
+import {
+  DATABASE_URL,
+  TMDB_API_READ_ACCESS_TOKEN,
+} from "src/moviefinder-app/env";
 import type { Ctx } from "./ctx";
 import { VerifySms } from "./login/login-with-phone/verify-sms";
 import { MediaDb } from "./media/media-db";
 import { UserSessionDb } from "./user-session/user-session-db";
 import { UserDb } from "./user/user-db";
+import { KeyValueStore } from "./key-value-store";
 
-export const BaseFixture = () => {
+export const BaseFixture = async () => {
   const logger = Logger({
     type: "console",
     namespace: ["app"],
   });
+
   const verifySmsCode = "123";
+
   const sleep = async () => {};
+
+  const dbConnSql = await DbConnSql({
+    type: "pg",
+    databaseUrl: DATABASE_URL,
+    logger,
+  });
+
+  const keyValueStore = KeyValueStore({
+    type: "sql",
+    dbConnSql,
+  });
+
+  const mediaDb = MediaDb({
+    type: "in-memory",
+  });
+
+  const verifySms = VerifySms({
+    type: "fake",
+    code: verifySmsCode,
+    logger: logger.child(["verify-sms"]),
+    sleep,
+  });
+
+  const userSessionDb = UserSessionDb({
+    type: "in-memory",
+    sleep,
+  });
+
+  const userDb = UserDb({
+    type: "in-memory",
+    sleep,
+  });
+
   const ctx: Ctx = {
     logger,
-    mediaDb: MediaDb({
-      type: "in-memory",
-    }),
-    verifySms: VerifySms({
-      type: "fake",
-      code: verifySmsCode,
-      logger: logger.child(["verify-sms"]),
-      sleep,
-    }),
-    userSessionDb: UserSessionDb({
-      type: "in-memory",
-      sleep,
-    }),
-    userDb: UserDb({
-      type: "in-memory",
-      sleep,
-    }),
+    keyValueStore,
+    mediaDb,
+    verifySms,
+    userSessionDb,
+    userDb,
   };
 
   const req: Req = {
@@ -46,6 +74,8 @@ export const BaseFixture = () => {
     ctx,
     verifySmsCode,
     logger,
+    dbConnSql,
+    databaseUrl: DATABASE_URL,
     tmdbApiReadAccessToken: TMDB_API_READ_ACCESS_TOKEN,
   };
 };

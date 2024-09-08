@@ -3,8 +3,8 @@ import { unwrap } from "src/core/result";
 import { BaseFixture } from "src/moviefinder-app/fixture";
 import { verifyCode } from "./verify-code";
 
-const Fixture = () => {
-  const f = BaseFixture();
+const Fixture = async () => {
+  const f = await BaseFixture();
   const phone = "555-555-5555";
   return {
     ...f,
@@ -14,7 +14,7 @@ const Fixture = () => {
 
 describe.skip("verify code", () => {
   test("ok", async () => {
-    const f = Fixture();
+    const f = await Fixture();
     const verify = await verifyCode({
       code: f.verifySmsCode,
       ctx: f.ctx,
@@ -25,7 +25,7 @@ describe.skip("verify code", () => {
   });
 
   test("creates new user", async () => {
-    const f = Fixture();
+    const f = await Fixture();
     const before = unwrap(await f.ctx.userDb.findByPhone({ phone: f.phone }));
     await verifyCode({
       code: f.verifySmsCode,
@@ -39,7 +39,7 @@ describe.skip("verify code", () => {
   });
 
   test("creates new user session", async () => {
-    const f = Fixture();
+    const f = await Fixture();
     const before = unwrap(
       await f.ctx.userSessionDb.findBySessionId(f.req.sessionId),
     );
@@ -57,7 +57,7 @@ describe.skip("verify code", () => {
   });
 
   test("new user and new user session are associated ", async () => {
-    const f = Fixture();
+    const f = await Fixture();
 
     await verifyCode({
       code: f.verifySmsCode,

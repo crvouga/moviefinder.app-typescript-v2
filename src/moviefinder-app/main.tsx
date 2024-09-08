@@ -3,42 +3,47 @@ import { html } from "../core/res";
 import { toResponse } from "../core/res/adapter-fetch-api";
 import { ViewDocument } from "./app/document";
 import * as Ctx from "./ctx";
-import { TMDB_API_READ_ACCESS_TOKEN } from "./env";
+import { DATABASE_URL, TMDB_API_READ_ACCESS_TOKEN } from "./env";
 import * as Route from "./route";
 import { routeHx } from "./router";
 
-const ctx = Ctx.init({
-  tmdbApiReadAccessToken: TMDB_API_READ_ACCESS_TOKEN,
-});
+const main = async () => {
+  const ctx = await Ctx.init({
+    tmdbApiReadAccessToken: TMDB_API_READ_ACCESS_TOKEN,
+    databaseUrl: DATABASE_URL,
+  });
 
-const server = Bun.serve({
-  fetch: wrapSessionId({
-    cookieName: "moviefinder-app-session-id",
-    fetch: async (sessionId, request) => {
-      const route = toRoute(request);
+  const server = Bun.serve({
+    fetch: wrapSessionId({
+      cookieName: "moviefinder-app-session-id",
+      fetch: async (sessionId, request) => {
+        const route = toRoute(request);
 
-      const req = await fromRequest(request, sessionId);
+        const req = await fromRequest(request, sessionId);
 
-      ctx.logger.info(new Date().toISOString(), route, req);
+        ctx.logger.info(new Date().toISOString(), route, req);
 
-      if (isHxRequest(request)) {
-        const res = await routeHx({
-          route,
-          ctx,
-          req,
-        });
+        if (isHxRequest(request)) {
+          const res = await routeHx({
+            route,
+            ctx,
+            req,
+          });
+
+          return toResponse(res);
+        }
+
+        const res = html(<ViewDocument route={route} />);
 
         return toResponse(res);
-      }
+      },
+    }),
+  });
 
-      const res = html(<ViewDocument route={route} />);
+  ctx.logger.log(`Server running at http://localhost:${server.port}`);
+};
 
-      return toResponse(res);
-    },
-  }),
-});
-
-ctx.logger.log(`Server running at http://localhost:${server.port}`);
+main();
 
 const isHxRequest = (request: Request): boolean =>
   request.headers.get("HX-Request") === "true";

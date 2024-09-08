@@ -4,8 +4,8 @@ import { MediaDb } from "./impl";
 import { unwrap } from "src/core/result";
 import { MediaId } from "../media-id";
 
-const Fixture = () => {
-  const f = BaseFixture();
+const Fixture = async () => {
+  const f = await BaseFixture();
 
   const mediaDb = MediaDb({
     type: "tmdb-movie",
@@ -20,7 +20,7 @@ const Fixture = () => {
 
 describe(import.meta.file, () => {
   test("filter by id", async () => {
-    const f = Fixture();
+    const f = await Fixture();
 
     const mediaId = MediaId.init("123");
 

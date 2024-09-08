@@ -1,4 +1,6 @@
+import { DbConnSql } from "src/core/db-conn-sql";
 import { Logger, type ILogger } from "src/core/logger";
+import { KeyValueStore, type IKeyValueStore } from "./key-value-store";
 import {
   VerifySms,
   type IVerifySms,
@@ -16,13 +18,15 @@ export type Ctx = {
   userSessionDb: IUserSessionDb;
   logger: ILogger;
   userDb: IUserDb;
+  keyValueStore: IKeyValueStore;
 };
 
 type Config = {
   tmdbApiReadAccessToken: string;
+  databaseUrl: string;
 };
 
-export const init = (config: Config): Ctx => {
+export const init = async (config: Config): Promise<Ctx> => {
   const logger = Logger({
     type: "console",
     namespace: ["app"],
@@ -31,25 +35,45 @@ export const init = (config: Config): Ctx => {
   const sleep = (ms: number) =>
     new Promise((resolve) => setTimeout(resolve, ms));
 
+  const dbConnSql = await DbConnSql({
+    type: "pg",
+    databaseUrl: config.databaseUrl,
+    logger: logger.child(["db-conn-sql"]),
+  });
+
+  const keyValueStore = KeyValueStore({
+    type: "sql",
+    dbConnSql,
+  });
+
+  const mediaDb = MediaDb({
+    ...config,
+    type: "tmdb-movie",
+  });
+
+  const verifySms = VerifySms({
+    type: "fake",
+    code: "123",
+    logger: logger.child(["verify-sms"]),
+    sleep,
+  });
+
+  const userSessionDb = UserSessionDb({
+    type: "in-memory",
+    sleep,
+  });
+
+  const userDb = UserDb({
+    type: "in-memory",
+    sleep,
+  });
+
   return {
     logger,
-    mediaDb: MediaDb({
-      ...config,
-      type: "tmdb-movie",
-    }),
-    verifySms: VerifySms({
-      type: "fake",
-      code: "123",
-      logger: logger.child(["verify-sms"]),
-      sleep,
-    }),
-    userSessionDb: UserSessionDb({
-      type: "in-memory",
-      sleep,
-    }),
-    userDb: UserDb({
-      type: "in-memory",
-      sleep,
-    }),
+    keyValueStore,
+    mediaDb,
+    verifySms,
+    userSessionDb,
+    userDb,
   };
 };

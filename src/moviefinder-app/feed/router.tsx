@@ -31,7 +31,7 @@ export const routeHx = async ({
         limit: 10,
         offset: 0,
         order: [["mediaGenreIds", "asc"]],
-        where: ["<", "mediaGenreIds", []],
+        where: ["<", "mediaBackdrop", ""],
       });
 
       if (isErr(queried)) {

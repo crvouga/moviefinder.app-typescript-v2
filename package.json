@@ -2,20 +2,29 @@
   "name": "moviefinder-app",
   "type": "module",
   "scripts": {
-    "start": "bun --watch src/moviefinder-app/main.tsx",
+    "start": "bun db:up && bun --watch src/moviefinder-app/main.tsx",
     "tc": "bun x tsc --noEmit --watch",
     "format": "prettier --write .",
-    "cloc": "bun x cloc ./src"
+    "cloc": "bun x cloc ./src",
+    "db:up": "bun x dbmate -e DATABASE_URL up",
+    "db:down": "bun x dbmate -e DATABASE_URL down",
+    "db:start": "docker-compose -f docker-compose.local.yml up -d",
+    "db:stop": "docker-compose -f docker-compose.local.yml down",
+    "db:new": "bun x dbmate new",
+    "db:dump": "bun x dbmate dump",
+    "db-prod:connect": "railway connect Postgres"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "pg": "^8.12.0",
     "typed-htmx": "^0.3.1",
     "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/pg": "^8.11.8",
     "prettier": "^3.3.3",
     "prettier-plugin-tailwindcss": "^0.6.6"
   }
