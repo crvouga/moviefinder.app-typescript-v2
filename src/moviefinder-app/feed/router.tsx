@@ -117,7 +117,7 @@ const ViewFeedItem = (input: { feedItem: FeedItem }) => {
 
 const ViewFeedItemMedia = (input: { media: Media }) => {
   return (
-    <a
+    <button
       class="h-full w-full"
       hx-target={ROOT_SELECTOR}
       hx-push-url="true"
@@ -138,6 +138,6 @@ const ViewFeedItemMedia = (input: { media: Media }) => {
         alt={input.media.mediaTitle}
         src={ImageSet.highestRes(input.media.mediaPoster) ?? " "}
       />
-    </a>
+    </button>
   );
 };
