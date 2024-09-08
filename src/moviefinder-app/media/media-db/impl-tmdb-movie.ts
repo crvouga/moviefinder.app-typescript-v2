@@ -21,6 +21,40 @@ export const MediaDb = (config: Config): IMediaDb => {
         return gotConfiguration;
       }
 
+      if (query.where[0] === "=" && query.where[1] === "mediaId") {
+        const gotMovie = await tmdbApi.movie.details({
+          movieId: query.where[2].toString(),
+        });
+
+        if (isErr(gotMovie)) {
+          return gotMovie;
+        }
+
+        const movie = gotMovie.value;
+        const media: Media = {
+          mediaId: MediaId.init(movie.id),
+          mediaTitle: movie.title,
+          mediaType: "movie",
+          mediaGenreIds: movie.genres.map((genre) => GenreId.init(genre.id)),
+          mediaPoster: TmdbApi.toPosterImageSet({
+            configuration: gotConfiguration.value,
+            posterPath: movie.poster_path,
+          }),
+          mediaDescription: movie.overview ?? "",
+          mediaBackdrop: TmdbApi.toBackdropImageSet({
+            configuration: gotConfiguration.value,
+            backdropPath: movie.backdrop_path,
+          }),
+        };
+
+        return Ok({
+          limit: query.limit,
+          offset: query.offset,
+          total: 1,
+          items: [media],
+        });
+      }
+
       const configuration = gotConfiguration.value;
 
       const got = await tmdbApi.discover.movie({

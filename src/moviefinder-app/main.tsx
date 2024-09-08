@@ -3,17 +3,12 @@ import { html } from "../core/res";
 import { toResponse } from "../core/res/adapter-fetch-api";
 import { ViewDocument } from "./app/document";
 import * as Ctx from "./ctx";
+import { TMDB_API_READ_ACCESS_TOKEN } from "./env";
 import * as Route from "./route";
 import { routeHx } from "./router";
 
-const tmdbApiReadAccessToken = import.meta.env.TMDB_API_READ_ACCESS_TOKEN;
-
-if (typeof tmdbApiReadAccessToken !== "string") {
-  throw new Error("TMDB_API_READ_ACCESS_TOKEN not set");
-}
-
 const ctx = Ctx.init({
-  tmdbApiReadAccessToken,
+  tmdbApiReadAccessToken: TMDB_API_READ_ACCESS_TOKEN,
 });
 
 const server = Bun.serve({

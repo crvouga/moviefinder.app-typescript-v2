@@ -58,11 +58,8 @@ export const toBackdropImageSet = (input: {
 
   return ImageSet.init({
     lowestToHighestRes: input.configuration.images.poster_sizes.map(
-      (posterSize) => {
-        const url = new URL(input.configuration.images.secure_base_url);
-        url.pathname = `${posterSize}${input.backdropPath}`;
-        return url.toString();
-      },
+      (posterSize) =>
+        `${input.configuration.images.secure_base_url}/${posterSize}${input.backdropPath}`,
     ),
   });
 };

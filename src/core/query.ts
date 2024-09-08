@@ -1,7 +1,9 @@
+type Primitive = string | number | boolean;
+
 export type QueryWhere<T> =
-  | ["=" | "!=" | ">" | "<" | ">=" | "<=", keyof T, T[keyof T]]
-  | ["in" | "not in", keyof T, T[keyof T][]]
-  | ["and" | "or", QueryWhere<T>, QueryWhere<T>];
+  | ["=" | "!=" | ">" | "<" | ">=" | "<=", keyof T, Primitive]
+  | ["in" | "not in", keyof T, Primitive[]]
+  | ["and" | "or", ...QueryWhere<T>[]];
 
 export type Query<T> = {
   limit: number;
