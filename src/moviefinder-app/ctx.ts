@@ -1,5 +1,6 @@
 import { DbConnSql } from "src/core/db-conn-sql";
 import { Logger, type ILogger } from "src/core/logger";
+import { FeedDb, type IFeedDb } from "./feed/feed-db";
 import { KeyValueStore, type IKeyValueStore } from "./key-value-store";
 import {
   VerifySms,
@@ -19,6 +20,7 @@ export type Ctx = {
   logger: ILogger;
   userDb: IUserDb;
   keyValueStore: IKeyValueStore;
+  feedDb: IFeedDb;
 };
 
 type Config = {
@@ -68,8 +70,14 @@ export const init = async (config: Config): Promise<Ctx> => {
     sleep,
   });
 
+  const feedDb = FeedDb({
+    type: "key-value-store",
+    keyValueStore,
+  });
+
   return {
     logger,
+    feedDb,
     keyValueStore,
     mediaDb,
     verifySms,

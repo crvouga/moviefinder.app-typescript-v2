@@ -12,6 +12,7 @@ import { MediaDb } from "./media/media-db";
 import { UserSessionDb } from "./user-session/user-session-db";
 import { UserDb } from "./user/user-db";
 import { KeyValueStore } from "./key-value-store";
+import { FeedDb } from "./feed/feed-db";
 
 export const BaseFixture = async () => {
   const logger = Logger({
@@ -55,6 +56,11 @@ export const BaseFixture = async () => {
     sleep,
   });
 
+  const feedDb = FeedDb({
+    type: "key-value-store",
+    keyValueStore,
+  });
+
   const ctx: Ctx = {
     logger,
     keyValueStore,
@@ -62,6 +68,7 @@ export const BaseFixture = async () => {
     verifySms,
     userSessionDb,
     userDb,
+    feedDb,
   };
 
   const req: Req = {
