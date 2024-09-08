@@ -26,7 +26,7 @@ const DiscoverMovieResponse = z.object({
   total_results: z.number(),
 });
 
-export const DiscoverMovie =
+export const getDiscoverMovie =
   (config: Config) => async (input: { page: number }) => {
     try {
       const url = new URL("discover/movie", BASE_URL);
