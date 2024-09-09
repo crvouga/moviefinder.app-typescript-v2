@@ -1,5 +1,6 @@
 import { encode, type Route } from "../route";
 import { Spinner } from "../ui/spinner";
+// import * as imageElementScript from "../ui/image-element.js" with { type: "text" };
 
 const ROOT_ID = "root";
 export const ROOT_SELECTOR = `#${ROOT_ID}`;
@@ -17,6 +18,11 @@ export const ViewDocument = (input: { route: Route }) => {
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"
         />
+        <link
+          rel="icon"
+          href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><text y='32' font-size='32'>🍿</text></svg>"
+        />
+        {/* <script type="module">{imageElementScript}</script> */}
       </head>
       <body
         hx-ext="loading-states"
