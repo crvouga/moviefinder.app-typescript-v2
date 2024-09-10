@@ -13,7 +13,7 @@ import { FeedId } from "./feed-id";
 import type { FeedItem } from "./feed-item";
 import type { Route } from "./route";
 
-export const routeHx = async ({
+export const respond = async ({
   route,
   ctx,
 }: {

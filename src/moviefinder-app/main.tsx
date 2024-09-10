@@ -1,11 +1,11 @@
 import { fromRequest, wrapSessionId } from "src/core/req/adapter-fetch-api";
 import { html } from "../core/res";
 import { toResponse } from "../core/res/adapter-fetch-api";
-import { ViewDocument } from "./app/document";
+import { Document } from "./app/document";
 import * as Ctx from "./ctx";
 import { DATABASE_URL, TMDB_API_READ_ACCESS_TOKEN } from "./env";
 import * as Route from "./route";
-import { routeHx } from "./router";
+import { respond } from "./respond";
 
 const main = async () => {
   const ctx = await Ctx.init({
@@ -16,15 +16,15 @@ const main = async () => {
   const server = Bun.serve({
     fetch: wrapSessionId({
       cookieName: "moviefinder-app-session-id",
-      fetch: async (sessionId, request) => {
+      fetch: async ({ request, sessionId }) => {
         const route = toRoute(request);
 
         const req = await fromRequest(request, sessionId);
 
         ctx.logger.info(new Date().toISOString(), route, req);
 
-        if (isHxRequest(request)) {
-          const res = await routeHx({
+        if (request.headers.get("HX-Request") === "true") {
+          const res = await respond({
             route,
             ctx,
             req,
@@ -33,7 +33,7 @@ const main = async () => {
           return toResponse(res);
         }
 
-        const res = html(<ViewDocument route={route} />);
+        const res = html(<Document route={route} />);
 
         return toResponse(res);
       },
@@ -45,14 +45,7 @@ const main = async () => {
 
 main();
 
-const isHxRequest = (request: Request): boolean =>
-  request.headers.get("HX-Request") === "true";
-
 const toRoute = (request: Request): Route.Route => {
   const url = new URL(request.url);
-  return (
-    Route.decode(url.pathname.substring(1)) ?? {
-      t: "unknown",
-    }
-  );
+  return Route.decode(url.pathname.substring(1));
 };

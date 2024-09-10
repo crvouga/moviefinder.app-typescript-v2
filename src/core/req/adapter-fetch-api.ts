@@ -20,8 +20,6 @@ export const fromRequest = async (
   };
 };
 
-const SESSION_ID_COOKIE_NAME = "moviefinder-app-session-id";
-
 const toCookies = (request: Request): { [key: string]: string } => {
   return Object.fromEntries(
     request.headers
@@ -34,7 +32,10 @@ const toCookies = (request: Request): { [key: string]: string } => {
 export const wrapSessionId =
   (input: {
     cookieName: string;
-    fetch: (sessionId: SessionId, request: Request) => Promise<Response>;
+    fetch: (input: {
+      sessionId: SessionId;
+      request: Request;
+    }) => Promise<Response>;
   }) =>
   async (request: Request): Promise<Response> => {
     const cookies = toCookies(request);
@@ -45,11 +46,11 @@ export const wrapSessionId =
         ? sessionIdCookieValue
         : null;
     const sessionId = maybeSessionId ?? SessionId.generate();
-    const response = await input.fetch(sessionId, request);
+    const response = await input.fetch({ sessionId, request });
     if (!maybeSessionId) {
       response.headers.append(
         "Set-Cookie",
-        `${SESSION_ID_COOKIE_NAME}=${sessionId}; SameSite=Strict; HttpOnly; Path=/`,
+        `${input.cookieName}=${sessionId}; SameSite=Strict; HttpOnly; Path=/; Secure; Max-Age=31536000;`,
       );
     }
     return response;

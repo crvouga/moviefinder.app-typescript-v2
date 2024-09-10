@@ -8,7 +8,7 @@ import { Button } from "../ui/button";
 import { IconDoorOpen } from "../ui/icon";
 import type { Route } from "./route";
 
-export const routeHx = async (input: {
+export const respond = async (input: {
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {

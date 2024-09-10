@@ -2,7 +2,7 @@
   "name": "moviefinder-app",
   "type": "module",
   "scripts": {
-    "start": "bun db:up && bun --hot src/moviefinder-app/main.tsx",
+    "start": "bun db:up && bun --hot ./src/moviefinder-app/main.tsx",
     "tc": "bun x tsc --noEmit --watch",
     "format": "prettier --write .",
     "cloc": "bun x cloc ./src",
@@ -12,7 +12,8 @@
     "db:stop": "docker-compose -f docker-compose.local.yml down",
     "db:new": "bun x dbmate new",
     "db:dump": "bun x dbmate dump",
-    "db-prod:connect": "railway connect Postgres"
+    "db-prod:connect": "railway connect Postgres",
+    "cir-deps": "bun x dpdm --progress --no-warning --no-tree ./src/moviefinder-app/main.tsx"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

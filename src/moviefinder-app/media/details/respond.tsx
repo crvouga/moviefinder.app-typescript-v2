@@ -11,7 +11,7 @@ import type { Route } from "./route";
 import { ImageSet } from "src/core/image-set";
 import { isErr } from "src/core/result";
 
-export const routeHx = async (input: {
+export const respond = async (input: {
   ctx: Ctx;
   route: Route;
 }): Promise<Res> => {

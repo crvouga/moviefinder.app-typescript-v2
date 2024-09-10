@@ -75,17 +75,14 @@ export const encode = (route: Route): string => {
   }
 };
 
-export const decode = (route: string): Route | null => {
+export const decode = (route: string): Route => {
   try {
     const [_friendlyName, encoded] = route.split(SEPARATOR);
-
-    const parsed = Route.safeParse(JSON.parse(atob(encoded ?? "")));
-
-    if (parsed.success) {
-      return parsed.data;
-    }
-    return null;
+    const parsed = Route.parse(JSON.parse(atob(encoded ?? "")));
+    return parsed;
   } catch (e) {
-    return null;
+    return {
+      t: "unknown",
+    };
   }
 };

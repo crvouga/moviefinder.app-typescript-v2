@@ -11,7 +11,7 @@ import { Route } from "./route";
 import { isErr } from "src/core/result";
 import { verifyCode } from "./verify-code";
 
-export const routeHx = async (input: {
+export const respond = async (input: {
   req: Req;
   route: Route;
   ctx: Ctx;

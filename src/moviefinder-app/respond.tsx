@@ -1,32 +1,32 @@
 import type { Req } from "src/core/req";
 import { redirect, type Res } from "src/core/res";
-import * as Account from "./account/router";
+import * as Account from "./account/respond";
 import type { Ctx } from "./ctx";
-import * as Feed from "./feed/router";
-import * as Login from "./login/router";
-import * as Media from "./media/router";
+import * as Feed from "./feed/respond";
+import * as Login from "./login/respond";
+import * as Media from "./media/respond";
 import { encode, type Route } from "./route";
 
-export const routeHx = async (input: {
+export const respond = async (input: {
   req: Req;
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
   switch (input.route.t) {
     case "feed": {
-      return Feed.routeHx({ ...input, route: input.route.c });
+      return Feed.respond({ ...input, route: input.route.c });
     }
 
     case "account": {
-      return Account.routeHx({ ...input, route: input.route.c });
+      return Account.respond({ ...input, route: input.route.c });
     }
 
     case "login": {
-      return Login.routeHx({ ...input, route: input.route.c });
+      return Login.respond({ ...input, route: input.route.c });
     }
 
     case "media": {
-      return Media.routeHx({ ...input, route: input.route.c });
+      return Media.respond({ ...input, route: input.route.c });
     }
 
     case "unknown": {
