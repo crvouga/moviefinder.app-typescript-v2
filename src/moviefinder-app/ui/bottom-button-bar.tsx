@@ -1,6 +1,6 @@
 import { cn } from "./cn";
 
-export const BottomButtonBar = (props: {
+export const BottomButtonBar = (input: {
   buttons: {
     text: string;
     icon: string;
@@ -11,7 +11,7 @@ export const BottomButtonBar = (props: {
 }) => {
   return (
     <div class="flex w-full items-center divide-x border-t" data-loading-states>
-      {props.buttons.map((button) => (
+      {input.buttons.map((button) => (
         <a
           key={button.text}
           hx-get={button.hxGet}
