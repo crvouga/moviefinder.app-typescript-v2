@@ -1,8 +1,8 @@
 import { z } from "zod";
 
-export const Route = z.discriminatedUnion("type", [
+export const Route = z.discriminatedUnion("t", [
   z.object({
-    type: z.literal("account"),
+    t: z.literal("account"),
   }),
 ]);
 

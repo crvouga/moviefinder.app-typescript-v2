@@ -21,7 +21,7 @@ describe.skip("verify code", () => {
       sessionId: f.req.sessionId,
       phone: f.phone,
     });
-    expect(verify.type).toBe("ok");
+    expect(verify.t).toBe("ok");
   });
 
   test("creates new user", async () => {

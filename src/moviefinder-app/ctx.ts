@@ -30,7 +30,7 @@ type Config = {
 
 export const init = async (config: Config): Promise<Ctx> => {
   const logger = Logger({
-    type: "console",
+    t: "console",
     namespace: ["app"],
   });
 
@@ -38,40 +38,40 @@ export const init = async (config: Config): Promise<Ctx> => {
     new Promise((resolve) => setTimeout(resolve, ms));
 
   const dbConnSql = await DbConnSql({
-    type: "pg",
+    t: "pg",
     databaseUrl: config.databaseUrl,
     logger: logger.child(["db-conn-sql"]),
   });
 
   const keyValueStore = KeyValueStore({
-    type: "sql",
+    t: "sql",
     dbConnSql,
   });
 
   const mediaDb = MediaDb({
     ...config,
-    type: "tmdb-movie",
+    t: "tmdb-movie",
   });
 
   const verifySms = VerifySms({
-    type: "fake",
+    t: "fake",
     code: "123",
     logger: logger.child(["verify-sms"]),
     sleep,
   });
 
   const userSessionDb = UserSessionDb({
-    type: "in-memory",
+    t: "in-memory",
     sleep,
   });
 
   const userDb = UserDb({
-    type: "in-memory",
+    t: "in-memory",
     sleep,
   });
 
   const feedDb = FeedDb({
-    type: "key-value-store",
+    t: "key-value-store",
     keyValueStore,
   });
 

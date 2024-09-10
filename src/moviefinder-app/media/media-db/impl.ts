@@ -5,14 +5,14 @@ import * as ImplTmdbMovie from "./impl-tmdb-movie";
 
 export type Config =
   | {
-      type: "in-memory";
+      t: "in-memory";
     }
   | (ImplTmdbMovie.Config & {
-      type: "tmdb-movie";
+      t: "tmdb-movie";
     });
 
 export const MediaDb = (config: Config): IMediaDb => {
-  switch (config.type) {
+  switch (config.t) {
     case "in-memory": {
       return ImplInMemory.MediaDb();
     }

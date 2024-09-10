@@ -16,7 +16,7 @@ export const routeHx = async (input: {
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
-  switch (input.route.type) {
+  switch (input.route.t) {
     case "send-code": {
       return html(<SendCodeForm />);
     }
@@ -35,7 +35,7 @@ export const routeHx = async (input: {
       });
 
       if (isErr(sentCode)) {
-        switch (sentCode.error.type) {
+        switch (sentCode.error.t) {
           case "unknown": {
             return html(<SendCodeForm error={sentCode.error.message} />);
           }
@@ -44,11 +44,11 @@ export const routeHx = async (input: {
 
       return redirect(
         encode({
-          type: "login",
+          t: "login",
           child: {
-            type: "login-with-phone",
+            t: "login-with-phone",
             child: {
-              type: "verify-code",
+              t: "verify-code",
               phone: phone,
             },
           },
@@ -77,7 +77,7 @@ export const routeHx = async (input: {
       });
 
       if (isErr(verifiedCode)) {
-        switch (verifiedCode.error.type) {
+        switch (verifiedCode.error.t) {
           case "unknown": {
             return html(
               <VerifyCode
@@ -97,9 +97,9 @@ export const routeHx = async (input: {
 
       return redirect(
         encode({
-          type: "account",
+          t: "account",
           child: {
-            type: "account",
+            t: "account",
           },
         }),
       );
@@ -113,9 +113,9 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
       <TopBar
         title="Login with phone"
         backRoute={{
-          type: "account",
+          t: "account",
           child: {
-            type: "account",
+            t: "account",
           },
         }}
       />
@@ -126,11 +126,11 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
         hx-push-url="true"
         data-loading-states
         hx-post={encode({
-          type: "login",
+          t: "login",
           child: {
-            type: "login-with-phone",
+            t: "login-with-phone",
             child: {
-              type: "clicked-send-code",
+              t: "clicked-send-code",
             },
           },
         })}
@@ -164,11 +164,11 @@ const VerifyCode = (input: {
       <TopBar
         title="Login with phone"
         backRoute={{
-          type: "login",
+          t: "login",
           child: {
-            type: "login-with-phone",
+            t: "login-with-phone",
             child: {
-              type: "send-code",
+              t: "send-code",
             },
           },
         }}
@@ -180,11 +180,11 @@ const VerifyCode = (input: {
         hx-swap="innerHTML"
         data-loading-states
         hx-post={encode({
-          type: "login",
+          t: "login",
           child: {
-            type: "login-with-phone",
+            t: "login-with-phone",
             child: {
-              type: "clicked-verify-code",
+              t: "clicked-verify-code",
               phone: input.phone,
             },
           },

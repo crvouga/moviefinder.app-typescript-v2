@@ -52,7 +52,7 @@ const toRoute = (request: Request): Route.Route => {
   const url = new URL(request.url);
   return (
     Route.decode(url.pathname.substring(1)) ?? {
-      type: "unknown",
+      t: "unknown",
     }
   );
 };

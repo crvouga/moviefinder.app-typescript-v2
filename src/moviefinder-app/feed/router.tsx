@@ -20,15 +20,15 @@ export const routeHx = async ({
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
-  switch (route.type) {
+  switch (route.t) {
     case "feed": {
       if (!route.feedId) {
         const defaultFeedId = FeedId.generate();
         return redirect(
           encode({
-            type: "feed",
+            t: "feed",
             child: {
-              type: "feed",
+              t: "feed",
               feedId: defaultFeedId,
             },
           }),
@@ -55,7 +55,7 @@ export const routeHx = async ({
       const feedItems = queried.value.items.map(
         (media): FeedItem => ({
           media,
-          type: "media",
+          t: "media",
         }),
       );
 
@@ -93,9 +93,9 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
   return (
     <SwiperSlide
       hx-get={encode({
-        type: "feed",
+        t: "feed",
         child: {
-          type: "feed.load-more",
+          t: "feed.load-more",
           feedId: input.feedId,
         },
       })}
@@ -128,7 +128,7 @@ export const ViewFeedItems = (input: {
 };
 
 const ViewFeedItem = (input: { feedItem: FeedItem }) => {
-  switch (input.feedItem.type) {
+  switch (input.feedItem.t) {
     case "media": {
       return <ViewFeedItemMedia media={input.feedItem.media} />;
     }
@@ -142,13 +142,13 @@ const ViewFeedItemMedia = (input: { media: Media }) => {
       hx-target={ROOT_SELECTOR}
       hx-push-url="true"
       hx-get={encode({
-        type: "media",
+        t: "media",
         child: {
-          type: "details",
+          t: "details",
           child: {
             mediaId: input.media.mediaId,
             mediaType: input.media.mediaType,
-            type: "index",
+            t: "index",
             mediaTitle: input.media.mediaTitle,
           },
         },

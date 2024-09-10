@@ -2,15 +2,15 @@ import type { Result } from "src/core/result";
 
 export type VerifyCodeError =
   | {
-      type: "wrong-code";
+      t: "wrong-code";
     }
   | {
-      type: "unknown";
+      t: "unknown";
       message: string;
     };
 
 export type SendCodeError = {
-  type: "unknown";
+  t: "unknown";
   message: string;
 };
 

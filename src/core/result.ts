@@ -1,32 +1,32 @@
 export type Result<Error, Value> = Err<Error> | Ok<Value>;
 
 export type Err<Error> = {
-  type: "err";
+  t: "err";
   error: Error;
 };
 
 export type Ok<Value> = {
-  type: "ok";
+  t: "ok";
   value: Value;
 };
 
 export const Ok = <Value>(value: Value): Ok<Value> => ({
-  type: "ok",
+  t: "ok",
   value,
 });
 
 export const Err = <Error>(error: Error): Err<Error> => ({
-  type: "err",
+  t: "err",
   error,
 });
 
 export const isErr = <Error, Value>(
   result: Result<Error, Value>,
-): result is Err<Error> => result.type === "err";
+): result is Err<Error> => result.t === "err";
 
 export const isOk = <Error, Value>(
   result: Result<Error, Value>,
-): result is Ok<Value> => result.type === "ok";
+): result is Ok<Value> => result.t === "ok";
 
 export const unwrap = <Error, Value>(result: Result<Error, Value>): Value => {
   if (isErr(result)) {

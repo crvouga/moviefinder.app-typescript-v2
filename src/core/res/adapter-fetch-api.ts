@@ -1,7 +1,7 @@
 import type { Res } from "./res";
 
 export const toResponse = (res: Res): Response => {
-  switch (res.type) {
+  switch (res.t) {
     case "html": {
       return new Response(res.html, {
         headers: {

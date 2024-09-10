@@ -4,25 +4,25 @@ import * as Account from "./account/route";
 import * as Login from "./login/route";
 import * as Media from "./media/route";
 
-export const Route = z.discriminatedUnion("type", [
+export const Route = z.discriminatedUnion("t", [
   z.object({
-    type: z.literal("feed"),
+    t: z.literal("feed"),
     child: Feed.Route,
   }),
   z.object({
-    type: z.literal("account"),
+    t: z.literal("account"),
     child: Account.Route,
   }),
   z.object({
-    type: z.literal("login"),
+    t: z.literal("login"),
     child: Login.Route,
   }),
   z.object({
-    type: z.literal("media"),
+    t: z.literal("media"),
     child: Media.Route,
   }),
   z.object({
-    type: z.literal("unknown"),
+    t: z.literal("unknown"),
   }),
 ]);
 
@@ -30,9 +30,9 @@ export type Route = z.infer<typeof Route>;
 
 export const init = (): Route => {
   return {
-    type: "feed",
+    t: "feed",
     child: {
-      type: "feed",
+      t: "feed",
       feedId: null,
     },
   };
@@ -54,7 +54,7 @@ const toTypes = (route: unknown): string[] => {
   if (!isDict(route)) {
     return [];
   }
-  const type = route.type;
+  const type = route.t;
   if (typeof type === "string") {
     return [type, ...toTypes(route.child)];
   }

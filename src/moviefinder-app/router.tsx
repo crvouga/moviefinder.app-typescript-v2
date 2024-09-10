@@ -12,7 +12,7 @@ export const routeHx = async (input: {
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
-  switch (input.route.type) {
+  switch (input.route.t) {
     case "feed": {
       return Feed.routeHx({ ...input, route: input.route.child });
     }
@@ -32,9 +32,9 @@ export const routeHx = async (input: {
     case "unknown": {
       return redirect(
         encode({
-          type: "feed",
+          t: "feed",
           child: {
-            type: "feed",
+            t: "feed",
             feedId: null,
           },
         }),

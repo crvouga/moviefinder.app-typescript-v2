@@ -10,9 +10,9 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
         {
           active: input.active === "feed",
           hxGet: encode({
-            type: "feed",
+            t: "feed",
             child: {
-              type: "feed",
+              t: "feed",
               feedId: null,
             },
           }),
@@ -23,9 +23,9 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
         {
           active: input.active === "account",
           hxGet: encode({
-            type: "account",
+            t: "account",
             child: {
-              type: "account",
+              t: "account",
             },
           }),
           icon: <IconUserCircle />,

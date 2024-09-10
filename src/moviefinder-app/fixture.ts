@@ -16,7 +16,7 @@ import { FeedDb } from "./feed/feed-db";
 
 export const BaseFixture = async () => {
   const logger = Logger({
-    type: "console",
+    t: "console",
     namespace: ["app"],
   });
 
@@ -25,39 +25,39 @@ export const BaseFixture = async () => {
   const sleep = async () => {};
 
   const dbConnSql = await DbConnSql({
-    type: "pg",
+    t: "pg",
     databaseUrl: DATABASE_URL,
     logger,
   });
 
   const keyValueStore = KeyValueStore({
-    type: "sql",
+    t: "sql",
     dbConnSql,
   });
 
   const mediaDb = MediaDb({
-    type: "in-memory",
+    t: "in-memory",
   });
 
   const verifySms = VerifySms({
-    type: "fake",
+    t: "fake",
     code: verifySmsCode,
     logger: logger.child(["verify-sms"]),
     sleep,
   });
 
   const userSessionDb = UserSessionDb({
-    type: "in-memory",
+    t: "in-memory",
     sleep,
   });
 
   const userDb = UserDb({
-    type: "in-memory",
+    t: "in-memory",
     sleep,
   });
 
   const feedDb = FeedDb({
-    type: "key-value-store",
+    t: "key-value-store",
     keyValueStore,
   });
 

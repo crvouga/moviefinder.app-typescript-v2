@@ -7,7 +7,7 @@ const Fixture = async () => {
   const f = await BaseFixture();
 
   const keyValueStore = KeyValueStore({
-    type: "sql",
+    t: "sql",
     dbConnSql: f.dbConnSql,
   });
 

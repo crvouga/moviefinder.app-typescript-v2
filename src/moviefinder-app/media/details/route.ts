@@ -2,15 +2,15 @@ import { z } from "zod";
 import { MediaId } from "../media-id";
 import { MediaType } from "../media-type";
 
-export const Route = z.discriminatedUnion("type", [
+export const Route = z.discriminatedUnion("t", [
   z.object({
-    type: z.literal("index"),
+    t: z.literal("index"),
     mediaId: MediaId.parser,
     mediaType: MediaType.parser,
     mediaTitle: z.string(),
   }),
   z.object({
-    type: z.literal("load"),
+    t: z.literal("load"),
     mediaId: MediaId.parser,
     mediaType: MediaType.parser,
     mediaTitle: z.string(),

@@ -15,7 +15,7 @@ export const routeHx = async (input: {
   ctx: Ctx;
   route: Route;
 }): Promise<Res> => {
-  switch (input.route.type) {
+  switch (input.route.t) {
     case "index": {
       return html(<DetailsLoad {...input.route} />);
     }
@@ -53,13 +53,12 @@ const DetailsLoad = (input: {
       hx-trigger="load"
       hx-target={ROOT_SELECTOR}
       hx-get={encode({
-        type: "media",
+        t: "media",
         child: {
-          type: "details",
+          t: "details",
           child: {
             ...input,
-
-            type: "load",
+            t: "load",
           },
         },
       })}
@@ -67,9 +66,9 @@ const DetailsLoad = (input: {
       <TopBar
         title=""
         backRoute={{
-          type: "feed",
+          t: "feed",
           child: {
-            type: "feed",
+            t: "feed",
             feedId: null,
           },
         }}
@@ -88,9 +87,9 @@ const Details = (input: { media: Media }) => {
       <TopBar
         title={input.media.mediaTitle}
         backRoute={{
-          type: "feed",
+          t: "feed",
           child: {
-            type: "feed",
+            t: "feed",
             feedId: null,
           },
         }}

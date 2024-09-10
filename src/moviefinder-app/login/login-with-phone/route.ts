@@ -1,18 +1,18 @@
 import { z } from "zod";
 
-export const Route = z.discriminatedUnion("type", [
+export const Route = z.discriminatedUnion("t", [
   z.object({
-    type: z.literal("send-code"),
+    t: z.literal("send-code"),
   }),
   z.object({
-    type: z.literal("clicked-send-code"),
+    t: z.literal("clicked-send-code"),
   }),
   z.object({
-    type: z.literal("verify-code"),
+    t: z.literal("verify-code"),
     phone: z.string(),
   }),
   z.object({
-    type: z.literal("clicked-verify-code"),
+    t: z.literal("clicked-verify-code"),
     phone: z.string(),
   }),
 ]);

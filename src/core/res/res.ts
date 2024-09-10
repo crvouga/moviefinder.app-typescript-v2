@@ -1,23 +1,23 @@
 export type Res =
   | {
-      type: "html";
+      t: "html";
       html: string;
     }
   | {
-      type: "redirect";
+      t: "redirect";
       to: string;
     };
 
 export const html = (html: string): Res => {
   return {
-    type: "html",
+    t: "html",
     html,
   };
 };
 
 export const redirect = (to: string): Res => {
   return {
-    type: "redirect",
+    t: "redirect",
     to,
   };
 };

@@ -4,14 +4,14 @@ import * as ImplInMemory from "./impl-in-memory";
 
 type Config =
   | {
-      type: "db-conn";
+      t: "db-conn";
     }
   | (ImplInMemory.Config & {
-      type: "in-memory";
+      t: "in-memory";
     });
 
 export const UserSessionDb = (config: Config): IUserSessionDb => {
-  switch (config.type) {
+  switch (config.t) {
     case "db-conn": {
       return ImplDb.UserSessionDb();
     }

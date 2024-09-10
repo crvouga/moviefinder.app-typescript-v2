@@ -1,9 +1,9 @@
 import { z } from "zod";
 import * as Details from "./details/route";
 
-export const Route = z.discriminatedUnion("type", [
+export const Route = z.discriminatedUnion("t", [
   z.object({
-    type: z.literal("details"),
+    t: z.literal("details"),
     child: Details.Route,
   }),
 ]);

@@ -1,17 +1,17 @@
 import { z } from "zod";
 import { FeedId } from "./feed-id";
 
-export const Route = z.discriminatedUnion("type", [
+export const Route = z.discriminatedUnion("t", [
   z.object({
-    type: z.literal("feed"),
+    t: z.literal("feed"),
     feedId: FeedId.parser.nullable(),
   }),
   z.object({
-    type: z.literal("feed.load-more"),
+    t: z.literal("feed.load-more"),
     feedId: FeedId.parser,
   }),
   z.object({
-    type: z.literal("feed.controls"),
+    t: z.literal("feed.controls"),
     feedId: FeedId.parser,
   }),
 ]);

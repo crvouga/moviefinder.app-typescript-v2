@@ -1,9 +1,9 @@
 import { z } from "zod";
 import * as LoginWithPhone from "./login-with-phone/route";
 
-export const Route = z.discriminatedUnion("type", [
+export const Route = z.discriminatedUnion("t", [
   z.object({
-    type: z.literal("login-with-phone"),
+    t: z.literal("login-with-phone"),
     child: LoginWithPhone.Route,
   }),
 ]);

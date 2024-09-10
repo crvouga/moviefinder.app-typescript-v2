@@ -8,7 +8,7 @@ const Fixture = async () => {
   const f = await BaseFixture();
 
   const mediaDb = MediaDb({
-    type: "tmdb-movie",
+    t: "tmdb-movie",
     tmdbApiReadAccessToken: f.tmdbApiReadAccessToken,
   });
 

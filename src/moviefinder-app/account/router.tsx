@@ -12,7 +12,7 @@ export const routeHx = async (input: {
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
-  switch (input.route.type) {
+  switch (input.route.t) {
     case "account": {
       return html(<AccountPage />);
     }
@@ -47,11 +47,11 @@ export const AccountPage = () => {
             hx-target={ROOT_SELECTOR}
             hx-push-url="true"
             hx-get={encode({
-              type: "login",
+              t: "login",
               child: {
-                type: "login-with-phone",
+                t: "login-with-phone",
                 child: {
-                  type: "send-code",
+                  t: "send-code",
                 },
               },
             })}

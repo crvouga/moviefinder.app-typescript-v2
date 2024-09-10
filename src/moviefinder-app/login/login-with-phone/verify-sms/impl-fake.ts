@@ -17,7 +17,7 @@ export const VerifySms = (config: Config): IVerifySms => {
       if (Math.random() < 0.5) {
         config.logger.error(`Failed to send code to phone ${input.phone}`);
         return Err({
-          type: "unknown",
+          t: "unknown",
           message: "Failed to send code",
         });
       }
@@ -31,14 +31,14 @@ export const VerifySms = (config: Config): IVerifySms => {
       if (input.code !== config.code) {
         config.logger.error(`Invalid code ${input.code}`);
         return Err({
-          type: "wrong-code",
+          t: "wrong-code",
         });
       }
 
       if (Math.random() < 0.25) {
         config.logger.error(`Failed to verify code ${input.code}`);
         return Err({
-          type: "unknown",
+          t: "unknown",
           message: "Failed to verify code",
         });
       }

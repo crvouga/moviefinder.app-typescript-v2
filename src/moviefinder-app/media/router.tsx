@@ -7,7 +7,7 @@ export const routeHx = async (input: {
   ctx: Ctx;
   route: Route;
 }): Promise<Res> => {
-  switch (input.route.type) {
+  switch (input.route.t) {
     case "details": {
       return Details.routeHx({
         ...input,

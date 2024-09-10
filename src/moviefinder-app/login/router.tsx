@@ -9,7 +9,7 @@ export const routeHx = async (input: {
   route: Route;
   ctx: Ctx;
 }): Promise<Res> => {
-  switch (input.route.type) {
+  switch (input.route.t) {
     case "login-with-phone": {
       return LoginWithPhone.routeHx({
         ...input,
