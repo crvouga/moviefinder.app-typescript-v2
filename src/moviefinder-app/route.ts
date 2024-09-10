@@ -38,9 +38,38 @@ export const init = (): Route => {
   };
 };
 
+//
+//
+//
+//
+//
+//
+//
+
+const isDict = (value: unknown): value is Record<string, unknown> => {
+  return typeof value === "object" && value !== null;
+};
+
+const toTypes = (route: unknown): string[] => {
+  if (!isDict(route)) {
+    return [];
+  }
+  const type = route.type;
+  if (typeof type === "string") {
+    return [type, ...toTypes(route.child)];
+  }
+  return [];
+};
+
+const toFriendlyName = (route: Route): string => toTypes(route).join(".");
+
+const SEPARATOR = "___";
+
 export const encode = (route: Route): string => {
   try {
-    return btoa(JSON.stringify(route));
+    const encoded = btoa(JSON.stringify(route));
+    const friendlyName = toFriendlyName(route);
+    return `${friendlyName}${SEPARATOR}${encoded}`;
   } catch (e) {
     return "";
   }
@@ -48,7 +77,9 @@ export const encode = (route: Route): string => {
 
 export const decode = (route: string): Route | null => {
   try {
-    const parsed = Route.safeParse(JSON.parse(atob(route)));
+    const [_friendlyName, encoded] = route.split(SEPARATOR);
+
+    const parsed = Route.safeParse(JSON.parse(atob(encoded ?? "")));
 
     if (parsed.success) {
       return parsed.data;
