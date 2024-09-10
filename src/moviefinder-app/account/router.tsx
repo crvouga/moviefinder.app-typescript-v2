@@ -48,12 +48,7 @@ export const AccountPage = () => {
             hx-push-url="true"
             hx-get={encode({
               t: "login",
-              child: {
-                t: "login-with-phone",
-                child: {
-                  t: "send-code",
-                },
-              },
+              c: { t: "sms", c: { t: "send-code" } },
             })}
           />
         </div>

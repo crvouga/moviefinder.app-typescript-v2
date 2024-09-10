@@ -11,7 +11,7 @@ export const routeHx = async (input: {
     case "details": {
       return Details.routeHx({
         ...input,
-        route: input.route.child,
+        route: input.route.c,
       });
     }
   }

@@ -45,9 +45,9 @@ export const routeHx = async (input: {
       return redirect(
         encode({
           t: "login",
-          child: {
-            t: "login-with-phone",
-            child: {
+          c: {
+            t: "sms",
+            c: {
               t: "verify-code",
               phone: phone,
             },
@@ -98,7 +98,7 @@ export const routeHx = async (input: {
       return redirect(
         encode({
           t: "account",
-          child: {
+          c: {
             t: "account",
           },
         }),
@@ -114,7 +114,7 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
         title="Login with phone"
         backRoute={{
           t: "account",
-          child: {
+          c: {
             t: "account",
           },
         }}
@@ -127,9 +127,9 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
         data-loading-states
         hx-post={encode({
           t: "login",
-          child: {
-            t: "login-with-phone",
-            child: {
+          c: {
+            t: "sms",
+            c: {
               t: "clicked-send-code",
             },
           },
@@ -165,9 +165,9 @@ const VerifyCode = (input: {
         title="Login with phone"
         backRoute={{
           t: "login",
-          child: {
-            t: "login-with-phone",
-            child: {
+          c: {
+            t: "sms",
+            c: {
               t: "send-code",
             },
           },
@@ -181,9 +181,9 @@ const VerifyCode = (input: {
         data-loading-states
         hx-post={encode({
           t: "login",
-          child: {
-            t: "login-with-phone",
-            child: {
+          c: {
+            t: "sms",
+            c: {
               t: "clicked-verify-code",
               phone: input.phone,
             },

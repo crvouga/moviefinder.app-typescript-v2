@@ -1,10 +1,10 @@
 import { z } from "zod";
-import * as LoginWithPhone from "./login-with-phone/route";
+import * as Sms from "./sms/route";
 
 export const Route = z.discriminatedUnion("t", [
   z.object({
-    t: z.literal("login-with-phone"),
-    child: LoginWithPhone.Route,
+    t: z.literal("sms"),
+    c: Sms.Route,
   }),
 ]);
 

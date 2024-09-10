@@ -7,7 +7,7 @@ import {
   TMDB_API_READ_ACCESS_TOKEN,
 } from "src/moviefinder-app/env";
 import type { Ctx } from "./ctx";
-import { VerifySms } from "./login/login-with-phone/verify-sms";
+import { VerifySms } from "./login/sms/verify-sms";
 import { MediaDb } from "./media/media-db";
 import { UserSessionDb } from "./user-session/user-session-db";
 import { UserDb } from "./user/user-db";

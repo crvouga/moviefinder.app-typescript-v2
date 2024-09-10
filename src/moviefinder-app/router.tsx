@@ -14,26 +14,26 @@ export const routeHx = async (input: {
 }): Promise<Res> => {
   switch (input.route.t) {
     case "feed": {
-      return Feed.routeHx({ ...input, route: input.route.child });
+      return Feed.routeHx({ ...input, route: input.route.c });
     }
 
     case "account": {
-      return Account.routeHx({ ...input, route: input.route.child });
+      return Account.routeHx({ ...input, route: input.route.c });
     }
 
     case "login": {
-      return Login.routeHx({ ...input, route: input.route.child });
+      return Login.routeHx({ ...input, route: input.route.c });
     }
 
     case "media": {
-      return Media.routeHx({ ...input, route: input.route.child });
+      return Media.routeHx({ ...input, route: input.route.c });
     }
 
     case "unknown": {
       return redirect(
         encode({
           t: "feed",
-          child: {
+          c: {
             t: "feed",
             feedId: null,
           },

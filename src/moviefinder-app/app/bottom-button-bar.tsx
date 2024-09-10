@@ -11,7 +11,7 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
           active: input.active === "feed",
           hxGet: encode({
             t: "feed",
-            child: {
+            c: {
               t: "feed",
               feedId: null,
             },
@@ -24,7 +24,7 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
           active: input.active === "account",
           hxGet: encode({
             t: "account",
-            child: {
+            c: {
               t: "account",
             },
           }),

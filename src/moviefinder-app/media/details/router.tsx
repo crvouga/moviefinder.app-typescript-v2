@@ -54,9 +54,9 @@ const DetailsLoad = (input: {
       hx-target={ROOT_SELECTOR}
       hx-get={encode({
         t: "media",
-        child: {
+        c: {
           t: "details",
-          child: {
+          c: {
             ...input,
             t: "load",
           },
@@ -67,7 +67,7 @@ const DetailsLoad = (input: {
         title=""
         backRoute={{
           t: "feed",
-          child: {
+          c: {
             t: "feed",
             feedId: null,
           },
@@ -88,7 +88,7 @@ const Details = (input: { media: Media }) => {
         title={input.media.mediaTitle}
         backRoute={{
           t: "feed",
-          child: {
+          c: {
             t: "feed",
             feedId: null,
           },

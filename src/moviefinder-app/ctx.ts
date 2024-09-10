@@ -2,10 +2,7 @@ import { DbConnSql } from "src/core/db-conn-sql";
 import { Logger, type ILogger } from "src/core/logger";
 import { FeedDb, type IFeedDb } from "./feed/feed-db";
 import { KeyValueStore, type IKeyValueStore } from "./key-value-store";
-import {
-  VerifySms,
-  type IVerifySms,
-} from "./login/login-with-phone/verify-sms";
+import { VerifySms, type IVerifySms } from "./login/sms/verify-sms";
 import { MediaDb, type IMediaDb } from "./media/media-db";
 import {
   UserSessionDb,

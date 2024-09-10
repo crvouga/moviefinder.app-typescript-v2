@@ -7,19 +7,19 @@ import * as Media from "./media/route";
 export const Route = z.discriminatedUnion("t", [
   z.object({
     t: z.literal("feed"),
-    child: Feed.Route,
+    c: Feed.Route,
   }),
   z.object({
     t: z.literal("account"),
-    child: Account.Route,
+    c: Account.Route,
   }),
   z.object({
     t: z.literal("login"),
-    child: Login.Route,
+    c: Login.Route,
   }),
   z.object({
     t: z.literal("media"),
-    child: Media.Route,
+    c: Media.Route,
   }),
   z.object({
     t: z.literal("unknown"),
@@ -31,7 +31,7 @@ export type Route = z.infer<typeof Route>;
 export const init = (): Route => {
   return {
     t: "feed",
-    child: {
+    c: {
       t: "feed",
       feedId: null,
     },
@@ -56,7 +56,7 @@ const toTypes = (route: unknown): string[] => {
   }
   const type = route.t;
   if (typeof type === "string") {
-    return [type, ...toTypes(route.child)];
+    return [type, ...toTypes(route.c)];
   }
   return [];
 };

@@ -27,7 +27,7 @@ export const routeHx = async ({
         return redirect(
           encode({
             t: "feed",
-            child: {
+            c: {
               t: "feed",
               feedId: defaultFeedId,
             },
@@ -94,7 +94,7 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
     <SwiperSlide
       hx-get={encode({
         t: "feed",
-        child: {
+        c: {
           t: "feed.load-more",
           feedId: input.feedId,
         },
@@ -143,9 +143,9 @@ const ViewFeedItemMedia = (input: { media: Media }) => {
       hx-push-url="true"
       hx-get={encode({
         t: "media",
-        child: {
+        c: {
           t: "details",
-          child: {
+          c: {
             mediaId: input.media.mediaId,
             mediaType: input.media.mediaType,
             t: "index",
