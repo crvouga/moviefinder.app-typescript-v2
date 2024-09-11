@@ -1,3 +1,4 @@
+import { escape } from "src/core/html";
 import { cn } from "./cn";
 
 export const TextField = ({
@@ -11,12 +12,8 @@ export const TextField = ({
 }) => {
   return (
     <div class={cn("flex w-full flex-col gap-2", className)}>
-      <label
-        for="input"
-        class="block text-left text-sm font-bold text-white"
-        safe
-      >
-        {label}
+      <label for="input" class="block text-left text-sm font-bold text-white">
+        {escape(label)}
       </label>
 
       <input

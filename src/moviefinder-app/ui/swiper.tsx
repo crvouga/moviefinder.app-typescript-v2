@@ -1,6 +1,6 @@
 // https://swiperjs.com/swiper-api
 
-import type { PropsWithChildren } from "@kitajs/html";
+import type { Children } from "src/core/html";
 
 declare global {
   namespace JSX {
@@ -40,9 +40,10 @@ declare global {
   }
 }
 
-export const SwiperContainer = (
-  props: PropsWithChildren<{ class?: string }>,
-) => {
+export const SwiperContainer = (props: {
+  class?: string;
+  children: Children;
+}) => {
   return (
     <swiper-container slides-per-view={1} direction="vertical" {...props}>
       {props.children}
@@ -50,7 +51,7 @@ export const SwiperContainer = (
   );
 };
 
-export const SwiperSlide = (props: PropsWithChildren<{ class?: string }>) => {
+export const SwiperSlide = (props: { class?: string; children: Children }) => {
   return (
     <swiper-slide {...props}>
       {/*  */}

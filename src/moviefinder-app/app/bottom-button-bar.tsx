@@ -3,9 +3,7 @@ import { BottomButtonBar } from "../ui/bottom-button-bar";
 import { IconHome, IconUserCircle } from "../ui/icon";
 import { ROOT_SELECTOR } from "./document";
 
-export const AppBottomButtonBar = async (input: {
-  active: "feed" | "account";
-}) => {
+export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
   return (
     <BottomButtonBar
       buttons={[
@@ -18,7 +16,7 @@ export const AppBottomButtonBar = async (input: {
               feedId: null,
             },
           }),
-          icon: await (<IconHome />),
+          icon: <IconHome />,
           hxTarget: ROOT_SELECTOR,
           text: "Feed",
         },
@@ -30,7 +28,7 @@ export const AppBottomButtonBar = async (input: {
               t: "account",
             },
           }),
-          icon: await (<IconUserCircle />),
+          icon: <IconUserCircle />,
           hxTarget: ROOT_SELECTOR,
           text: "Account",
         },

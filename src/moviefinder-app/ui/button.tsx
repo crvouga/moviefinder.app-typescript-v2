@@ -1,13 +1,10 @@
-import type { PropsWithChildren } from "@kitajs/html";
+import { escape } from "src/core/html";
 import { cn } from "./cn";
 import { Spinner } from "./spinner";
 
-export const Button = ({
-  label,
-  ...props
-}: PropsWithChildren<
-  { label: string; class?: string } & JSX.HtmlButtonTag
->) => {
+type Props = JSX.HtmlButtonTag & { label: string; class?: string };
+
+export const Button = ({ label, ...props }: Props) => {
   return (
     <button
       {...props}
@@ -22,9 +19,7 @@ export const Button = ({
         <Spinner class="size-8" />
       </div>
 
-      <div class="group-aria-busy:invisible" safe>
-        {label}
-      </div>
+      <div class="group-aria-busy:invisible">{escape(label)}</div>
     </button>
   );
 };

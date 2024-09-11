@@ -1,6 +1,5 @@
-import type { Children } from "@kitajs/html";
+import type { Children } from "src/core/html";
 import { cn } from "./cn";
-import { Spinner } from "./spinner";
 
 export const BottomButtonBar = (input: {
   buttons: {

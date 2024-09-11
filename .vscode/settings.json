@@ -16,5 +16,7 @@
     "Tmdb"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+  "javascript.preferences.autoImportFileExcludePatterns": ["**/node_modules/@kitajs/html"],
+  "typescript.preferences.autoImportFileExcludePatterns": ["**/node_modules/@kitajs/html"],
 }

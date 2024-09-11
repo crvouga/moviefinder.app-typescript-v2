@@ -11,6 +11,7 @@ import { Route } from "./route";
 import { isErr } from "src/core/result";
 import { verifyCode } from "./verify-code";
 import { AlertError } from "src/moviefinder-app/ui/alert";
+import { escape } from "src/core/html";
 
 export const respond = async (input: {
   req: Req;
@@ -192,7 +193,7 @@ const VerifyCode = (input: {
         })}
       >
         <p class="w-full text-left text-lg">
-          Enter the code sent to <strong safe>{input.phone}</strong>
+          Enter the code sent to <strong>{escape(input.phone)}</strong>
         </p>
 
         <TextField
