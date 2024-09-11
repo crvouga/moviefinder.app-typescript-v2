@@ -9,12 +9,15 @@ export type Config = {
 };
 
 export const VerifySms = (config: Config): IVerifySms => {
+  let sendCodeCount = 0;
+  let verifyCodeCount = 0;
   return {
     async sendCode(input) {
+      sendCodeCount++;
       await config.sleep(100);
       config.logger.info(`Sending code ${config.code} to phone ${input.phone}`);
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      if (Math.random() < 0.5) {
+      if (sendCodeCount % 3 === 0) {
         config.logger.error(`Failed to send code to phone ${input.phone}`);
         return Err({
           t: "unknown",
@@ -24,6 +27,7 @@ export const VerifySms = (config: Config): IVerifySms => {
       return Ok(null);
     },
     async verifyCode(input) {
+      verifyCodeCount++;
       await config.sleep(100);
       config.logger.info(
         `Verifying code ${input.code} for phone ${input.phone}`,
@@ -35,7 +39,7 @@ export const VerifySms = (config: Config): IVerifySms => {
         });
       }
 
-      if (Math.random() < 0.25) {
+      if (verifyCodeCount % 3 === 0) {
         config.logger.error(`Failed to verify code ${input.code}`);
         return Err({
           t: "unknown",
