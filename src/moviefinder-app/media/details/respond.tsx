@@ -65,7 +65,7 @@ const DetailsLoad = (input: {
       })}
     >
       <TopBar
-        title=""
+        title={input.mediaTitle}
         backRoute={{
           t: "feed",
           c: {
