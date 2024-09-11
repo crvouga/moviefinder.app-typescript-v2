@@ -1,9 +1,9 @@
+import type { SessionId } from "src/core/req/session-id";
 import { isErr, Ok, type Result } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
+import { UserSessionId } from "src/moviefinder-app/user-session/user-session-id";
 import { UserId } from "src/moviefinder-app/user/user-id";
 import type { VerifyCodeError } from "./verify-sms";
-import { UserSessionId } from "src/moviefinder-app/user-session/user-session-id";
-import type { SessionId } from "src/core/req/session-id";
 
 export const verifyCode = async ({
   code,
