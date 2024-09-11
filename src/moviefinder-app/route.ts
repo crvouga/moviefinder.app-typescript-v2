@@ -54,10 +54,13 @@ const toTypes = (route: unknown): string[] => {
   if (!isDict(route)) {
     return [];
   }
+
   const type = route.t;
+
   if (typeof type === "string") {
     return [type, ...toTypes(route.c)];
   }
+
   return [];
 };
 
