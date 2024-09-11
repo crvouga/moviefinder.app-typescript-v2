@@ -12,7 +12,6 @@
     "db:stop": "docker-compose -f docker-compose.local.yml down",
     "db:new": "bun x dbmate new",
     "db:dump": "bun x dbmate dump",
-    "db-prod:connect": "railway connect Postgres",
     "cir-deps": "bun x dpdm --progress --no-warning --no-tree ./src/moviefinder-app/main.tsx"
   },
   "peerDependencies": {
