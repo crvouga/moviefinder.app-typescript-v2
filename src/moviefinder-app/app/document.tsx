@@ -1,4 +1,5 @@
 import { encode, type Route } from "../route";
+import { ImageWebComponentScript } from "../ui/image";
 import { Spinner } from "../ui/spinner";
 
 const ROOT_ID = "root";
@@ -24,6 +25,7 @@ export const Document = (input: { route: Route }) => {
             type="image/svg+xml"
             href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><text y='32' font-size='32'>🍿</text></svg>"
           />
+          <ImageWebComponentScript />
         </head>
         <body
           hx-ext="loading-states"

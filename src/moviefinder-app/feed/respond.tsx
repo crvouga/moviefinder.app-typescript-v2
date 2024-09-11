@@ -12,6 +12,7 @@ import { SwiperContainer, SwiperSlide } from "../ui/swiper";
 import { FeedId } from "./feed-id";
 import type { FeedItem } from "./feed-item";
 import type { Route } from "./route";
+import { Image } from "../ui/image";
 
 export const respond = async ({
   route,
@@ -152,7 +153,7 @@ const ViewFeedItemMedia = (input: { media: Media }) => {
         },
       })}
     >
-      <img
+      <Image
         class="h-full w-full object-cover"
         alt={input.media.mediaTitle}
         src={ImageSet.highestRes(input.media.mediaPoster) ?? " "}

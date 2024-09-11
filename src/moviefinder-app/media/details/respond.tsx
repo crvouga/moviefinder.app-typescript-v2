@@ -1,15 +1,16 @@
+import { ImageSet } from "src/core/image-set";
 import { html, type Res } from "src/core/res";
+import { isErr } from "src/core/result";
 import { ROOT_SELECTOR } from "src/moviefinder-app/app/document";
 import { TopBar } from "src/moviefinder-app/app/top-bar";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { encode } from "src/moviefinder-app/route";
+import { Image } from "src/moviefinder-app/ui/image";
 import { Spinner } from "src/moviefinder-app/ui/spinner";
 import type { Media } from "../media";
 import type { MediaId } from "../media-id";
 import type { MediaType } from "../media-type";
 import type { Route } from "./route";
-import { ImageSet } from "src/core/image-set";
-import { isErr } from "src/core/result";
 
 export const respond = async (input: {
   ctx: Ctx;
@@ -96,7 +97,7 @@ const Details = (input: { media: Media }) => {
       />
 
       <div class="aspect-video w-full">
-        <img
+        <Image
           class="h-full w-full object-cover"
           alt={input.media.mediaTitle}
           src={ImageSet.highestRes(input.media.mediaBackdrop) ?? " "}

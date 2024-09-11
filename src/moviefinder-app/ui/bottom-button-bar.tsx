@@ -2,13 +2,14 @@ import type { Children } from "src/core/html";
 import { cn } from "./cn";
 
 export const BottomButtonBar = (input: {
-  buttons: {
-    text: Children;
-    icon: Children;
-    hxGet: string;
-    hxTarget: string;
-    active: boolean;
-  }[];
+  buttons: JSX.HtmlButtonTag &
+    {
+      text: Children;
+      icon: Children;
+      hxGet: string;
+      hxTarget: string;
+      active: boolean;
+    }[];
 }) => {
   return (
     <div class="flex w-full items-center divide-x border-t" data-loading-states>
