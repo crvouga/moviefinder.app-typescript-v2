@@ -1,3 +1,4 @@
+import type { PropsWithChildren } from "@kitajs/html";
 import type { Res } from "src/core/res";
 import { html } from "src/core/res";
 import type { Ctx } from "src/moviefinder-app/ctx";
@@ -19,7 +20,7 @@ export const respond = async (input: {
   }
 };
 
-const Layout = (input: { children: string }) => {
+const Layout = (input: PropsWithChildren) => {
   return (
     <div class="flex h-full w-full flex-col">
       <div class="flex w-full flex-1 flex-col">{input.children}</div>

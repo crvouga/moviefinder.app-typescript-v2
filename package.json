@@ -12,17 +12,20 @@
     "db:stop": "docker-compose -f docker-compose.local.yml down",
     "db:new": "bun x dbmate new",
     "db:dump": "bun x dbmate dump",
-    "cir-deps": "bun x dpdm --progress --no-warning --no-tree ./src/moviefinder-app/main.tsx"
+    "cir-deps": "bun x dpdm --progress --no-warning --no-tree ./src/moviefinder-app/main.tsx",
+    "test": "xss-scan"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@kitajs/html": "^4.2.2",
     "pg": "^8.12.0",
-    "typed-htmx": "^0.3.1",
+    "tailwind-merge": "^2.5.2",
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@kitajs/ts-html-plugin": "^4.0.3",
     "@types/bun": "latest",
     "@types/pg": "^8.11.8",
     "prettier": "^3.3.3",

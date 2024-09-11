@@ -191,7 +191,7 @@ const VerifyCode = (input: {
         })}
       >
         <p class="w-full text-left text-lg">
-          Enter the code sent to <strong>{input.phone}</strong>
+          Enter the code sent to <strong safe>{input.phone}</strong>
         </p>
 
         <TextField

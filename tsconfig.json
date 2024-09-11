@@ -19,12 +19,13 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true,
     //
-    "types": ["typed-htmx", "bun"],
-    "jsx": "react-jsx",
-    "jsxImportSource": "typed-htmx/typed-html",
+    "types": [ "bun", "@kitajs/html/htmx.d.ts", "@kitajs/html/alpine.d.ts"],
     "moduleResolution": "Bundler",
     "baseUrl": ".",
     "alwaysStrict": true,
-    "noUncheckedIndexedAccess": true
+    "noUncheckedIndexedAccess": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "@kitajs/html",
+    "plugins": [{ "name": "@kitajs/ts-html-plugin" }]
   }
 }

@@ -33,7 +33,7 @@ const main = async () => {
           return toResponse(res);
         }
 
-        const res = html(<Document route={route} />);
+        const res = await html(<Document route={route} />);
 
         return toResponse(res);
       },

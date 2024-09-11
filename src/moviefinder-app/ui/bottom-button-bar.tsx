@@ -1,9 +1,10 @@
+import type { Children } from "@kitajs/html";
 import { cn } from "./cn";
 
 export const BottomButtonBar = (input: {
   buttons: {
-    text: string;
-    icon: string;
+    text: Children;
+    icon: Children;
     hxGet: string;
     hxTarget: string;
     active: boolean;
@@ -13,7 +14,6 @@ export const BottomButtonBar = (input: {
     <div class="flex w-full items-center divide-x border-t" data-loading-states>
       {input.buttons.map((button) => (
         <a
-          key={button.text}
           hx-get={button.hxGet}
           hx-target={button.hxTarget}
           hx-push-url="true"

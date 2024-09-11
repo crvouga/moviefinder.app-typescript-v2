@@ -1,5 +1,7 @@
 // https://swiperjs.com/swiper-api
 
+import type { PropsWithChildren } from "@kitajs/html";
+
 declare global {
   namespace JSX {
     interface IntrinsicElements {
@@ -29,6 +31,7 @@ declare global {
         children?: any;
         "slides-per-view"?: number | "auto";
       };
+
       "swiper-slide": {
         class?: string;
         children?: any;
@@ -37,22 +40,21 @@ declare global {
   }
 }
 
-export const SwiperContainer = ({
-  children,
-  ...input
-}: {
-  class?: string;
-} & HtmxAttributes) => {
+export const SwiperContainer = (
+  props: PropsWithChildren<{ class?: string }>,
+) => {
   return (
-    <swiper-container slides-per-view={1} direction="vertical" {...input}>
-      {children}
+    <swiper-container slides-per-view={1} direction="vertical" {...props}>
+      {props.children}
     </swiper-container>
   );
 };
 
-export const SwiperSlide = ({
-  children,
-  ...input
-}: { class?: string } & HtmxAttributes) => {
-  return <swiper-slide {...input}>{children}</swiper-slide>;
+export const SwiperSlide = (props: PropsWithChildren<{ class?: string }>) => {
+  return (
+    <swiper-slide {...props}>
+      {/*  */}
+      {props.children}
+    </swiper-slide>
+  );
 };

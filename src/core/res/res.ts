@@ -8,10 +8,10 @@ export type Res =
       to: string;
     };
 
-export const html = (html: string): Res => {
+export const html = async (html: string | Promise<string>): Promise<Res> => {
   return {
     t: "html",
-    html,
+    html: await html,
   };
 };
 

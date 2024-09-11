@@ -5,16 +5,16 @@ export const TextField = ({
   class: className,
   error,
   ...input
-}: HtmxAttributes &
-  JSX.HtmlInputTag & {
-    label: string;
-    error?: string;
-  }) => {
+}: JSX.HtmlInputTag & {
+  label: string;
+  error?: string;
+}) => {
   return (
     <div class={cn("flex w-full flex-col gap-2", className)}>
       <label
         for="input"
         class="block text-left text-sm font-bold text-white peer-invalid:text-red-500"
+        safe
       >
         {label}
       </label>

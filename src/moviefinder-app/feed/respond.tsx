@@ -66,7 +66,7 @@ export const respond = async ({
   }
 };
 
-const Layout = (input: HtmxAttributes) => {
+const Layout = (input: JSX.HtmlTag) => {
   return (
     <div class="flex h-full w-full flex-col overflow-hidden">
       <div class="flex w-full flex-1 flex-col overflow-hidden">
@@ -115,13 +115,11 @@ export const ViewFeedItems = (input: {
 }) => {
   return (
     <>
-      {input.feedItems
-        .map((feedItem) => (
-          <SwiperSlide>
-            <ViewFeedItem feedItem={feedItem} />
-          </SwiperSlide>
-        ))
-        .join("")}
+      {input.feedItems.map((feedItem) => (
+        <SwiperSlide>
+          <ViewFeedItem feedItem={feedItem} />
+        </SwiperSlide>
+      ))}
       <ViewFeedItemLoadNext feedId={input.feedId} />
     </>
   );

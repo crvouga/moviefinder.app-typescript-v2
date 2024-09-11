@@ -9,9 +9,12 @@
     "dpdm",
     "htmx",
     "imdb",
+    "kitajs",
     "moviefinder",
     "swiper",
     "tailwindcss",
     "Tmdb"
-  ]
+  ],
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
 }
