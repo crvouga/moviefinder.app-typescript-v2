@@ -10,6 +10,7 @@ import { TextField } from "../../ui/text-field";
 import { Route } from "./route";
 import { isErr } from "src/core/result";
 import { verifyCode } from "./verify-code";
+import { AlertError } from "src/moviefinder-app/ui/alert";
 
 export const respond = async (input: {
   req: Req;
@@ -120,7 +121,7 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
         }}
       />
       <form
-        class="flex h-full w-full flex-col items-center gap-4 p-4"
+        class="flex h-full w-full flex-col items-center gap-6 p-4"
         hx-swap="innerHTML"
         hx-target={ROOT_SELECTOR}
         hx-push-url="true"
@@ -144,7 +145,7 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
           error={input.phoneError}
         />
 
-        {input.error && <div>Error: {input.error}</div>}
+        {input.error && <AlertError label={input.error} />}
 
         <div class="w-full pt-3">
           <Button type="submit" class="w-full" label="Send code" />
@@ -174,7 +175,7 @@ const VerifyCode = (input: {
         }}
       />
       <form
-        class="flex h-full w-full flex-col items-center gap-4 p-4"
+        class="flex h-full w-full flex-col items-center gap-6 p-4 pt-8"
         hx-target={ROOT_SELECTOR}
         hx-push-url="true"
         hx-swap="innerHTML"
@@ -203,7 +204,7 @@ const VerifyCode = (input: {
           error={input.codeError}
         />
 
-        {input.error && <div>Error: {input.error}</div>}
+        {input.error && <AlertError label={input.error} />}
 
         <div class="w-full pt-3">
           <Button type="submit" class="w-full" label="Verify code" />

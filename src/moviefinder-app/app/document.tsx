@@ -19,6 +19,7 @@ export const Document = (input: { route: Route }) => {
         />
         <link
           rel="icon"
+          type="image/svg+xml"
           href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><text y='32' font-size='32'>🍿</text></svg>"
         />
       </head>

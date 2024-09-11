@@ -31,29 +31,27 @@ const Layout = (input: PropsWithChildren) => {
 
 export const AccountPage = () => {
   return (
-    <Layout
-      children={
-        <div
-          class="flex h-full w-full flex-col items-center justify-center gap-4"
-          data-loading-states
-        >
-          <IconDoorOpen class="size-24" />
-          <p class="text-center text-xl font-bold">
-            Login to access your account.
-          </p>
+    <Layout>
+      <div
+        class="flex h-full w-full flex-col items-center justify-center gap-4"
+        data-loading-states
+      >
+        <IconDoorOpen class="size-24" />
+        <p class="text-center text-xl font-bold">
+          Login to access your account.
+        </p>
 
-          <Button
-            label="Login"
-            hx-swap="innerHTML"
-            hx-target={ROOT_SELECTOR}
-            hx-push-url="true"
-            hx-get={encode({
-              t: "login",
-              c: { t: "sms", c: { t: "send-code" } },
-            })}
-          />
-        </div>
-      }
-    />
+        <Button
+          label="Login"
+          hx-swap="innerHTML"
+          hx-target={ROOT_SELECTOR}
+          hx-push-url="true"
+          hx-get={encode({
+            t: "login",
+            c: { t: "sms", c: { t: "send-code" } },
+          })}
+        />
+      </div>
+    </Layout>
   );
 };

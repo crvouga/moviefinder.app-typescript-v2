@@ -1,13 +1,11 @@
 export const AlertError = (input: { label: string }) => {
   return (
     <div
-      class="relative rounded border border-red-400 bg-red-100 px-4 py-3 text-red-700"
+      class="relative flex w-full items-center justify-start rounded border border-red-400 bg-red-800 px-4 py-3 text-white"
       role="alert"
+      safe
     >
-      <strong class="font-bold">Error</strong>
-      <span class="block sm:inline" safe>
-        {input.label}
-      </span>
+      {input.label}
     </div>
   );
 };
