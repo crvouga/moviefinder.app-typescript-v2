@@ -11,6 +11,7 @@ export const Document = (input: { route: Route }) => {
       {"<!doctype html>"}
       <html>
         <head>
+          <meta charset="UTF-8" />
           <title>moviefinder.app</title>
           <script src="https://cdn.tailwindcss.com"></script>
           <script src="https://unpkg.com/htmx.org@2.0.1"></script>
@@ -23,8 +24,9 @@ export const Document = (input: { route: Route }) => {
           <link
             rel="icon"
             type="image/svg+xml"
-            href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 36 36'><text y='32' font-size='32'>🍿</text></svg>"
+            href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36"><text y="32" font-size="32">🍿</text></svg>'
           />
+
           <ImageWebComponentScript />
         </head>
         <body

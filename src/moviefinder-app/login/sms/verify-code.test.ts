@@ -12,7 +12,7 @@ const Fixture = async () => {
   };
 };
 
-describe.skip("verify code", () => {
+describe("verify code", () => {
   test("ok", async () => {
     const f = await Fixture();
     const verify = await verifyCode({

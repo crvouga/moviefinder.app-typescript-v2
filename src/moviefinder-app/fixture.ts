@@ -7,17 +7,16 @@ import {
   TMDB_API_READ_ACCESS_TOKEN,
 } from "src/moviefinder-app/env";
 import type { Ctx } from "./ctx";
+import { FeedDb } from "./feed/feed-db";
+import { KeyValueStore } from "./key-value-store";
 import { VerifySms } from "./login/sms/verify-sms";
 import { MediaDb } from "./media/media-db";
 import { UserSessionDb } from "./user-session/user-session-db";
 import { UserDb } from "./user/user-db";
-import { KeyValueStore } from "./key-value-store";
-import { FeedDb } from "./feed/feed-db";
 
 export const BaseFixture = async () => {
   const logger = Logger({
-    t: "console",
-    namespace: ["app"],
+    t: "noop",
   });
 
   const verifySmsCode = "123";
