@@ -83,7 +83,12 @@ const Layout = (input: JSX.HtmlTag) => {
 export const FeedPage = (input: { feedId: FeedId }) => {
   return (
     <Layout>
-      <SwiperContainer class="h-full w-full">
+      <SwiperContainer
+        class="h-full w-full"
+        hx-trigger="swiperslidechange from:swiper-container"
+        hx-swap="none"
+        hx-post="/swiperslidechange"
+      >
         <ViewFeedItemLoadNext feedId={input.feedId} />
       </SwiperContainer>
     </Layout>
@@ -109,6 +114,24 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
     </SwiperSlide>
   );
 };
+
+const js = `
+swiperEl = document.querySelector('swiper-container')
+swiperEl.addEventListener('swiperslidechange', (e) => {
+    const swiper = e.detail[0]
+    const activeIndex = swiper.activeIndex
+    const activeSlide = swiper.slides[activeIndex]
+    const feedIndex = parseInt(activeSlide.getAttribute('data-feed-index'), 10)
+    if(typeof feedIndex !== 'number' || Number.isNaN(feedIndex)) {
+        return
+    }
+    const endpointTemplate = '$(changeSlideEndpoint)'
+    const endpoint = endpointTemplate.replace('0', feedIndex)
+    htmx.ajax('POST', endpoint, { swap: 'none' })
+    window.history.pushState({}, '', \`/feed?activeIndex=\${feedIndex}\`)
+    window.dispatchEvent(new PopStateEvent('popstate'))        
+})
+`;
 
 export const ViewFeedItems = (input: {
   feedId: FeedId;

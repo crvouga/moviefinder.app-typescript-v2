@@ -40,10 +40,12 @@ declare global {
   }
 }
 
-export const SwiperContainer = (props: {
-  class?: string;
-  children: Children;
-}) => {
+export const SwiperContainer = (
+  props: JSX.HtmlTag & {
+    class?: string;
+    children: Children;
+  },
+) => {
   return (
     <swiper-container slides-per-view={1} direction="vertical" {...props}>
       {props.children}
@@ -51,7 +53,9 @@ export const SwiperContainer = (props: {
   );
 };
 
-export const SwiperSlide = (props: { class?: string; children: Children }) => {
+export const SwiperSlide = (
+  props: JSX.HtmlTag & { class?: string; children: Children },
+) => {
   return (
     <swiper-slide {...props}>
       {/*  */}
