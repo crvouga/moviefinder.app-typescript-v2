@@ -87,7 +87,7 @@ export const FeedPage = (input: { feedId: FeedId }) => {
         class="h-full w-full"
         hx-trigger="swiperslidechange from:swiper-container"
         hx-swap="none"
-        hx-post="/swiperslidechange"
+        hx-post="/hello"
       >
         <ViewFeedItemLoadNext feedId={input.feedId} />
       </SwiperContainer>
@@ -162,6 +162,7 @@ const ViewFeedItemMedia = (input: { media: Media }) => {
     <button
       class="h-full w-full"
       hx-target={ROOT_SELECTOR}
+      hx-swap="innerHTML"
       hx-push-url="true"
       hx-get={encode({
         t: "media",
