@@ -9,6 +9,7 @@ export const fromRequest = async (
   if (request.method === "POST") {
     const formData = await request.formData();
 
+    // @ts-ignore
     for (const [key, value] of formData.entries()) {
       formDateMap[key] = value;
     }

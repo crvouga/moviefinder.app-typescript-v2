@@ -14,7 +14,8 @@
     "swiper",
     "swiperslidechange",
     "tailwindcss",
-    "Tmdb"
+    "Tmdb",
+    "vals"
   ],
   "typescript.tsdk": "node_modules/typescript/lib",
   "typescript.enablePromptUseWorkspaceTsdk": true,

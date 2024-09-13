@@ -38,10 +38,10 @@ export const respond = async ({
 
       return html(<FeedPage feedId={route.feedId} />);
     }
-    case "feed.controls": {
+    case "controls": {
       return html(<FeedPage feedId={route.feedId} />);
     }
-    case "feed.load-more": {
+    case "load-more": {
       const queried = await ctx.mediaDb.query({
         limit: 10,
         offset: 0,
@@ -63,6 +63,10 @@ export const respond = async ({
       return html(
         <ViewFeedItems feedId={route.feedId} feedItems={feedItems} />,
       );
+    }
+
+    case "changed-slide": {
+      return html(<div>Changed slide</div>);
     }
   }
 };
@@ -87,7 +91,13 @@ export const FeedPage = (input: { feedId: FeedId }) => {
         class="h-full w-full"
         hx-trigger="swiperslidechange from:swiper-container"
         hx-swap="none"
-        hx-post="/hello"
+        hx-post={encode({
+          t: "feed",
+          c: {
+            t: "changed-slide",
+          },
+        })}
+        hx-vals="js:{feedIndex: parseInt(event?.detail?.[0]?.slides?.[event?.detail?.[0]?.activeIndex]?.getAttribute?.('data-feed-index'), 10)}"
       >
         <ViewFeedItemLoadNext feedId={input.feedId} />
       </SwiperContainer>
@@ -101,7 +111,7 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
       hx-get={encode({
         t: "feed",
         c: {
-          t: "feed.load-more",
+          t: "load-more",
           feedId: input.feedId,
         },
       })}
@@ -118,6 +128,7 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
 const js = `
 swiperEl = document.querySelector('swiper-container')
 swiperEl.addEventListener('swiperslidechange', (e) => {
+    parseInt(e?.detail?.[0]?.slides?.[e?.detail?.[0]?.activeIndex]?.getAttribute?.('data-feed-index'), 10)
     const swiper = e.detail[0]
     const activeIndex = swiper.activeIndex
     const activeSlide = swiper.slides[activeIndex]
@@ -139,8 +150,8 @@ export const ViewFeedItems = (input: {
 }) => {
   return (
     <>
-      {input.feedItems.map((feedItem) => (
-        <SwiperSlide>
+      {input.feedItems.map((feedItem, slideIndex) => (
+        <SwiperSlide data-feed-index={slideIndex}>
           <ViewFeedItem feedItem={feedItem} />
         </SwiperSlide>
       ))}

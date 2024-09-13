@@ -7,12 +7,15 @@ export const Route = z.discriminatedUnion("t", [
     feedId: FeedId.parser.nullable(),
   }),
   z.object({
-    t: z.literal("feed.load-more"),
+    t: z.literal("load-more"),
     feedId: FeedId.parser,
   }),
   z.object({
-    t: z.literal("feed.controls"),
+    t: z.literal("controls"),
     feedId: FeedId.parser,
+  }),
+  z.object({
+    t: z.literal("changed-slide"),
   }),
 ]);
 
