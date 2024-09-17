@@ -34,8 +34,7 @@ export const respond = async (input: {
         encode({
           t: "feed",
           c: {
-            t: "feed",
-            feedId: null,
+            t: "default-feed",
           },
         }),
       );

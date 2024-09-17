@@ -3,8 +3,11 @@ import { FeedId } from "./feed-id";
 
 export const Route = z.discriminatedUnion("t", [
   z.object({
+    t: z.literal("default-feed"),
+  }),
+  z.object({
     t: z.literal("feed"),
-    feedId: FeedId.parser.nullable(),
+    feedId: FeedId.parser,
   }),
   z.object({
     t: z.literal("load-more"),

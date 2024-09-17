@@ -69,8 +69,7 @@ const DetailsLoad = (input: {
         backRoute={{
           t: "feed",
           c: {
-            t: "feed",
-            feedId: null,
+            t: "default-feed",
           },
         }}
       />
@@ -90,8 +89,7 @@ const Details = (input: { media: Media }) => {
         backRoute={{
           t: "feed",
           c: {
-            t: "feed",
-            feedId: null,
+            t: "default-feed",
           },
         }}
       />

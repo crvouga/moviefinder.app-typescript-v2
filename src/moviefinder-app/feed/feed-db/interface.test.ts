@@ -19,7 +19,7 @@ const Fixture = async () => {
 describe(import.meta.file, () => {
   test("get and put", async () => {
     const f = await Fixture();
-    const feed = Feed.random();
+    const feed = Feed.init();
     const before = unwrap(await f.feedDb.get(feed.feedId));
     const putResult = await f.feedDb.put(feed);
     const after = unwrap(await f.feedDb.get(feed.feedId));

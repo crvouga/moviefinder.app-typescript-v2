@@ -1,7 +1,7 @@
 import { ImageSet } from "src/core/image-set";
 import type { Res } from "src/core/res";
 import { html, redirect } from "src/core/res";
-import { isErr } from "src/core/result";
+import { Result, isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
@@ -10,39 +10,40 @@ import { encode } from "../route";
 import { Spinner } from "../ui/spinner";
 import { SwiperContainer, SwiperSlide } from "../ui/swiper";
 import { FeedId } from "./feed-id";
+
 import type { FeedItem } from "./feed-item";
 import type { Route } from "./route";
 import { Image } from "../ui/image";
+import { Feed } from "./feed";
+import type { Req } from "src/core/req";
 
-export const respond = async ({
-  route,
-  ctx,
-}: {
+export const respond = async (input: {
   route: Route;
+  req: Req;
   ctx: Ctx;
 }): Promise<Res> => {
-  switch (route.t) {
-    case "feed": {
-      if (!route.feedId) {
-        const defaultFeedId = FeedId.generate();
-        return redirect(
-          encode({
+  switch (input.route.t) {
+    case "default-feed": {
+      const defaultFeedId = FeedId.generate();
+      return redirect(
+        encode({
+          t: "feed",
+          c: {
             t: "feed",
-            c: {
-              t: "feed",
-              feedId: defaultFeedId,
-            },
-          }),
-        );
-      }
+            feedId: defaultFeedId,
+          },
+        }),
+      );
+    }
 
-      return html(<FeedPage feedId={route.feedId} />);
+    case "feed": {
+      return html(<FeedPage feedId={input.route.feedId} />);
     }
     case "controls": {
-      return html(<FeedPage feedId={route.feedId} />);
+      return html(<FeedPage feedId={input.route.feedId} />);
     }
     case "load-more": {
-      const queried = await ctx.mediaDb.query({
+      const queried = await input.ctx.mediaDb.query({
         limit: 10,
         offset: 0,
         order: [["mediaGenreIds", "asc"]],
@@ -61,14 +62,44 @@ export const respond = async ({
       );
 
       return html(
-        <ViewFeedItems feedId={route.feedId} feedItems={feedItems} />,
+        <ViewFeedItems feedId={input.route.feedId} feedItems={feedItems} />,
       );
     }
 
     case "changed-slide": {
+      const feedIndex = unknownToNumber(input.req.formData["feedIndex"]) ?? 0;
+
+      const maybeFeed = Result.withDefault(
+        await input.ctx.feedDb.get(input.route.feedId),
+        null,
+      );
+
+      const feed = maybeFeed ?? Feed.init();
+
+      const feedNew: Feed = {
+        ...feed,
+        activeIndex: feedIndex,
+      };
+
+      await input.ctx.feedDb.put(feedNew);
+
       return html(<div>Changed slide</div>);
     }
   }
+};
+
+const unknownToNumber = (input: unknown): number | null => {
+  if (typeof input === "number") {
+    return input;
+  }
+  if (typeof input === "string") {
+    const parsed = parseInt(input, 10);
+    if (isNaN(parsed)) {
+      return null;
+    }
+    return parsed;
+  }
+  return null;
 };
 
 const Layout = (input: JSX.HtmlTag) => {

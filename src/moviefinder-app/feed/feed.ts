@@ -25,7 +25,7 @@ const decode = (data: string): Result<string, Feed> => {
   }
 };
 
-const random = (): Feed => {
+const init = (): Feed => {
   return {
     feedId: FeedId.generate(),
     activeIndex: 0,
@@ -36,5 +36,5 @@ export const Feed = {
   parser,
   encode,
   decode,
-  random,
+  init,
 };

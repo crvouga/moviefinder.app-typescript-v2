@@ -38,3 +38,24 @@ export const unwrap = <Error, Value>(result: Result<Error, Value>): Value => {
 export const unknownToErr = (unknown: unknown): Err<string> => {
   return Err(String(unknown));
 };
+
+export const withDefault = <Error, Value>(
+  result: Result<Error, Value>,
+  defaultValue: Value,
+): Value => {
+  switch (result.t) {
+    case "err": {
+      return defaultValue;
+    }
+    case "ok": {
+      return result.value;
+    }
+  }
+};
+
+export const Result = {
+  unwrap,
+  isErr,
+  isOk,
+  withDefault,
+};

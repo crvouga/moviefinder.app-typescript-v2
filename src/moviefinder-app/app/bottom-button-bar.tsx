@@ -12,8 +12,7 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
           hxGet: encode({
             t: "feed",
             c: {
-              t: "feed",
-              feedId: null,
+              t: "default-feed",
             },
           }),
           icon: <IconHome />,

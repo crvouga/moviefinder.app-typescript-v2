@@ -32,8 +32,7 @@ export const init = (): Route => {
   return {
     t: "feed",
     c: {
-      t: "feed",
-      feedId: null,
+      t: "default-feed",
     },
   };
 };
