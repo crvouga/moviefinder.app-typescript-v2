@@ -95,6 +95,7 @@ export const FeedPage = (input: { feedId: FeedId }) => {
           t: "feed",
           c: {
             t: "changed-slide",
+            feedId: input.feedId,
           },
         })}
         hx-vals="js:{feedIndex: parseInt(event?.detail?.[0]?.slides?.[event?.detail?.[0]?.activeIndex]?.getAttribute?.('data-feed-index'), 10)}"
@@ -124,25 +125,6 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
     </SwiperSlide>
   );
 };
-
-const js = `
-swiperEl = document.querySelector('swiper-container')
-swiperEl.addEventListener('swiperslidechange', (e) => {
-    parseInt(e?.detail?.[0]?.slides?.[e?.detail?.[0]?.activeIndex]?.getAttribute?.('data-feed-index'), 10)
-    const swiper = e.detail[0]
-    const activeIndex = swiper.activeIndex
-    const activeSlide = swiper.slides[activeIndex]
-    const feedIndex = parseInt(activeSlide.getAttribute('data-feed-index'), 10)
-    if(typeof feedIndex !== 'number' || Number.isNaN(feedIndex)) {
-        return
-    }
-    const endpointTemplate = '$(changeSlideEndpoint)'
-    const endpoint = endpointTemplate.replace('0', feedIndex)
-    htmx.ajax('POST', endpoint, { swap: 'none' })
-    window.history.pushState({}, '', \`/feed?activeIndex=\${feedIndex}\`)
-    window.dispatchEvent(new PopStateEvent('popstate'))        
-})
-`;
 
 export const ViewFeedItems = (input: {
   feedId: FeedId;

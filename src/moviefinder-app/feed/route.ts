@@ -16,6 +16,7 @@ export const Route = z.discriminatedUnion("t", [
   }),
   z.object({
     t: z.literal("changed-slide"),
+    feedId: FeedId.parser,
   }),
 ]);
 
