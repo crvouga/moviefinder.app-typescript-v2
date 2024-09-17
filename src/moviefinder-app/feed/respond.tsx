@@ -24,13 +24,27 @@ export const respond = async (input: {
 }): Promise<Res> => {
   switch (input.route.t) {
     case "default-feed": {
-      const defaultFeedId = FeedId.generate();
+      const maybeFeedId = Result.withDefault(
+        await input.ctx.sessionFeedMappingDb.get(input.req.sessionId),
+        null,
+      );
+
+      const feedId = maybeFeedId ?? FeedId.generate();
+
+      await input.ctx.sessionFeedMappingDb.put(input.req.sessionId, feedId);
+
+      console.log({
+        feedId,
+        maybeFeedId,
+        sessionId: input.req.sessionId,
+      });
+
       return redirect(
         encode({
           t: "feed",
           c: {
             t: "feed",
-            feedId: defaultFeedId,
+            feedId: feedId,
           },
         }),
       );
@@ -39,13 +53,22 @@ export const respond = async (input: {
     case "feed": {
       return html(<FeedPage feedId={input.route.feedId} />);
     }
+
     case "controls": {
       return html(<FeedPage feedId={input.route.feedId} />);
     }
+
     case "load-more": {
+      const maybeFeed = Result.withDefault(
+        await input.ctx.feedDb.get(input.route.feedId),
+        null,
+      );
+
+      const feed: Feed = maybeFeed ?? Feed.init();
+
       const queried = await input.ctx.mediaDb.query({
         limit: 10,
-        offset: 0,
+        offset: feed.activeIndex,
         order: [["mediaGenreIds", "asc"]],
         where: ["<", "mediaBackdrop", ""],
       });

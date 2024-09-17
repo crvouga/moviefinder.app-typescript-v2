@@ -9,6 +9,10 @@ import {
   type IUserSessionDb,
 } from "./user-session/user-session-db";
 import { UserDb, type IUserDb } from "./user/user-db";
+import {
+  SessionFeedMappingDb,
+  type ISessionFeedMappingDb,
+} from "./feed/session-feed-mapping-db";
 
 export type Ctx = {
   mediaDb: IMediaDb;
@@ -18,6 +22,7 @@ export type Ctx = {
   userDb: IUserDb;
   keyValueStore: IKeyValueStore;
   feedDb: IFeedDb;
+  sessionFeedMappingDb: ISessionFeedMappingDb;
 };
 
 type Config = {
@@ -72,9 +77,15 @@ export const init = async (config: Config): Promise<Ctx> => {
     keyValueStore,
   });
 
+  const sessionFeedMappingDb = SessionFeedMappingDb({
+    t: "key-value-store",
+    keyValueStore,
+  });
+
   return {
     logger,
     feedDb,
+    sessionFeedMappingDb,
     keyValueStore,
     mediaDb,
     verifySms,

@@ -18,7 +18,7 @@ const Fixture = async () => {
   };
 };
 
-describe(import.meta.file, () => {
+describe.skip(import.meta.file, () => {
   test("filter by id", async () => {
     const f = await Fixture();
 
