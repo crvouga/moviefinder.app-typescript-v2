@@ -1,4 +1,4 @@
-import { Err, isErr } from "src/core/result";
+import { Err, isErr, Ok } from "src/core/result";
 import type { IFeedDb } from "./interface";
 import type { IKeyValueStore } from "src/moviefinder-app/key-value-store";
 import { Feed } from "../feed";
@@ -15,7 +15,7 @@ export const FeedDb = (config: Config): IFeedDb => {
         return got;
       }
       if (!got.value) {
-        return Err("not found");
+        return Ok(null);
       }
       return Feed.decode(got.value);
     },

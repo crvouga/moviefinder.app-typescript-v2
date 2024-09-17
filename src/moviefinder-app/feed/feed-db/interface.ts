@@ -3,6 +3,6 @@ import type { Feed } from "../feed";
 import type { FeedId } from "../feed-id";
 
 export type IFeedDb = {
-  get: (feedId: FeedId) => Promise<Result<string, Feed>>;
+  get: (feedId: FeedId) => Promise<Result<string, Feed | null>>;
   put: (feed: Feed) => Promise<Result<string, null>>;
 };

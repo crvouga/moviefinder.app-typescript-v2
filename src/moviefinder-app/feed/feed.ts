@@ -1,8 +1,9 @@
 import { Ok, unknownToErr, type Result } from "src/core/result";
 import { z } from "zod";
+import { FeedId } from "./feed-id";
 
 const parser = z.object({
-  feedId: z.string(),
+  feedId: FeedId.parser,
   activeIndex: z.number(),
 });
 export type Feed = z.infer<typeof parser>;
@@ -24,8 +25,16 @@ const decode = (data: string): Result<string, Feed> => {
   }
 };
 
+const random = (): Feed => {
+  return {
+    feedId: FeedId.generate(),
+    activeIndex: 0,
+  };
+};
+
 export const Feed = {
   parser,
   encode,
   decode,
+  random,
 };
