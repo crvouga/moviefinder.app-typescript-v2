@@ -78,9 +78,10 @@ export const respond = async (input: {
       }
 
       const feedItems = queried.value.items.map(
-        (media): FeedItem => ({
+        (media, slideIndex): FeedItem => ({
           media,
           t: "media",
+          feedIndex: slideIndex + feed.activeIndex,
         }),
       );
 
@@ -186,8 +187,8 @@ export const ViewFeedItems = (input: {
 }) => {
   return (
     <>
-      {input.feedItems.map((feedItem, slideIndex) => (
-        <SwiperSlide data-feed-index={slideIndex}>
+      {input.feedItems.map((feedItem) => (
+        <SwiperSlide data-feed-index={feedItem.feedIndex}>
           <ViewFeedItem feedItem={feedItem} />
         </SwiperSlide>
       ))}
