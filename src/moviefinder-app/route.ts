@@ -32,7 +32,7 @@ export const init = (): Route => {
   return {
     t: "feed",
     c: {
-      t: "default-feed",
+      t: "index",
     },
   };
 };

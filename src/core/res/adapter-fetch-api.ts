@@ -19,5 +19,11 @@ export const toResponse = (res: Res): Response => {
         },
       });
     }
+
+    case "empty": {
+      return new Response(null, {
+        status: 204,
+      });
+    }
   }
 };

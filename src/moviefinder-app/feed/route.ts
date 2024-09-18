@@ -3,7 +3,7 @@ import { FeedId } from "./feed-id";
 
 export const Route = z.discriminatedUnion("t", [
   z.object({
-    t: z.literal("default-feed"),
+    t: z.literal("index"),
   }),
   z.object({
     t: z.literal("feed"),

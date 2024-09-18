@@ -1,6 +1,6 @@
 import { ImageSet } from "src/core/image-set";
 import type { Res } from "src/core/res";
-import { html, redirect } from "src/core/res";
+import { empty, html, redirect } from "src/core/res";
 import { Result, isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
@@ -10,12 +10,11 @@ import { encode } from "../route";
 import { Spinner } from "../ui/spinner";
 import { SwiperContainer, SwiperSlide } from "../ui/swiper";
 import { FeedId } from "./feed-id";
-
-import type { FeedItem } from "./feed-item";
-import type { Route } from "./route";
+import type { Req } from "src/core/req";
 import { Image } from "../ui/image";
 import { Feed } from "./feed";
-import type { Req } from "src/core/req";
+import type { FeedItem } from "./feed-item";
+import type { Route } from "./route";
 
 export const respond = async (input: {
   route: Route;
@@ -23,7 +22,7 @@ export const respond = async (input: {
   ctx: Ctx;
 }): Promise<Res> => {
   switch (input.route.t) {
-    case "default-feed": {
+    case "index": {
       const maybeFeedId = Result.withDefault(
         await input.ctx.sessionFeedMappingDb.get(input.req.sessionId),
         null,
@@ -32,12 +31,6 @@ export const respond = async (input: {
       const feedId = maybeFeedId ?? FeedId.generate();
 
       await input.ctx.sessionFeedMappingDb.put(input.req.sessionId, feedId);
-
-      console.log({
-        feedId,
-        maybeFeedId,
-        sessionId: input.req.sessionId,
-      });
 
       return redirect(
         encode({
@@ -107,7 +100,7 @@ export const respond = async (input: {
 
       await input.ctx.feedDb.put(feedNew);
 
-      return html(<div>Changed slide</div>);
+      return empty();
     }
   }
 };
