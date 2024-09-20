@@ -73,7 +73,7 @@ export const respond = async (input: {
         limit: 10,
         offset: feed.activeIndex,
         order: [["mediaGenreIds", "asc"]],
-        where: ["<", "mediaBackdrop", ""],
+        where: ["and"],
       });
 
       if (isErr(queried)) {
@@ -120,16 +120,22 @@ export const respond = async (input: {
 };
 
 const unknownToNumber = (input: unknown): number | null => {
-  if (typeof input === "number") {
-    return input;
-  }
-  if (typeof input === "string") {
-    const parsed = parseInt(input, 10);
-    if (isNaN(parsed)) {
+  switch (typeof input) {
+    case "number": {
+      return input;
+    }
+    case "string": {
+      const parsed = parseInt(input, 10);
+      if (isNaN(parsed)) {
+        return null;
+      }
+      return parsed;
+    }
+    default: {
       return null;
     }
-    return parsed;
   }
+
   return null;
 };
 
