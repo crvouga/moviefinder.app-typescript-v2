@@ -42,7 +42,8 @@ export const init = async (config: Config): Promise<Ctx> => {
   const dbConnSql = await DbConnSql({
     t: "pg",
     databaseUrl: config.databaseUrl,
-    logger: logger.child(["db-conn-sql"]),
+    logger: Logger({ t: "noop" }),
+    // logger: logger.child(["db-conn-sql"]),
   });
 
   const keyValueStore = KeyValueStore({
@@ -75,6 +76,8 @@ export const init = async (config: Config): Promise<Ctx> => {
   const feedDb = FeedDb({
     t: "key-value-store",
     keyValueStore,
+    logger: Logger({ t: "noop" }),
+    // logger: logger.child(["feed-db"]),
   });
 
   const sessionFeedMappingDb = SessionFeedMappingDb({

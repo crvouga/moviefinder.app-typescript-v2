@@ -9,4 +9,4 @@ export const Fixture = () => {
   };
 };
 
-describe("feed router", () => {});
+describe(import.meta.file, () => {});

@@ -59,6 +59,7 @@ export const BaseFixture = async () => {
   const feedDb = FeedDb({
     t: "key-value-store",
     keyValueStore,
+    logger: logger.child(["feed-db"]),
   });
 
   const sessionFeedMappingDb = SessionFeedMappingDb({

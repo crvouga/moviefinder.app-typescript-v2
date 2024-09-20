@@ -6,13 +6,9 @@ import { FeedDb } from "./impl";
 
 const Fixture = async () => {
   const f = await BaseFixture();
-  const feedDb = FeedDb({
-    t: "key-value-store",
-    keyValueStore: f.ctx.keyValueStore,
-  });
   return {
     ...f,
-    feedDb,
+    feedDb: f.ctx.feedDb,
   };
 };
 
@@ -26,5 +22,18 @@ describe(import.meta.file, () => {
     expect(before).toEqual(null);
     expect(putResult).toEqual(Ok(null));
     expect(after).toEqual(feed);
+  });
+
+  test("update existing", async () => {
+    const f = await Fixture();
+    const feed = Feed.init();
+    await f.feedDb.put(feed);
+    const before = unwrap(await f.feedDb.get(feed.feedId));
+    const feedNew: Feed = { ...feed, activeIndex: feed.activeIndex + 1 };
+    await f.feedDb.put(feedNew);
+    const after = unwrap(await f.feedDb.get(feed.feedId));
+
+    expect(before).toEqual(feed);
+    expect(after).toEqual(feedNew);
   });
 });

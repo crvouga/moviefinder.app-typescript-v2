@@ -1,4 +1,5 @@
 // https://developer.themoviedb.org/reference/discover-movie
+import { toIndexWithinPage, toPageBased } from "src/core/pagination";
 import { Err, isErr, Ok } from "src/core/result";
 import { GenreId } from "../genre/genre-id";
 import type { Media } from "../media";
@@ -57,19 +58,35 @@ export const MediaDb = (config: Config): IMediaDb => {
 
       const configuration = gotConfiguration.value;
 
+      const pageBased = toPageBased(TmdbApi.PAGE_SIZE, query);
+
       const got = await tmdbApi.discover.movie({
-        page: Math.floor(query.offset / query.limit + 1),
+        page: pageBased.page,
       });
 
       if (isErr(got)) {
         return got;
       }
 
+      const gotNextPage = await tmdbApi.discover.movie({
+        page: pageBased.page + 1,
+      });
+
+      if (isErr(gotNextPage)) {
+        return gotNextPage;
+      }
+
+      const indexWithinPage = toIndexWithinPage(TmdbApi.PAGE_SIZE, query);
+      const result = [...got.value.results, ...gotNextPage.value.results].slice(
+        indexWithinPage,
+        indexWithinPage + query.limit,
+      );
+
       return Ok({
         limit: query.limit,
         offset: query.offset,
         total: got.value.total_results,
-        items: got.value.results.map(
+        items: result.map(
           (result): Media => ({
             mediaId: MediaId.init(result.id),
             mediaTitle: result.title,

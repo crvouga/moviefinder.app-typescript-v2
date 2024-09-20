@@ -1,4 +1,5 @@
 import { ImageSet } from "src/core/image-set";
+import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
 import { empty, html, redirect } from "src/core/res";
 import { Result, isErr } from "src/core/result";
@@ -7,12 +8,11 @@ import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
 import type { Media } from "../media/media";
 import { encode } from "../route";
+import { Image } from "../ui/image";
 import { Spinner } from "../ui/spinner";
 import { SwiperContainer, SwiperSlide } from "../ui/swiper";
-import { FeedId } from "./feed-id";
-import type { Req } from "src/core/req";
-import { Image } from "../ui/image";
 import { Feed } from "./feed";
+import { FeedId } from "./feed-id";
 import type { FeedItem } from "./feed-item";
 import type { Route } from "./route";
 
@@ -28,16 +28,26 @@ export const respond = async (input: {
         null,
       );
 
-      const feedId = maybeFeedId ?? FeedId.generate();
+      const maybeFeed = maybeFeedId
+        ? Result.withDefault(await input.ctx.feedDb.get(maybeFeedId), null)
+        : null;
 
-      await input.ctx.sessionFeedMappingDb.put(input.req.sessionId, feedId);
+      const feed = maybeFeed ?? Feed.init();
+
+      await input.ctx.feedDb.put(feed);
+      await input.ctx.sessionFeedMappingDb.put(
+        input.req.sessionId,
+        feed.feedId,
+      );
+
+      console.log("feed", feed);
 
       return redirect(
         encode({
           t: "feed",
           c: {
             t: "feed",
-            feedId: feedId,
+            feedId: feed.feedId,
           },
         }),
       );
@@ -99,6 +109,10 @@ export const respond = async (input: {
       };
 
       await input.ctx.feedDb.put(feedNew);
+      await input.ctx.sessionFeedMappingDb.put(
+        input.req.sessionId,
+        feedNew.feedId,
+      );
 
       return empty();
     }
