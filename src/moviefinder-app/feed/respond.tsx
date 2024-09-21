@@ -48,17 +48,18 @@ export const respond = async (input: {
           c: {
             t: "feed",
             feedId: feed.feedId,
+            feedIndex: feed.activeIndex,
           },
         }),
       );
     }
 
     case "feed": {
-      return html(<FeedPage feedId={input.route.feedId} />);
+      return html(<ViewFeedPage feedId={input.route.feedId} />);
     }
 
     case "controls": {
-      return html(<FeedPage feedId={input.route.feedId} />);
+      return html(<ViewFeedPage feedId={input.route.feedId} />);
     }
 
     case "load-more": {
@@ -135,8 +136,6 @@ const unknownToNumber = (input: unknown): number | null => {
       return null;
     }
   }
-
-  return null;
 };
 
 const Layout = (input: JSX.HtmlTag) => {
@@ -152,7 +151,7 @@ const Layout = (input: JSX.HtmlTag) => {
   );
 };
 
-export const FeedPage = (input: { feedId: FeedId }) => {
+export const ViewFeedPage = (input: { feedId: FeedId }) => {
   return (
     <Layout>
       <SwiperContainer
@@ -168,15 +167,16 @@ export const FeedPage = (input: { feedId: FeedId }) => {
         })}
         hx-vals="js:{feedIndex: parseInt(event?.detail?.[0]?.slides?.[event?.detail?.[0]?.activeIndex]?.getAttribute?.('data-feed-index'), 10)}"
       >
-        <ViewFeedItemLoadNext feedId={input.feedId} />
+        <ViewLoadInitial feedId={input.feedId} />
       </SwiperContainer>
     </Layout>
   );
 };
 
-const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
+const ViewLoadInitial = (input: { feedId: FeedId }) => {
   return (
-    <SwiperSlide
+    <div
+      class="flex h-full w-full items-center justify-center"
       hx-get={encode({
         t: "feed",
         c: {
@@ -184,7 +184,26 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
           feedId: input.feedId,
         },
       })}
-      hx-trigger="intersect"
+      hx-trigger="load"
+      hx-swap="outerHTML"
+    >
+      <Spinner />
+    </div>
+  );
+};
+
+const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
+  return (
+    <SwiperSlide
+      class="h-full w-full"
+      hx-get={encode({
+        t: "feed",
+        c: {
+          t: "load-more",
+          feedId: input.feedId,
+        },
+      })}
+      // hx-trigger="intersect"
       hx-swap="outerHTML"
     >
       <div class="flex h-full w-full items-center justify-center">
@@ -201,7 +220,7 @@ export const ViewFeedItems = (input: {
   return (
     <>
       {input.feedItems.map((feedItem) => (
-        <SwiperSlide data-feed-index={feedItem.feedIndex}>
+        <SwiperSlide class="h-full w-full" data-feed-index={feedItem.feedIndex}>
           <ViewFeedItem feedItem={feedItem} />
         </SwiperSlide>
       ))}

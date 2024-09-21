@@ -30,6 +30,7 @@ declare global {
         // Add more Swiper API options as needed
         children?: any;
         "slides-per-view"?: number | "auto";
+        "initial-slide"?: number;
       };
 
       "swiper-slide": {
@@ -44,6 +45,7 @@ export const SwiperContainer = (
   props: JSX.HtmlTag & {
     class?: string;
     children: Children;
+    "initial-slide"?: number;
   },
 ) => {
   return (

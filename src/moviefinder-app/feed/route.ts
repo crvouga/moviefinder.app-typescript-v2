@@ -8,6 +8,7 @@ export const Route = z.discriminatedUnion("t", [
   z.object({
     t: z.literal("feed"),
     feedId: FeedId.parser,
+    feedIndex: z.number(),
   }),
   z.object({
     t: z.literal("load-more"),

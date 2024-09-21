@@ -13,6 +13,11 @@ export const Document = (input: { route: Route }) => {
         <head>
           <meta charset="UTF-8" />
           <title>moviefinder.app</title>
+          <meta
+            name="htmx-config"
+            content='{"historyCacheSize": 0, "refreshOnHistoryMiss": true}'
+          />
+          <meta name="Cache-Control" content="no-cache" />
           <script src="https://cdn.tailwindcss.com"></script>
           <script src="https://unpkg.com/htmx.org@2.0.1"></script>
           <script src="https://unpkg.com/htmx.org@1.9.12/dist/ext/loading-states.js"></script>

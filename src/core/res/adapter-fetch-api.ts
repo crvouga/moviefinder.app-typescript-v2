@@ -6,6 +6,7 @@ export const toResponse = (res: Res): Response => {
       return new Response(res.html, {
         headers: {
           "Content-Type": "text/html",
+          ...res.headers,
         },
       });
     }
@@ -15,7 +16,7 @@ export const toResponse = (res: Res): Response => {
         status: 302,
         headers: {
           Location: res.to,
-          "Hx-Push-Url": res.to,
+          ...res.headers,
         },
       });
     }
@@ -23,6 +24,7 @@ export const toResponse = (res: Res): Response => {
     case "empty": {
       return new Response(null, {
         status: 204,
+        headers: res.headers,
       });
     }
   }

@@ -1,3 +1,5 @@
+import { cn } from "../cn";
+
 export const ImageWebComponentScript = async () => {
   const imageWebComponentScript = Bun.file(
     "./src/moviefinder-app/ui/image/image-web-component.js",
@@ -20,5 +22,11 @@ declare global {
 }
 
 export const Image = (props: Props) => {
-  return <image-element src={props.src} alt={props.alt} class={props.class} />;
+  return (
+    <image-element
+      src={props.src}
+      alt={props.alt}
+      class={cn("h-full w-full", props.class)}
+    />
+  );
 };

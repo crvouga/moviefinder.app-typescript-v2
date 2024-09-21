@@ -1,4 +1,8 @@
-export type Res =
+type ResBase = {
+  headers?: Record<string, string>;
+};
+
+type ResVariant =
   | {
       t: "html";
       html: string;
@@ -10,6 +14,8 @@ export type Res =
   | {
       t: "empty";
     };
+
+export type Res = ResVariant & ResBase;
 
 export const html = async (html: string | Promise<string>): Promise<Res> => {
   return {
@@ -28,5 +34,16 @@ export const redirect = (to: string): Res => {
 export const empty = (): Res => {
   return {
     t: "empty",
+  };
+};
+
+export const hxPushUrl = (res: Res, url: string): Res => {
+  return {
+    ...res,
+    headers: {
+      ...res.headers,
+      "Hx-Push-Url": url,
+      "Access-Control-Expose-Headers": "Hx-Push-Url",
+    },
   };
 };
