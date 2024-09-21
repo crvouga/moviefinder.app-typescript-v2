@@ -53,9 +53,39 @@ export const withDefault = <Error, Value>(
   }
 };
 
+export const mapOk = async <Error, Value, NewValue>(
+  result: Result<Error, Value>,
+  f: (value: Value) => NewValue,
+): Promise<Result<Error, NewValue>> => {
+  switch (result.t) {
+    case "err": {
+      return result;
+    }
+    case "ok": {
+      return Ok(f(result.value));
+    }
+  }
+};
+
+export const mapErr = async <Error, Value, NewError>(
+  result: Result<Error, Value>,
+  f: (error: Error) => NewError,
+): Promise<Result<NewError, Value>> => {
+  switch (result.t) {
+    case "err": {
+      return Err(f(result.error));
+    }
+    case "ok": {
+      return result;
+    }
+  }
+};
+
 export const Result = {
   unwrap,
   isErr,
   isOk,
   withDefault,
+  mapOk,
+  mapErr,
 };
