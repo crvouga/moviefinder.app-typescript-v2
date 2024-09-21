@@ -3,6 +3,7 @@ import { BaseFixture } from "src/moviefinder-app/fixture";
 import { MediaDb, type Config } from "./impl";
 import { unwrap } from "src/core/result";
 import { MediaId } from "../media-id";
+import { Logger } from "src/core/logger";
 
 const Fixture = (config: Config) => {
   const mediaDb = MediaDb(config);
@@ -18,6 +19,7 @@ const Fixtures = async () => {
     {
       t: "tmdb-movie",
       tmdbApiReadAccessToken: f.tmdbApiReadAccessToken,
+      logger: Logger({ t: "noop" }),
     },
   ];
 

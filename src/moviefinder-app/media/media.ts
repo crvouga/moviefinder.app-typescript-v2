@@ -11,4 +11,5 @@ export type Media = {
   mediaGenreIds: GenreId[];
   mediaPoster: ImageSet;
   mediaBackdrop: ImageSet;
+  mediaPopularity: number;
 };

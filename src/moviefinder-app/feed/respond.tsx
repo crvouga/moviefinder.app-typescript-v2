@@ -3,6 +3,7 @@ import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
 import { empty, html, redirect } from "src/core/res";
 import { Result, isErr } from "src/core/result";
+import { TimeSpan } from "src/core/time-span";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
@@ -12,7 +13,6 @@ import { encode } from "../route";
 import { Image } from "../ui/image";
 import { Spinner } from "../ui/spinner";
 import { SwiperContainer, SwiperSlide } from "../ui/swiper";
-import type { User } from "../user/user";
 import { Feed } from "./feed";
 import { FeedId } from "./feed-id";
 import type { FeedItem } from "./feed-item";
@@ -42,8 +42,6 @@ export const respond = async (input: {
         feed.feedId,
       );
 
-      console.log("feed", feed);
-
       return redirect(
         encode({
           t: "feed",
@@ -65,6 +63,8 @@ export const respond = async (input: {
     }
 
     case "load-more": {
+      await input.ctx.sleep(TimeSpan.fromSeconds(1));
+
       const maybeFeed = Result.withDefault(
         await input.ctx.feedDb.get(input.route.feedId),
         null,
@@ -73,14 +73,13 @@ export const respond = async (input: {
       const feed: Feed = maybeFeed ?? Feed.init();
 
       const queried = await input.ctx.mediaDb.query({
-        limit: 10,
+        limit: 5,
         offset: feed.activeIndex,
-        order: [["mediaGenreIds", "asc"]],
-        where: ["and"],
+        order: [["mediaPopularity", "desc"]],
       });
 
       if (isErr(queried)) {
-        return html(<div>Error</div>);
+        return html(<ViewError error={queried.error} />);
       }
 
       const feedItems = queried.value.items.map(
@@ -93,7 +92,7 @@ export const respond = async (input: {
 
       return html(
         <ViewFeedItems
-          currenUser={input.ctx.currentUser}
+          ctx={input.ctx}
           feedId={input.route.feedId}
           feedItems={feedItems}
         />,
@@ -144,7 +143,15 @@ const unknownToNumber = (input: unknown): number | null => {
   }
 };
 
-const Layout = (input: JSX.HtmlTag) => {
+const ViewError = (input: { error: string }) => {
+  return (
+    <div class="flex h-full w-full items-center justify-center">
+      <div class="text-red-500">{input.error}</div>
+    </div>
+  );
+};
+
+const ViewLayout = (input: JSX.HtmlTag) => {
   return (
     <div class="flex h-full w-full flex-col overflow-hidden">
       <div class="flex w-full flex-1 flex-col overflow-hidden">
@@ -159,7 +166,7 @@ const Layout = (input: JSX.HtmlTag) => {
 
 export const ViewFeedPage = (input: { feedId: FeedId }) => {
   return (
-    <Layout>
+    <ViewLayout>
       <SwiperContainer
         class="h-full w-full"
         hx-trigger="swiperslidechange from:swiper-container"
@@ -175,7 +182,7 @@ export const ViewFeedPage = (input: { feedId: FeedId }) => {
       >
         <ViewLoadInitial feedId={input.feedId} />
       </SwiperContainer>
-    </Layout>
+    </ViewLayout>
   );
 };
 
@@ -222,22 +229,19 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
 export const ViewFeedItems = (input: {
   feedId: FeedId;
   feedItems: FeedItem[];
-  currenUser: User | null;
+  ctx: Ctx;
 }) => {
   return (
     <>
       {input.feedItems.map((feedItem) => (
-        <ViewFeedItem currentUser={input.currenUser} feedItem={feedItem} />
+        <ViewFeedItem ctx={input.ctx} feedItem={feedItem} />
       ))}
       <ViewFeedItemLoadNext feedId={input.feedId} />
     </>
   );
 };
 
-const ViewFeedItem = (input: {
-  feedItem: FeedItem;
-  currentUser: User | null;
-}) => {
+const ViewFeedItem = (input: { feedItem: FeedItem; ctx: Ctx }) => {
   return (
     <SwiperSlide
       class="h-full w-full"
@@ -248,10 +252,7 @@ const ViewFeedItem = (input: {
   );
 };
 
-const ViewFeedItemContent = (input: {
-  feedItem: FeedItem;
-  currentUser: User | null;
-}) => {
+const ViewFeedItemContent = (input: { feedItem: FeedItem; ctx: Ctx }) => {
   switch (input.feedItem.t) {
     case "media": {
       return <ViewFeedItemMedia {...input} media={input.feedItem.media} />;
@@ -259,10 +260,7 @@ const ViewFeedItemContent = (input: {
   }
 };
 
-const ViewFeedItemMedia = (input: {
-  media: Media;
-  currentUser: User | null;
-}) => {
+const ViewFeedItemMedia = (input: { media: Media; ctx: Ctx }) => {
   return (
     <button
       class="h-full w-full"
@@ -287,7 +285,7 @@ const ViewFeedItemMedia = (input: {
         alt={input.media.mediaTitle}
         src={ImageSet.highestRes(input.media.mediaPoster) ?? " "}
       />
-      {input.currentUser && <ViewMediaFeedbackForm />}
+      {input.ctx.currentUser && <ViewMediaFeedbackForm />}
     </button>
   );
 };

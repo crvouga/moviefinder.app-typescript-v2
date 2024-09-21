@@ -1,11 +1,12 @@
 import type { ILogger } from "src/core/logger";
 import { Err, Ok } from "src/core/result";
+import { TimeSpan } from "src/core/time-span";
 import type { IVerifySms } from "./interface";
 
 export type Config = {
   code: string;
   logger: ILogger;
-  sleep: (ms: number) => Promise<unknown>;
+  sleep: (ms: TimeSpan) => Promise<unknown>;
 };
 
 export const VerifySms = (config: Config): IVerifySms => {
@@ -14,7 +15,7 @@ export const VerifySms = (config: Config): IVerifySms => {
   return {
     async sendCode(input) {
       sendCodeCount++;
-      await config.sleep(100);
+      await config.sleep(TimeSpan.fromSeconds(1 / 2));
       config.logger.info(`Sending code ${config.code} to phone ${input.phone}`);
       await new Promise((resolve) => setTimeout(resolve, 1000));
       if (sendCodeCount % 3 === 0) {
@@ -28,7 +29,7 @@ export const VerifySms = (config: Config): IVerifySms => {
     },
     async verifyCode(input) {
       verifyCodeCount++;
-      await config.sleep(100);
+      await config.sleep(TimeSpan.fromSeconds(1 / 2));
       config.logger.info(
         `Verifying code ${input.code} for phone ${input.phone}`,
       );

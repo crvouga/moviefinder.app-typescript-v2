@@ -1,20 +1,24 @@
 // https://developer.themoviedb.org/reference/discover-movie
+import type { ILogger } from "src/core/logger";
 import type { Paginated } from "src/core/paginated";
-import { toIndexWithinPage, toPageBased } from "src/core/pagination";
-import type { Query } from "src/core/query";
+import { toIndexWithinPage } from "src/core/pagination";
+import { toPageBasedPagination, type Query } from "src/core/query";
 import { Err, isErr, Ok, Result } from "src/core/result";
 import { GenreId } from "../../genre/genre-id";
 import type { Media } from "../../media";
 import { MediaId } from "../../media-id";
 import type { IMediaDb } from "../interface";
 import * as TmdbApi from "../tmdb-api";
+import type { DiscoverMovieResult } from "../tmdb-api/discover/movie";
 
-export type Config = TmdbApi.Config;
+export type Config = TmdbApi.Config & {
+  logger: ILogger;
+};
 
 export const MediaDb = (config: Config): IMediaDb => {
   const tmdbApi = TmdbApi.TmdbApi(config);
   return {
-    async put(media) {
+    async put(_media) {
       return Err("Not implemented");
     },
     async query(query) {
@@ -24,71 +28,78 @@ export const MediaDb = (config: Config): IMediaDb => {
         return gotConfiguration;
       }
 
+      const configuration = gotConfiguration.value;
+
       if (
         query?.where &&
         query.where[0] === "=" &&
         query.where[1] === "mediaId"
       ) {
-        return findOneById({
-          tmdbApi,
-          configuration: gotConfiguration.value,
-          query,
-          movieId: query.where[2].toString(),
-        });
+        const movieId = query.where[2].toString();
+        return findOneById({ tmdbApi, configuration, query, movieId });
       }
 
-      const configuration = gotConfiguration.value;
+      const pageBased = toPageBasedPagination({
+        pageSize: TmdbApi.PAGE_SIZE,
+        query,
+      });
 
-      const pageBased = toPageBased({
+      config.logger.debug({ query, pageBased });
+
+      const response = Result.collect(
+        await Promise.all(pageBased.map(tmdbApi.discover.movie)),
+      );
+
+      if (isErr(response)) {
+        return Err(response.error.join(", "));
+      }
+
+      const indexWithinPage = toIndexWithinPage({
         pageSize: TmdbApi.PAGE_SIZE,
         pagination: query,
       });
 
-      const got = await tmdbApi.discover.movie({
-        page: pageBased.page,
-      });
+      const tmdbItems = response.value
+        .flatMap((response) => response.results)
+        .slice(indexWithinPage, indexWithinPage + query.limit);
 
-      if (isErr(got)) {
-        return got;
-      }
+      const total = response.value.reduce(
+        (acc, response) => Math.max(acc, response.total_results),
+        0,
+      );
 
-      const gotNextPage = await tmdbApi.discover.movie({
-        page: pageBased.page + 1,
-      });
-
-      if (isErr(gotNextPage)) {
-        return gotNextPage;
-      }
-
-      const indexWithinPage = toIndexWithinPage(TmdbApi.PAGE_SIZE, query);
-      const result = [...got.value.results, ...gotNextPage.value.results].slice(
-        indexWithinPage,
-        indexWithinPage + query.limit,
+      const items = tmdbItems.map((result) =>
+        discoverMovieResultToMedia(configuration, result),
       );
 
       return Ok({
-        limit: query.limit,
-        offset: query.offset,
-        total: got.value.total_results,
-        items: result.map(
-          (result): Media => ({
-            mediaId: MediaId.init(result.id),
-            mediaTitle: result.title,
-            mediaType: "movie",
-            mediaGenreIds: result.genre_ids.map(GenreId.init),
-            mediaPoster: TmdbApi.toPosterImageSet({
-              configuration,
-              posterPath: result.poster_path,
-            }),
-            mediaDescription: result.overview,
-            mediaBackdrop: TmdbApi.toBackdropImageSet({
-              configuration,
-              backdropPath: result.backdrop_path,
-            }),
-          }),
-        ),
+        ...query,
+        total,
+        items,
       });
     },
+  };
+};
+
+const discoverMovieResultToMedia = (
+  configuration: TmdbApi.Configuration,
+  item: DiscoverMovieResult,
+): Media => {
+  return {
+    mediaId: MediaId.init(item.id),
+    mediaTitle: item.title,
+    mediaType: "movie",
+    mediaGenreIds: item.genre_ids.map(GenreId.init),
+    mediaPoster: TmdbApi.toPosterImageSet({
+      configuration,
+      posterPath: item.poster_path,
+    }),
+    mediaDescription: item.overview,
+    mediaBackdrop: TmdbApi.toBackdropImageSet({
+      configuration,
+      backdropPath: item.backdrop_path,
+    }),
+    mediaPopularity: item.popularity,
   };
 };
 
@@ -121,6 +132,7 @@ const findOneById = async (input: {
       configuration: input.configuration,
       backdropPath: movie.backdrop_path,
     }),
+    mediaPopularity: movie.popularity,
   };
 
   const items = [media];

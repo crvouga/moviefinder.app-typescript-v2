@@ -81,6 +81,31 @@ export const mapErr = async <Error, Value, NewError>(
   }
 };
 
+const collect = <Error, Value>(
+  results: Result<Error, Value>[],
+): Result<Error[], Value[]> => {
+  const values: Value[] = [];
+  const errors: Error[] = [];
+  for (const result of results) {
+    switch (result.t) {
+      case "err": {
+        errors.push(result.error);
+        break;
+      }
+      case "ok": {
+        values.push(result.value);
+        break;
+      }
+    }
+  }
+
+  if (errors.length > 0) {
+    return Err(errors);
+  }
+
+  return Ok(values);
+};
+
 export const Result = {
   unwrap,
   isErr,
@@ -88,4 +113,5 @@ export const Result = {
   withDefault,
   mapOk,
   mapErr,
+  collect,
 };

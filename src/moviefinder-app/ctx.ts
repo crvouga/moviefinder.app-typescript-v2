@@ -1,5 +1,6 @@
 import { DbConnSql } from "src/core/db-conn-sql";
 import { Logger, type ILogger } from "src/core/logger";
+import { TimeSpan } from "src/core/time-span";
 import { VerifySms, type IVerifySms } from "./account/login/sms/verify-sms";
 import { FeedDb, type IFeedDb } from "./feed/feed-db";
 import {
@@ -12,8 +13,8 @@ import {
   UserSessionDb,
   type IUserSessionDb,
 } from "./user-session/user-session-db";
-import { UserDb, type IUserDb } from "./user/user-db";
 import type { User } from "./user/user";
+import { UserDb, type IUserDb } from "./user/user-db";
 
 export type Ctx = {
   mediaDb: IMediaDb;
@@ -25,6 +26,7 @@ export type Ctx = {
   feedDb: IFeedDb;
   sessionFeedMappingDb: ISessionFeedMappingDb;
   currentUser: User | null;
+  sleep: (timeSpan: TimeSpan) => Promise<unknown>;
 };
 
 type Config = {
@@ -38,8 +40,11 @@ export const init = async (config: Config): Promise<Ctx> => {
     namespace: ["app"],
   });
 
-  const sleep = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms));
+  const sleep = async (timeSpan: TimeSpan) => {
+    await new Promise((resolve) => {
+      setTimeout(resolve, TimeSpan.toMilliseconds(timeSpan));
+    });
+  };
 
   const dbConnSql = await DbConnSql({
     t: "pg",
@@ -56,6 +61,7 @@ export const init = async (config: Config): Promise<Ctx> => {
   const mediaDb = MediaDb({
     ...config,
     t: "tmdb-movie",
+    logger: logger.child(["media-db-tmdb-movie"]),
   });
 
   const verifySms = VerifySms({
@@ -90,6 +96,7 @@ export const init = async (config: Config): Promise<Ctx> => {
   });
 
   return {
+    sleep,
     logger,
     feedDb,
     sessionFeedMappingDb,

@@ -77,6 +77,7 @@ export const BaseFixture = async () => {
     feedDb,
     sessionFeedMappingDb,
     currentUser: null,
+    sleep,
   };
 
   const req: Req = {

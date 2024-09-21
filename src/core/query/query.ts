@@ -1,4 +1,5 @@
-import { toPageBased, type PageBased, type Pagination } from "../pagination";
+import { NonEmpty } from "../non-empty";
+import { toPageBased, type PageBased } from "../pagination";
 
 type Primitive = string | number | boolean;
 
@@ -14,19 +15,20 @@ export type Query<T> = {
   where?: QueryWhere<T>;
 };
 
-export const toPageBasedPagination = <T>(
-  query: Query<T>,
-  pageSize: number,
-): PageBased[] => {
-  const pageCount = Math.ceil(query.limit / pageSize);
+export const toPageBasedPagination = <T>(input: {
+  query: Query<T>;
+  pageSize: number;
+}): NonEmpty<PageBased> => {
+  const pageCount = Math.ceil(input.query.limit / input.pageSize);
 
   const params: PageBased[] = [];
 
   for (let i = 0; i < pageCount; i++) {
     const pageBased = toPageBased({
-      pageSize,
-      pagination: query,
+      pageSize: input.pageSize,
+      pagination: input.query,
     });
+
     params.push({
       page: pageBased.page + i,
       index: 0,
@@ -34,5 +36,13 @@ export const toPageBasedPagination = <T>(
     });
   }
 
-  return params;
+  if (NonEmpty.is(params)) {
+    return params;
+  }
+
+  return NonEmpty.init({
+    index: 0,
+    page: 1,
+    pageSize: input.pageSize,
+  });
 };

@@ -2,29 +2,33 @@ import { Ok, unknownToErr } from "src/core/result";
 import { z } from "zod";
 import { BASE_URL, toBaseHeaders, type Config } from "../shared";
 
-const DiscoverMovieResponse = z.object({
+export const DiscoverMovieResult = z.object({
+  adult: z.boolean(),
+  backdrop_path: z.string().nullable(),
+  genre_ids: z.array(z.number()),
+  id: z.number(),
+  original_language: z.string(),
+  original_title: z.string(),
+  overview: z.string(),
+  popularity: z.number(),
+  poster_path: z.string().nullable(),
+  release_date: z.string(),
+  title: z.string(),
+  video: z.boolean(),
+  vote_average: z.number(),
+  vote_count: z.number(),
+});
+
+export type DiscoverMovieResult = z.infer<typeof DiscoverMovieResult>;
+
+export const DiscoverMovieResponse = z.object({
   page: z.number(),
-  results: z.array(
-    z.object({
-      adult: z.boolean(),
-      backdrop_path: z.string().nullable(),
-      genre_ids: z.array(z.number()),
-      id: z.number(),
-      original_language: z.string(),
-      original_title: z.string(),
-      overview: z.string(),
-      popularity: z.number(),
-      poster_path: z.string().nullable(),
-      release_date: z.string(),
-      title: z.string(),
-      video: z.boolean(),
-      vote_average: z.number(),
-      vote_count: z.number(),
-    }),
-  ),
+  results: z.array(DiscoverMovieResult),
   total_pages: z.number(),
   total_results: z.number(),
 });
+
+export type DiscoverMovieResponse = z.infer<typeof DiscoverMovieResponse>;
 
 export type TmdbDiscoverMovieParams = {
   page: number;
