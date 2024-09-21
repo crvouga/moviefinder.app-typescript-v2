@@ -220,9 +220,7 @@ export const ViewFeedItems = (input: {
   return (
     <>
       {input.feedItems.map((feedItem) => (
-        <SwiperSlide class="h-full w-full" data-feed-index={feedItem.feedIndex}>
-          <ViewFeedItem feedItem={feedItem} />
-        </SwiperSlide>
+        <ViewFeedItem feedItem={feedItem} />
       ))}
       <ViewFeedItemLoadNext feedId={input.feedId} />
     </>
@@ -230,6 +228,17 @@ export const ViewFeedItems = (input: {
 };
 
 const ViewFeedItem = (input: { feedItem: FeedItem }) => {
+  return (
+    <SwiperSlide
+      class="h-full w-full"
+      data-feed-index={input.feedItem.feedIndex}
+    >
+      <ViewFeedItemContent feedItem={input.feedItem} />
+    </SwiperSlide>
+  );
+};
+
+const ViewFeedItemContent = (input: { feedItem: FeedItem }) => {
   switch (input.feedItem.t) {
     case "media": {
       return <ViewFeedItemMedia media={input.feedItem.media} />;

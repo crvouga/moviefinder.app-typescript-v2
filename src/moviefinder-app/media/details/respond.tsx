@@ -81,7 +81,11 @@ const ViewDetailsLoad = (input: {
         }}
       />
 
-      <div class="flex w-full flex-1 flex-col items-center justify-center">
+      <div class="aspect-video w-full overflow-hidden border-b">
+        <Image class="h-full w-full object-cover" alt=" " src=" " />
+      </div>
+
+      <div class="flex w-full flex-1 flex-col items-center p-8">
         <Spinner />
       </div>
     </div>
