@@ -6,7 +6,7 @@ import { Result, isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
-import { ViewMediaFeedbackForm } from "../media-feedback/respond";
+import { ViewMediaFeedbackForm } from "../media/feedback/respond";
 import type { Media } from "../media/media";
 import { encode } from "../route";
 import { Image } from "../ui/image";
