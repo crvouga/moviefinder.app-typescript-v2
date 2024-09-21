@@ -3,7 +3,6 @@ import { redirect, type Res } from "src/core/res";
 import * as Account from "./account/respond";
 import type { Ctx } from "./ctx";
 import * as Feed from "./feed/respond";
-import * as Login from "./login/respond";
 import * as Media from "./media/respond";
 import { encode, type Route } from "./route";
 
@@ -19,10 +18,6 @@ export const respond = async (input: {
 
     case "account": {
       return Account.respond({ ...input, route: input.route.c });
-    }
-
-    case "login": {
-      return Login.respond({ ...input, route: input.route.c });
     }
 
     case "media": {

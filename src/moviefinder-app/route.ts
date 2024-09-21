@@ -1,7 +1,6 @@
 import { z } from "zod";
 import * as Feed from "./feed/route";
 import * as Account from "./account/route";
-import * as Login from "./login/route";
 import * as Media from "./media/route";
 
 export const Route = z.discriminatedUnion("t", [
@@ -12,10 +11,6 @@ export const Route = z.discriminatedUnion("t", [
   z.object({
     t: z.literal("account"),
     c: Account.Route,
-  }),
-  z.object({
-    t: z.literal("login"),
-    c: Login.Route,
   }),
   z.object({
     t: z.literal("media"),

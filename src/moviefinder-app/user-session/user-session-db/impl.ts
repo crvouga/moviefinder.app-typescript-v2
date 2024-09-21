@@ -1,13 +1,17 @@
-import type { IUserSessionDb } from "./interface";
 import * as ImplDb from "./impl-db";
 import * as ImplInMemory from "./impl-in-memory";
+import * as ImplKeyValueStore from "./impl-key-value-store";
+import type { IUserSessionDb } from "./interface";
 
-type Config =
+export type Config =
   | {
       t: "db-conn";
     }
   | (ImplInMemory.Config & {
       t: "in-memory";
+    })
+  | (ImplKeyValueStore.Config & {
+      t: "key-value-store";
     });
 
 export const UserSessionDb = (config: Config): IUserSessionDb => {
@@ -17,6 +21,9 @@ export const UserSessionDb = (config: Config): IUserSessionDb => {
     }
     case "in-memory": {
       return ImplInMemory.UserSessionDb(config);
+    }
+    case "key-value-store": {
+      return ImplKeyValueStore.UserSessionDb(config);
     }
   }
 };

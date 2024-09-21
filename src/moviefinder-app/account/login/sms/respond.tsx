@@ -8,11 +8,11 @@ import { TopBar } from "src/moviefinder-app/app/top-bar";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { encode } from "src/moviefinder-app/route";
 import { AlertError } from "src/moviefinder-app/ui/alert";
+import { Button } from "src/moviefinder-app/ui/button";
+import { TextField } from "src/moviefinder-app/ui/text-field";
 import { UserSessionId } from "src/moviefinder-app/user-session/user-session-id";
 import type { User } from "src/moviefinder-app/user/user";
 import { UserId } from "src/moviefinder-app/user/user-id";
-import { Button } from "../../ui/button";
-import { TextField } from "../../ui/text-field";
 import { Route } from "./route";
 import { verifyCode } from "./verify-code";
 
@@ -49,12 +49,15 @@ export const respond = async (input: {
 
       return redirect(
         encode({
-          t: "login",
+          t: "account",
           c: {
-            t: "sms",
+            t: "login",
             c: {
-              t: "verify-code",
-              phone: phone,
+              t: "sms",
+              c: {
+                t: "verify-code",
+                phone: phone,
+              },
             },
           },
         }),
@@ -157,11 +160,14 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
         hx-push-url="true"
         data-loading-states
         hx-post={encode({
-          t: "login",
+          t: "account",
           c: {
-            t: "sms",
+            t: "login",
             c: {
-              t: "clicked-send-code",
+              t: "sms",
+              c: {
+                t: "clicked-send-code",
+              },
             },
           },
         })}
@@ -195,11 +201,14 @@ const VerifyCode = (input: {
       <TopBar
         title="Login with phone"
         backRoute={{
-          t: "login",
+          t: "account",
           c: {
-            t: "sms",
+            t: "login",
             c: {
-              t: "send-code",
+              t: "sms",
+              c: {
+                t: "send-code",
+              },
             },
           },
         }}
@@ -211,12 +220,15 @@ const VerifyCode = (input: {
         hx-swap="innerHTML"
         data-loading-states
         hx-post={encode({
-          t: "login",
+          t: "account",
           c: {
-            t: "sms",
+            t: "login",
             c: {
-              t: "clicked-verify-code",
-              phone: input.phone,
+              t: "sms",
+              c: {
+                t: "clicked-verify-code",
+                phone: input.phone,
+              },
             },
           },
         })}

@@ -9,11 +9,11 @@ import {
 import type { Ctx } from "./ctx";
 import { FeedDb } from "./feed/feed-db";
 import { KeyValueStore } from "./key-value-store";
-import { VerifySms } from "./login/sms/verify-sms";
 import { MediaDb } from "./media/media-db";
 import { UserSessionDb } from "./user-session/user-session-db";
 import { UserDb } from "./user/user-db";
 import { SessionFeedMappingDb } from "./feed/session-feed-mapping-db";
+import { VerifySms } from "./account/login/sms/verify-sms";
 
 export const BaseFixture = async () => {
   const logger = Logger({

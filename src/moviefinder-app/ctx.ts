@@ -1,18 +1,18 @@
 import { DbConnSql } from "src/core/db-conn-sql";
 import { Logger, type ILogger } from "src/core/logger";
+import { VerifySms, type IVerifySms } from "./account/login/sms/verify-sms";
 import { FeedDb, type IFeedDb } from "./feed/feed-db";
+import {
+  SessionFeedMappingDb,
+  type ISessionFeedMappingDb,
+} from "./feed/session-feed-mapping-db";
 import { KeyValueStore, type IKeyValueStore } from "./key-value-store";
-import { VerifySms, type IVerifySms } from "./login/sms/verify-sms";
 import { MediaDb, type IMediaDb } from "./media/media-db";
 import {
   UserSessionDb,
   type IUserSessionDb,
 } from "./user-session/user-session-db";
 import { UserDb, type IUserDb } from "./user/user-db";
-import {
-  SessionFeedMappingDb,
-  type ISessionFeedMappingDb,
-} from "./feed/session-feed-mapping-db";
 
 export type Ctx = {
   mediaDb: IMediaDb;
@@ -64,13 +64,15 @@ export const init = async (config: Config): Promise<Ctx> => {
   });
 
   const userSessionDb = UserSessionDb({
-    t: "in-memory",
-    sleep,
+    t: "key-value-store",
+    keyValueStore,
+    logger: Logger({ t: "noop" }),
   });
 
   const userDb = UserDb({
-    t: "in-memory",
-    sleep,
+    t: "key-value-store",
+    keyValueStore,
+    logger: Logger({ t: "noop" }),
   });
 
   const feedDb = FeedDb({
