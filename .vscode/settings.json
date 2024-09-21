@@ -21,4 +21,5 @@
   "typescript.enablePromptUseWorkspaceTsdk": true,
   "javascript.preferences.autoImportFileExcludePatterns": ["**/node_modules/@kitajs/html"],
   "typescript.preferences.autoImportFileExcludePatterns": ["**/node_modules/@kitajs/html"],
+  "typescript.preferences.includePackageJsonAutoImports": "on",
 }

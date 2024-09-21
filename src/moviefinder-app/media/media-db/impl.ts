@@ -1,7 +1,6 @@
-import { Err } from "../../../core/result";
-import type { IMediaDb } from "./interface";
 import * as ImplInMemory from "./impl-in-memory";
 import * as ImplTmdbMovie from "./impl-tmdb-movie";
+import type { IMediaDb } from "./interface";
 
 export type Config =
   | {

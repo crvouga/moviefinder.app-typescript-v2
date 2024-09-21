@@ -8,6 +8,6 @@ export type QueryWhere<T> =
 export type Query<T> = {
   limit: number;
   offset: number;
-  order: [keyof T, "asc" | "desc"][];
-  where: QueryWhere<T>;
+  order?: [keyof T, "asc" | "desc"][];
+  where?: QueryWhere<T>;
 };

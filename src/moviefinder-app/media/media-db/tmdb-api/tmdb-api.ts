@@ -15,3 +15,5 @@ export const TmdbApi = (config: Config) => {
     configuration: getConfiguration(config),
   };
 };
+
+export type TmdbApi = ReturnType<typeof TmdbApi>;

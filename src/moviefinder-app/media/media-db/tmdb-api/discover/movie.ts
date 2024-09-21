@@ -26,8 +26,12 @@ const DiscoverMovieResponse = z.object({
   total_results: z.number(),
 });
 
+export type TmdbDiscoverMovieParams = {
+  page: number;
+};
+
 export const getDiscoverMovie =
-  (config: Config) => async (input: { page: number }) => {
+  (config: Config) => async (input: TmdbDiscoverMovieParams) => {
     try {
       const url = new URL("discover/movie", BASE_URL);
       url.searchParams.set("include_adult", "false");
