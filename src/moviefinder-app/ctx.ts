@@ -13,6 +13,7 @@ import {
   type IUserSessionDb,
 } from "./user-session/user-session-db";
 import { UserDb, type IUserDb } from "./user/user-db";
+import type { User } from "./user/user";
 
 export type Ctx = {
   mediaDb: IMediaDb;
@@ -23,6 +24,7 @@ export type Ctx = {
   keyValueStore: IKeyValueStore;
   feedDb: IFeedDb;
   sessionFeedMappingDb: ISessionFeedMappingDb;
+  currentUser: User | null;
 };
 
 type Config = {
@@ -96,5 +98,6 @@ export const init = async (config: Config): Promise<Ctx> => {
     verifySms,
     userSessionDb,
     userDb,
+    currentUser: null,
   };
 };

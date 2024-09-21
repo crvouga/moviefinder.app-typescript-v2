@@ -6,6 +6,7 @@ import * as Ctx from "./ctx";
 import { DATABASE_URL, TMDB_API_READ_ACCESS_TOKEN } from "./env";
 import * as Route from "./route";
 import { respond } from "./respond";
+import { Result, withDefault } from "src/core/result";
 
 const main = async () => {
   const ctx = await Ctx.init({
@@ -18,6 +19,17 @@ const main = async () => {
       cookieName: "moviefinder-app-session-id",
       fetch: async ({ request, sessionId }) => {
         const route = toRoute(request);
+
+        const userSession = withDefault(
+          await ctx.userSessionDb.findBySessionId(sessionId),
+          null,
+        );
+
+        const user = userSession
+          ? withDefault(await ctx.userDb.get(userSession.userId), null)
+          : null;
+
+        ctx.currentUser = user;
 
         const req = await fromRequest(request, sessionId);
 

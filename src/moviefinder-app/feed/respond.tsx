@@ -6,11 +6,13 @@ import { Result, isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
+import { ViewMediaFeedbackForm } from "../media-feedback/respond";
 import type { Media } from "../media/media";
 import { encode } from "../route";
 import { Image } from "../ui/image";
 import { Spinner } from "../ui/spinner";
 import { SwiperContainer, SwiperSlide } from "../ui/swiper";
+import type { User } from "../user/user";
 import { Feed } from "./feed";
 import { FeedId } from "./feed-id";
 import type { FeedItem } from "./feed-item";
@@ -90,7 +92,11 @@ export const respond = async (input: {
       );
 
       return html(
-        <ViewFeedItems feedId={input.route.feedId} feedItems={feedItems} />,
+        <ViewFeedItems
+          currenUser={input.ctx.currentUser}
+          feedId={input.route.feedId}
+          feedItems={feedItems}
+        />,
       );
     }
 
@@ -203,7 +209,7 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
           feedId: input.feedId,
         },
       })}
-      // hx-trigger="intersect"
+      hx-trigger="intersect"
       hx-swap="outerHTML"
     >
       <div class="flex h-full w-full items-center justify-center">
@@ -216,37 +222,47 @@ const ViewFeedItemLoadNext = (input: { feedId: FeedId }) => {
 export const ViewFeedItems = (input: {
   feedId: FeedId;
   feedItems: FeedItem[];
+  currenUser: User | null;
 }) => {
   return (
     <>
       {input.feedItems.map((feedItem) => (
-        <ViewFeedItem feedItem={feedItem} />
+        <ViewFeedItem currentUser={input.currenUser} feedItem={feedItem} />
       ))}
       <ViewFeedItemLoadNext feedId={input.feedId} />
     </>
   );
 };
 
-const ViewFeedItem = (input: { feedItem: FeedItem }) => {
+const ViewFeedItem = (input: {
+  feedItem: FeedItem;
+  currentUser: User | null;
+}) => {
   return (
     <SwiperSlide
       class="h-full w-full"
       data-feed-index={input.feedItem.feedIndex}
     >
-      <ViewFeedItemContent feedItem={input.feedItem} />
+      <ViewFeedItemContent {...input} feedItem={input.feedItem} />
     </SwiperSlide>
   );
 };
 
-const ViewFeedItemContent = (input: { feedItem: FeedItem }) => {
+const ViewFeedItemContent = (input: {
+  feedItem: FeedItem;
+  currentUser: User | null;
+}) => {
   switch (input.feedItem.t) {
     case "media": {
-      return <ViewFeedItemMedia media={input.feedItem.media} />;
+      return <ViewFeedItemMedia {...input} media={input.feedItem.media} />;
     }
   }
 };
 
-const ViewFeedItemMedia = (input: { media: Media }) => {
+const ViewFeedItemMedia = (input: {
+  media: Media;
+  currentUser: User | null;
+}) => {
   return (
     <button
       class="h-full w-full"
@@ -271,6 +287,7 @@ const ViewFeedItemMedia = (input: { media: Media }) => {
         alt={input.media.mediaTitle}
         src={ImageSet.highestRes(input.media.mediaPoster) ?? " "}
       />
+      {input.currentUser && <ViewMediaFeedbackForm />}
     </button>
   );
 };
