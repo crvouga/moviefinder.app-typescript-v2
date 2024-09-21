@@ -12,5 +12,8 @@ export const UserSessionDb = (): IUserSessionDb => {
     async findBySessionId(sessionId) {
       return Err("not implemented");
     },
+    async zap(userSessionId) {
+      return Err("not implemented");
+    },
   };
 };

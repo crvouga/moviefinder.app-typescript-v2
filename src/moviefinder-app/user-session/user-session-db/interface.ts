@@ -11,4 +11,5 @@ export type IUserSessionDb = {
   findBySessionId: (
     sessionId: SessionId,
   ) => Promise<Result<string, UserSession | null>>;
+  zap: (userSessionId: UserSessionId) => Promise<Result<string, null>>;
 };

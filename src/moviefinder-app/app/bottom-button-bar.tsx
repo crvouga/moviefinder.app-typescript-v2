@@ -24,7 +24,7 @@ export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
           hxGet: encode({
             t: "account",
             c: {
-              t: "account",
+              t: "index",
             },
           }),
           icon: <IconUserCircle />,

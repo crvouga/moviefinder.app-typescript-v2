@@ -1,9 +1,9 @@
 import type { Children } from "src/core/html";
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
-import { html } from "src/core/res";
+import { html, redirect } from "src/core/res";
 import * as Login from "./login/respond";
-import { isErr } from "src/core/result";
+import { isErr, withDefault } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
@@ -26,7 +26,7 @@ export const respond = async (input: {
         req: input.req,
       });
     }
-    case "account": {
+    case "index": {
       const found = await input.ctx.userSessionDb.findBySessionId(
         input.req.sessionId,
       );
@@ -53,6 +53,17 @@ export const respond = async (input: {
       }
 
       return html(<ViewLoggedIn user={user} />);
+    }
+
+    case "clicked-logout": {
+      const maybeUserSession = withDefault(
+        await input.ctx.userSessionDb.findBySessionId(input.req.sessionId),
+        null,
+      );
+      if (maybeUserSession?.userSessionId) {
+        await input.ctx.userSessionDb.zap(maybeUserSession.userSessionId);
+      }
+      return redirect(encode({ t: "account", c: { t: "index" } }));
     }
   }
 };

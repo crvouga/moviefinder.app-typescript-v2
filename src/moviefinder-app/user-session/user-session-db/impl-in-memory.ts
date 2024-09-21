@@ -29,5 +29,10 @@ export const UserSessionDb = (config: Config): IUserSessionDb => {
       }
       return Ok(null);
     },
+    async zap(userSessionId) {
+      await config.sleep(100);
+      userSessions.delete(userSessionId);
+      return Ok(null);
+    },
   };
 };

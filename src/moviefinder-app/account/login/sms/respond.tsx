@@ -133,7 +133,7 @@ export const respond = async (input: {
         encode({
           t: "account",
           c: {
-            t: "account",
+            t: "index",
           },
         }),
       );
@@ -149,7 +149,7 @@ const SendCodeForm = (input: { phoneError?: string; error?: string }) => {
         backRoute={{
           t: "account",
           c: {
-            t: "account",
+            t: "index",
           },
         }}
       />

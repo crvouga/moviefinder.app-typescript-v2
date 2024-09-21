@@ -44,6 +44,20 @@ export const KeyValueStore = (config: Config): IKeyValueStore => {
       return Ok(null);
     },
 
+    async zap(key) {
+      const result = await config.dbConnSql.query(
+        (value): value is Row => Row.safeParse(value).success,
+        "DELETE FROM key_value WHERE key = :key",
+        {
+          key,
+        },
+      );
+      if (isErr(result)) {
+        return result;
+      }
+      return Ok(null);
+    },
+
     child(namespace) {
       const keyValueStore = KeyValueStore(config);
       return {

@@ -78,4 +78,18 @@ describe(import.meta.file, () => {
       expect(after).toEqual(Ok(userSession));
     }
   });
+
+  test("zap", async () => {
+    for (const f of await Fixtures()) {
+      const userSession = UserSession.random();
+      await f.userSessionDb.put(userSession);
+      const before = await f.userSessionDb.get(userSession.userSessionId);
+      const zap = await f.userSessionDb.zap(userSession.userSessionId);
+      const after = await f.userSessionDb.get(userSession.userSessionId);
+
+      expect(before).toEqual(Ok(userSession));
+      expect(zap).toEqual(Ok(null));
+      expect(after).toEqual(Ok(null));
+    }
+  });
 });

@@ -49,5 +49,8 @@ export const UserSessionDb = (config: Config): IUserSessionDb => {
       }
       return get(decoded.value);
     },
+    async zap(userSessionId) {
+      return byId.set(userSessionId, "");
+    },
   };
 };

@@ -3,11 +3,14 @@ import * as Login from "./login/route";
 
 export const Route = z.discriminatedUnion("t", [
   z.object({
-    t: z.literal("account"),
+    t: z.literal("index"),
   }),
   z.object({
     t: z.literal("login"),
     c: Login.Route,
+  }),
+  z.object({
+    t: z.literal("clicked-logout"),
   }),
 ]);
 
