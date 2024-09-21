@@ -18,7 +18,7 @@ export const KeyValueStore = (config: Config): IKeyValueStore => {
     async get(key) {
       const result = await config.dbConnSql.query(
         (value): value is Row => Row.safeParse(value).success,
-        "SELECT value FROM key_value WHERE key = :key",
+        `SELECT value FROM key_value WHERE key = :key`,
         {
           key,
         },
@@ -32,7 +32,7 @@ export const KeyValueStore = (config: Config): IKeyValueStore => {
       const result = await config.dbConnSql.query(
         (value): value is string | null =>
           typeof value === "string" || value === null,
-        "INSERT INTO key_value (key, value) VALUES (:key, :value) ON CONFLICT (key) DO UPDATE SET value = :value",
+        `INSERT INTO key_value (key, value) VALUES (:key, :value) ON CONFLICT (key) DO UPDATE SET value = :value`,
         {
           key,
           value,
@@ -47,7 +47,7 @@ export const KeyValueStore = (config: Config): IKeyValueStore => {
     async zap(key) {
       const result = await config.dbConnSql.query(
         (value): value is Row => Row.safeParse(value).success,
-        "DELETE FROM key_value WHERE key = :key",
+        `DELETE FROM key_value WHERE key = :key`,
         {
           key,
         },
