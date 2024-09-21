@@ -7,11 +7,21 @@ class ImageElement extends HTMLElement {
 
     const style = document.createElement("style");
     style.textContent = `
+        :host {
+          display: block;
+          width: 100%;
+          height: 100%;
+          position: relative;
+          overflow: hidden;
+          box-sizing: content-box;
+        }
+          
         .skeleton {
           width: 100%;
           height: 100%;
           animation: pulse 1.5s infinite ease-in-out;
           background-color: #323232;
+          box-sizing: content-box;
         }
   
         @keyframes pulse {
@@ -31,6 +41,7 @@ class ImageElement extends HTMLElement {
           width: 100%;
           height: 100%;
           object-fit: cover;
+          box-sizing: content-box;
         }
       `;
 

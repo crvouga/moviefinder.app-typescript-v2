@@ -18,7 +18,7 @@ export const respond = async (input: {
 }): Promise<Res> => {
   switch (input.route.t) {
     case "index": {
-      return html(<DetailsLoad {...input.route} />);
+      return html(<ViewDetailsLoad {...input.route} />);
     }
     case "load": {
       const got = await input.ctx.mediaDb.query({
@@ -29,21 +29,29 @@ export const respond = async (input: {
       });
 
       if (isErr(got)) {
-        return html(<div>Error</div>);
+        return html(<ViewError />);
       }
 
       const media = got.value.items[0];
 
       if (!media) {
-        return html(<div>Not found</div>);
+        return html(<ViewNotFound />);
       }
 
-      return html(<Details media={media} />);
+      return html(<ViewDetails media={media} />);
     }
   }
 };
 
-const DetailsLoad = (input: {
+const ViewError = () => {
+  return <div>Error</div>;
+};
+
+const ViewNotFound = () => {
+  return <div>Not found</div>;
+};
+
+const ViewDetailsLoad = (input: {
   mediaId: MediaId;
   mediaType: MediaType;
   mediaTitle: string;
@@ -65,7 +73,6 @@ const DetailsLoad = (input: {
       })}
     >
       <TopBar
-        title={input.mediaTitle}
         backRoute={{
           t: "feed",
           c: {
@@ -81,11 +88,10 @@ const DetailsLoad = (input: {
   );
 };
 
-const Details = (input: { media: Media }) => {
+const ViewDetails = (input: { media: Media }) => {
   return (
     <div class="flex h-full w-full flex-col">
       <TopBar
-        title={input.media.mediaTitle}
         backRoute={{
           t: "feed",
           c: {
@@ -94,7 +100,7 @@ const Details = (input: { media: Media }) => {
         }}
       />
 
-      <div class="aspect-video w-full">
+      <div class="aspect-video w-full overflow-hidden border-b">
         <Image
           class="h-full w-full object-cover"
           alt={input.media.mediaTitle}
