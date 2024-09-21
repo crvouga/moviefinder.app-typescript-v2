@@ -1,17 +1,20 @@
+import { escape } from "src/core/html";
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
 import { html, redirect } from "src/core/res";
+import { isErr } from "src/core/result";
 import { ROOT_SELECTOR } from "src/moviefinder-app/app/document";
 import { TopBar } from "src/moviefinder-app/app/top-bar";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { encode } from "src/moviefinder-app/route";
+import { AlertError } from "src/moviefinder-app/ui/alert";
+import { UserSessionId } from "src/moviefinder-app/user-session/user-session-id";
+import type { User } from "src/moviefinder-app/user/user";
+import { UserId } from "src/moviefinder-app/user/user-id";
 import { Button } from "../../ui/button";
 import { TextField } from "../../ui/text-field";
 import { Route } from "./route";
-import { isErr } from "src/core/result";
 import { verifyCode } from "./verify-code";
-import { AlertError } from "src/moviefinder-app/ui/alert";
-import { escape } from "src/core/html";
 
 export const respond = async (input: {
   req: Req;
@@ -96,6 +99,32 @@ export const respond = async (input: {
           }
         }
       }
+
+      const found = await input.ctx.userDb.findByPhone({
+        phone: input.route.phone,
+      });
+
+      if (isErr(found)) {
+        return html(
+          <VerifyCode
+            phone={input.route.phone}
+            error="Errored while finding user"
+          />,
+        );
+      }
+
+      const user: User = found.value ?? {
+        phone: input.route.phone,
+        userId: UserId.generate(),
+      };
+
+      await input.ctx.userDb.put(user);
+
+      await input.ctx.userSessionDb.put({
+        sessionId: input.req.sessionId,
+        userId: user.userId,
+        userSessionId: UserSessionId.generate(),
+      });
 
       return redirect(
         encode({
