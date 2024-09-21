@@ -8,7 +8,6 @@ import type { Media } from "../../media";
 import { MediaId } from "../../media-id";
 import type { IMediaDb } from "../interface";
 import * as TmdbApi from "../tmdb-api";
-import type { TmdbDiscoverMovieParams } from "../tmdb-api/discover/movie";
 
 export type Config = TmdbApi.Config;
 
@@ -40,7 +39,10 @@ export const MediaDb = (config: Config): IMediaDb => {
 
       const configuration = gotConfiguration.value;
 
-      const pageBased = toPageBased(TmdbApi.PAGE_SIZE, query);
+      const pageBased = toPageBased({
+        pageSize: TmdbApi.PAGE_SIZE,
+        pagination: query,
+      });
 
       const got = await tmdbApi.discover.movie({
         page: pageBased.page,
@@ -88,23 +90,6 @@ export const MediaDb = (config: Config): IMediaDb => {
       });
     },
   };
-};
-
-export const toTmdbDiscoverMovieParams = <T>(
-  query: Query<T>,
-): TmdbDiscoverMovieParams[] => {
-  const pageCount = Math.ceil(query.limit / TmdbApi.PAGE_SIZE);
-
-  const params: TmdbDiscoverMovieParams[] = [];
-
-  for (let i = 0; i < pageCount; i++) {
-    const pageBased = toPageBased(TmdbApi.PAGE_SIZE, query);
-    params.push({
-      page: pageBased.page + i,
-    });
-  }
-
-  return params;
 };
 
 const findOneById = async (input: {

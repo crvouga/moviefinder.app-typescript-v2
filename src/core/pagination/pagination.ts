@@ -14,13 +14,13 @@ export const fromPageBased = (pageBased: PageBased): Pagination => ({
   offset: (pageBased.page - 1) * pageBased.pageSize,
 });
 
-export const toPageBased = (
-  pageSize: number,
-  pagination: Pagination,
-): PageBased => ({
-  pageSize,
-  page: Math.floor(pagination.offset / pageSize) + 1,
-  index: (pagination.offset % pageSize) + 1,
+export const toPageBased = (input: {
+  pageSize: number;
+  pagination: Pagination;
+}): PageBased => ({
+  pageSize: input.pageSize,
+  page: Math.floor(input.pagination.offset / input.pageSize) + 1,
+  index: (input.pagination.offset % input.pageSize) + 1,
 });
 
 export const fromIndexAndLimit = ({
@@ -37,4 +37,4 @@ export const fromIndexAndLimit = ({
 export const toIndexWithinPage = (
   pageSize: number,
   pagination: Pagination,
-): number => toPageBased(pageSize, pagination).index;
+): number => toPageBased({ pageSize, pagination }).index;
