@@ -118,9 +118,19 @@ export const ViewLoggedIn = (input: { user: User }) => {
         class="flex h-full w-full flex-col items-center justify-center gap-4"
         data-loading-states
       >
-        <p class="text-center text-xl font-bold">Logged in.</p>
+        <p class="text-center text-xl font-bold">Logged in</p>
 
-        <Button label="Logout" />
+        <Button
+          label="Logout"
+          hx-swap="innerHTML"
+          hx-target={ROOT_SELECTOR}
+          hx-post={encode({
+            t: "account",
+            c: {
+              t: "clicked-logout",
+            },
+          })}
+        />
       </div>
     </ViewLayout>
   );
