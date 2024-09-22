@@ -54,14 +54,19 @@ export const MediaDb = (config: Config): IMediaDb => {
         return Err(response.error.join(", "));
       }
 
+      const allTmdbItems = response.value.flatMap(
+        (response) => response.results,
+      );
+
       const indexWithinPage = toIndexWithinPage({
         pageSize: TmdbApi.PAGE_SIZE,
         pagination: query,
       });
 
-      const tmdbItems = response.value
-        .flatMap((response) => response.results)
-        .slice(indexWithinPage, indexWithinPage + query.limit);
+      const tmdbItems = allTmdbItems.slice(
+        indexWithinPage,
+        indexWithinPage + query.limit,
+      );
 
       const total = response.value.reduce(
         (acc, response) => Math.max(acc, response.total_results),

@@ -30,7 +30,7 @@ export const isOk = <Error, Value>(
 
 export const unwrap = <Error, Value>(result: Result<Error, Value>): Value => {
   if (isErr(result)) {
-    throw new Error("Tried to unwrap an Err");
+    throw new Error(`Tried to unwrap an Err. Error: ${result.error}`);
   }
   return result.value;
 };

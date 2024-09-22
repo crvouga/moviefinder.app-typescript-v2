@@ -23,7 +23,7 @@ export const toPageBased = (input: {
   return {
     pageSize: input.pageSize,
     page: Math.floor(input.pagination.offset / input.pageSize) + 1,
-    index: (input.pagination.offset % input.pageSize) + 1,
+    index: Math.floor(input.pagination.offset % input.pageSize),
   };
 };
 

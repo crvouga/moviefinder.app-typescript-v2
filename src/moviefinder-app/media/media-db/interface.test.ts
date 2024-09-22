@@ -26,7 +26,7 @@ const Fixtures = async () => {
   return configs.map(Fixture);
 };
 
-describe.skip(import.meta.file, () => {
+describe.skipIf(false)(import.meta.file, () => {
   test("filter by id", async () => {
     for (const f of await Fixtures()) {
       const mediaId = MediaId.init("123");
@@ -47,12 +47,9 @@ describe.skip(import.meta.file, () => {
 
   test("limit and offset", async () => {
     for (const f of await Fixtures()) {
-      const LIMIT = 100;
+      const LIMIT = 40;
       const queried = unwrap(
-        await f.mediaDb.query({
-          limit: LIMIT,
-          offset: 0,
-        }),
+        await f.mediaDb.query({ limit: LIMIT, offset: 0 }),
       );
 
       expect(queried.items.length).toBe(LIMIT);
