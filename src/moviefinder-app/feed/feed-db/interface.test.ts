@@ -2,7 +2,6 @@ import { describe, expect, test } from "bun:test";
 import { Ok, unwrap } from "src/core/result";
 import { BaseFixture } from "src/moviefinder-app/fixture";
 import { Feed } from "../feed";
-import { FeedDb } from "./impl";
 
 const Fixture = async () => {
   const f = await BaseFixture();

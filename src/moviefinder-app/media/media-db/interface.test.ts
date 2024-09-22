@@ -15,18 +15,20 @@ const Fixture = (config: Config) => {
 
 const Fixtures = async () => {
   const f = await BaseFixture();
-  const configs: Config[] = [
-    {
+  const configs: Config[] = [];
+
+  if (f.testEnv === "integration") {
+    configs.push({
       t: "tmdb-movie",
       tmdbApiReadAccessToken: f.tmdbApiReadAccessToken,
       logger: Logger({ t: "noop" }),
-    },
-  ];
+    });
+  }
 
   return configs.map(Fixture);
 };
 
-describe.skipIf(false)(import.meta.file, () => {
+describe(import.meta.file, () => {
   test("filter by id", async () => {
     for (const f of await Fixtures()) {
       const mediaId = MediaId.init("123");
@@ -53,6 +55,34 @@ describe.skipIf(false)(import.meta.file, () => {
       );
 
       expect(queried.items.length).toBe(LIMIT);
+    }
+  });
+
+  test("no duplicates", async () => {
+    for (const f of await Fixtures()) {
+      const LIMIT = 50;
+      const queried = unwrap(
+        await f.mediaDb.query({ limit: LIMIT, offset: 0 }),
+      );
+
+      const mediaIds = queried.items.map((media) => media.mediaId);
+      const uniqueMediaIds = new Set(mediaIds);
+
+      expect(mediaIds.length).toBe(uniqueMediaIds.size);
+    }
+  });
+
+  test("no duplicates small limit and offset", async () => {
+    for (const f of await Fixtures()) {
+      const LIMIT = 4;
+      const queried = unwrap(
+        await f.mediaDb.query({ limit: LIMIT, offset: 5 }),
+      );
+
+      const mediaIds = queried.items.map((media) => media.mediaId);
+      const uniqueMediaIds = new Set(mediaIds);
+
+      expect(mediaIds.length).toBe(uniqueMediaIds.size);
     }
   });
 });

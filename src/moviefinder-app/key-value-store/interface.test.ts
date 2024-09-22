@@ -15,10 +15,16 @@ const Fixtures = async () => {
   const f = await BaseFixture();
   const configs: Config[] = [
     {
-      t: "sql",
-      dbConnSql: f.dbConnSql,
+      t: "in-memory",
     },
   ];
+
+  if (f.testEnv === "integration") {
+    configs.push({
+      t: "sql",
+      dbConnSql: f.dbConnSql,
+    });
+  }
 
   return configs.map(Fixture);
 };

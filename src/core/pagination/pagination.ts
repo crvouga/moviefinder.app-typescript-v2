@@ -4,45 +4,24 @@ export type Pagination = {
 };
 
 export type PageBased = {
-  page: number;
+  startPage: number;
+  endPage: number;
   pageSize: number;
   index: number;
-};
-
-export const fromPageBased = (pageBased: PageBased): Pagination => {
-  return {
-    limit: pageBased.pageSize,
-    offset: (pageBased.page - 1) * pageBased.pageSize,
-  };
 };
 
 export const toPageBased = (input: {
+  query: Pagination;
   pageSize: number;
-  pagination: Pagination;
 }): PageBased => {
-  return {
+  const pageCount = Math.ceil(input.query.limit / input.pageSize);
+  const startPage = Math.floor(input.query.offset / input.pageSize) + 1;
+  const endPage = startPage + pageCount - 1;
+  const pageBased: PageBased = {
+    index: input.query.offset % input.pageSize,
+    startPage,
+    endPage,
     pageSize: input.pageSize,
-    page: Math.floor(input.pagination.offset / input.pageSize) + 1,
-    index: Math.floor(input.pagination.offset % input.pageSize),
   };
-};
-
-export const fromIndexAndLimit = ({
-  index,
-  limit,
-}: {
-  index: number;
-  limit: number;
-}): Pagination => {
-  return {
-    limit,
-    offset: Math.floor((index - 1) / limit) * limit,
-  };
-};
-
-export const toIndexWithinPage = (input: {
-  pageSize: number;
-  pagination: Pagination;
-}): number => {
-  return toPageBased(input).index;
+  return pageBased;
 };

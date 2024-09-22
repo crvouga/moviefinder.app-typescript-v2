@@ -63,7 +63,7 @@ export const respond = async (input: {
     }
 
     case "load-more": {
-      await input.ctx.sleep(TimeSpan.fromSeconds(1));
+      // await input.ctx.sleep(TimeSpan.fromSeconds(1));
 
       const maybeFeed = Result.withDefault(
         await input.ctx.feedDb.get(input.route.feedId),

@@ -1,15 +1,15 @@
 // https://developer.themoviedb.org/reference/discover-movie
 import type { ILogger } from "src/core/logger";
 import type { Paginated } from "src/core/paginated";
-import { toIndexWithinPage } from "src/core/pagination";
-import { toPageBasedPagination, type Query } from "src/core/query";
+import { toPageBased } from "src/core/pagination";
+import { type Query } from "src/core/query";
 import { Err, isErr, Ok, Result } from "src/core/result";
-import { GenreId } from "../../genre/genre-id";
-import type { Media } from "../../media";
-import { MediaId } from "../../media-id";
-import type { IMediaDb } from "../interface";
-import * as TmdbApi from "../tmdb-api";
-import type { DiscoverMovieResult } from "../tmdb-api/discover/movie";
+import { GenreId } from "../genre/genre-id";
+import type { Media } from "../media";
+import { MediaId } from "../media-id";
+import type { IMediaDb } from "./interface";
+import * as TmdbApi from "./tmdb-api";
+import type { DiscoverMovieResult } from "./tmdb-api/discover/movie";
 
 export type Config = TmdbApi.Config & {
   logger: ILogger;
@@ -39,7 +39,7 @@ export const MediaDb = (config: Config): IMediaDb => {
         return findOneById({ tmdbApi, configuration, query, movieId });
       }
 
-      const pageBased = toPageBasedPagination({
+      const pageBased = toPageBased({
         pageSize: TmdbApi.PAGE_SIZE,
         query,
       });
@@ -47,7 +47,11 @@ export const MediaDb = (config: Config): IMediaDb => {
       config.logger.debug({ query, pageBased });
 
       const response = Result.collect(
-        await Promise.all(pageBased.map(tmdbApi.discover.movie)),
+        await Promise.all(
+          range(pageBased.startPage, pageBased.endPage + 1).map((page) =>
+            tmdbApi.discover.movie({ page }),
+          ),
+        ),
       );
 
       if (isErr(response)) {
@@ -58,14 +62,9 @@ export const MediaDb = (config: Config): IMediaDb => {
         (response) => response.results,
       );
 
-      const indexWithinPage = toIndexWithinPage({
-        pageSize: TmdbApi.PAGE_SIZE,
-        pagination: query,
-      });
-
       const tmdbItems = allTmdbItems.slice(
-        indexWithinPage,
-        indexWithinPage + query.limit,
+        pageBased.index,
+        pageBased.index + query.limit,
       );
 
       const total = response.value.reduce(
@@ -148,4 +147,12 @@ const findOneById = async (input: {
     total: items.length,
     items,
   });
+};
+
+const range = (start: number, end: number): number[] => {
+  const result = [];
+  for (let i = start; i < end; i++) {
+    result.push(i);
+  }
+  return result;
 };

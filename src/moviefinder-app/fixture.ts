@@ -16,6 +16,9 @@ import { SessionFeedMappingDb } from "./feed/session-feed-mapping-db";
 import { VerifySms } from "./account/login/sms/verify-sms";
 
 export const BaseFixture = async () => {
+  const testEnv: "unit" | "integration" =
+    import.meta.env.INTEGRATION_TEST === "true" ? "integration" : "unit";
+
   const logger = Logger({
     t: "noop",
   });
@@ -86,6 +89,7 @@ export const BaseFixture = async () => {
   };
 
   return {
+    testEnv,
     req,
     ctx,
     verifySmsCode,
