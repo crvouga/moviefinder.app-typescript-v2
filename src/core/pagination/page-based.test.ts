@@ -90,9 +90,24 @@ describe(import.meta.file, () => {
       index: Math.floor(pageSize / 2),
       pageSize,
       startPage: 2,
-      endPage: 2,
+      endPage: 3,
     };
 
+    const actual = toPageBased({ query, pageSize });
+    expect(actual).toEqual(expected);
+  });
+
+  test("edge case", () => {
+    const query: Query<unknown> = {
+      limit: 10,
+      offset: 19,
+    };
+    const expected: PageBased = {
+      index: 19,
+      startPage: 1,
+      endPage: 2,
+      pageSize: 20,
+    };
     const actual = toPageBased({ query, pageSize });
     expect(actual).toEqual(expected);
   });

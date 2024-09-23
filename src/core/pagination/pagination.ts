@@ -16,9 +16,11 @@ export const toPageBased = (input: {
 }): PageBased => {
   const pageCount = Math.ceil(input.query.limit / input.pageSize);
   const startPage = Math.floor(input.query.offset / input.pageSize) + 1;
-  const endPage = startPage + pageCount - 1;
+  const index = input.query.offset % input.pageSize;
+  const endPageOffset = index > 0 ? 1 : 0;
+  const endPage = startPage + pageCount - 1 + endPageOffset;
   const pageBased: PageBased = {
-    index: input.query.offset % input.pageSize,
+    index,
     startPage,
     endPage,
     pageSize: input.pageSize,

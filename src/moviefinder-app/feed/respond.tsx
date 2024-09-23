@@ -73,7 +73,7 @@ export const respond = async (input: {
       const feed: Feed = maybeFeed ?? Feed.init();
 
       const queried = await input.ctx.mediaDb.query({
-        limit: 5,
+        limit: 10,
         offset: feed.activeIndex,
         order: [["mediaPopularity", "desc"]],
       });
