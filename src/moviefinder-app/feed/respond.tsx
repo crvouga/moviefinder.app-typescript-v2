@@ -247,6 +247,7 @@ const ViewFeedItem = (input: { feedItem: FeedItem; ctx: Ctx }) => {
       data-feed-index={input.feedItem.feedIndex}
     >
       <ViewFeedItemContent {...input} feedItem={input.feedItem} />
+      <ViewMediaFeedbackForm />
     </SwiperSlide>
   );
 };
@@ -284,7 +285,6 @@ const ViewFeedItemMedia = (input: { media: Media; ctx: Ctx }) => {
         alt={input.media.mediaTitle}
         src={ImageSet.highestRes(input.media.mediaPoster) ?? " "}
       />
-      {input.ctx.currentUser && <ViewMediaFeedbackForm />}
     </button>
   );
 };
