@@ -3,7 +3,6 @@ import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
 import { empty, html, redirect } from "src/core/res";
 import { Result, isErr } from "src/core/result";
-import { TimeSpan } from "src/core/time-span";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
