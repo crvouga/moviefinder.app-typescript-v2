@@ -1,8 +1,7 @@
-import { Err, isErr, Ok } from "src/core/result";
+import { isErr, Ok } from "src/core/result";
 import type { IKeyValueStore } from "src/moviefinder-app/key-value-store";
-import { Feed } from "../feed";
-import type { ISessionFeedMappingDb } from "./interface";
 import { FeedId } from "../feed-id";
+import type { ISessionFeedMappingDb } from "./interface";
 
 export type Config = {
   keyValueStore: IKeyValueStore;

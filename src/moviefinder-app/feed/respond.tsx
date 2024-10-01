@@ -36,7 +36,7 @@ export const respond = async (input: {
 
       const feed = maybeFeed ?? Feed.init();
 
-      await Promise.all([
+      await Promise.allSettled([
         input.ctx.feedDb.put(feed),
         input.ctx.sessionFeedMappingDb.put(input.req.sessionId, feed.feedId),
       ]);
