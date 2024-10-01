@@ -36,22 +36,12 @@ export const respond = async (input: {
 
       const feed = maybeFeed ?? Feed.init();
 
-      await input.ctx.feedDb.put(feed);
-      await input.ctx.sessionFeedMappingDb.put(
-        input.req.sessionId,
-        feed.feedId,
-      );
+      await Promise.all([
+        input.ctx.feedDb.put(feed),
+        input.ctx.sessionFeedMappingDb.put(input.req.sessionId, feed.feedId),
+      ]);
 
-      return redirect(
-        encode({
-          t: "feed",
-          c: {
-            t: "feed",
-            feedId: feed.feedId,
-            feedIndex: feed.activeIndex,
-          },
-        }),
-      );
+      return html(<ViewFeedPage feedId={feed.feedId} />);
     }
 
     case "feed": {
@@ -63,8 +53,6 @@ export const respond = async (input: {
     }
 
     case "load-more": {
-      // await input.ctx.sleep(TimeSpan.fromSeconds(1));
-
       const maybeFeed = Result.withDefault(
         await input.ctx.feedDb.get(input.route.feedId),
         null,
