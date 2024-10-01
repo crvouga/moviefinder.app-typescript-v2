@@ -247,7 +247,7 @@ const ViewFeedItem = (input: { feedItem: FeedItem; ctx: Ctx }) => {
       data-feed-index={input.feedItem.feedIndex}
     >
       <ViewFeedItemContent {...input} feedItem={input.feedItem} />
-      <ViewMediaFeedbackForm />
+      {false && <ViewMediaFeedbackForm />}
     </SwiperSlide>
   );
 };
