@@ -46,13 +46,13 @@ export const MediaDb = (config: Config): IMediaDb => {
 
       config.logger.debug({ query, pageBased });
 
-      const response = Result.collect(
-        await Promise.all(
-          range(pageBased.startPage, pageBased.endPage + 1).map((page) =>
-            tmdbApi.discover.movie({ page }),
-          ),
-        ),
+      const requests = range(pageBased.startPage, pageBased.endPage + 1).map(
+        (page) => tmdbApi.discover.movie({ page }),
       );
+
+      const responses = await Promise.all(requests);
+
+      const response = Result.collect(responses);
 
       if (isErr(response)) {
         return Err(response.error.join(", "));

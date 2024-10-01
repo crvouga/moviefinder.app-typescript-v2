@@ -66,8 +66,12 @@ describe(import.meta.file, () => {
       );
 
       const mediaIds = queried.items.map((media) => media.mediaId);
+      const mediaIdFrequencies = toFrequencies(mediaIds);
+      const duplicateMediaIds = mediaIds.filter(
+        (mediaId) => (mediaIdFrequencies.get(mediaId) ?? 0) > 1,
+      );
       const uniqueMediaIds = new Set(mediaIds);
-
+      expect(duplicateMediaIds).toEqual([]);
       expect(mediaIds.length).toBe(uniqueMediaIds.size);
     }
   });
@@ -86,3 +90,14 @@ describe(import.meta.file, () => {
     }
   });
 });
+
+const toFrequencies = <T>(input: T[]): Map<T, number> => {
+  const frequencies = new Map<T, number>();
+
+  for (const item of input) {
+    const count = frequencies.get(item) ?? 0;
+    frequencies.set(item, count + 1);
+  }
+
+  return frequencies;
+};

@@ -4,18 +4,6 @@ import { Err, Ok, type Result } from "../result";
 import { Sql } from "../sql";
 import type { IDbConnSql } from "./interface";
 
-declare global {
-  var pgPool: pg.Pool;
-  var pgPoolClient: pg.PoolClient;
-}
-
-const connect = async (databaseUrl: string) => {
-  globalThis.pgPool ??= new pg.Pool({
-    connectionString: databaseUrl,
-  });
-  globalThis.pgPoolClient ??= await globalThis.pgPool.connect();
-};
-
 export type Config = {
   databaseUrl: string;
   logger: ILogger;
@@ -25,7 +13,9 @@ export const DbConnSql = async ({
   databaseUrl,
   logger,
 }: Config): Promise<IDbConnSql> => {
-  await connect(databaseUrl);
+  const pgPool = new pg.Pool({
+    connectionString: databaseUrl,
+  });
 
   return {
     async query<T>(
@@ -37,15 +27,7 @@ export const DbConnSql = async ({
       try {
         const start = Date.now();
 
-        let queried: pg.QueryResult<any>;
-        try {
-          queried = await pgPool.query(sql);
-        } catch (error) {
-          logger.error(`Errored while querying\nerror=${error}\nsql=${rawSql}`);
-          logger.info("Reconnecting to database to retry query");
-          await connect(databaseUrl);
-          queried = await pgPool.query(sql);
-        }
+        const queried: pg.QueryResult<any> = await pgPool.query(sql);
 
         const end = Date.now();
 
@@ -82,22 +64,6 @@ export const DbConnSql = async ({
         return Err(String(error));
       }
     },
-
-    // async onNotification(callback) {
-    //   const cb = (notification: pg.Notification) => {
-    //     callback({
-    //       processId: notification.processId,
-    //       channel: notification.channel,
-    //       payload: notification.payload,
-    //     });
-    //   };
-
-    //   pgPoolClient.on("notification", cb);
-
-    //   return () => {
-    //     pgPoolClient.off("notification", cb);
-    //   };
-    // },
   };
 };
 
@@ -113,6 +79,5 @@ const logQuery = ({
   logger: ILogger;
 }) => {
   const durationFormatted = `${end - start}ms`;
-
-  logger.info(`duration=${durationFormatted} sql=\n${sql.slice(0, 1000)}`);
+  logger.info(`duration=${durationFormatted}\nsql=\n${sql.slice(0, 1000)}`);
 };
