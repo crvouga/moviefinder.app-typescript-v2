@@ -1,7 +1,7 @@
 import { ImageSet } from "src/core/image-set";
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
-import { empty, html, redirect } from "src/core/res";
+import { empty, html, hxPushUrl, redirect } from "src/core/res";
 import { Result, isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
@@ -41,7 +41,17 @@ export const respond = async (input: {
         input.ctx.sessionFeedMappingDb.put(input.req.sessionId, feed.feedId),
       ]);
 
-      return html(<ViewFeedPage feedId={feed.feedId} />);
+      return hxPushUrl(
+        await html(<ViewFeedPage feedId={feed.feedId} />),
+        encode({
+          t: "feed",
+          c: {
+            t: "feed",
+            feedId: feed.feedId,
+            feedIndex: feed.activeIndex,
+          },
+        }),
+      );
     }
 
     case "feed": {
