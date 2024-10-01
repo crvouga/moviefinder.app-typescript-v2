@@ -9,6 +9,7 @@ import { ROOT_SELECTOR } from "../app/document";
 import { ViewMediaFeedbackForm } from "../media/feedback/respond";
 import type { Media } from "../media/media";
 import { encode } from "../route";
+import { ViewErrorPage } from "../ui/error-page";
 import { Image } from "../ui/image";
 import { Spinner } from "../ui/spinner";
 import { SwiperContainer, SwiperSlide } from "../ui/swiper";
@@ -78,7 +79,7 @@ export const respond = async (input: {
       });
 
       if (isErr(queried)) {
-        return html(<ViewError error={queried.error} />);
+        return html(<ViewErrorPage error={queried.error} />);
       }
 
       const feedItems = queried.value.items.map(
@@ -140,14 +141,6 @@ const unknownToNumber = (input: unknown): number | null => {
       return null;
     }
   }
-};
-
-const ViewError = (input: { error: string }) => {
-  return (
-    <div class="flex h-full w-full items-center justify-center">
-      <div class="text-red-500">{input.error}</div>
-    </div>
-  );
 };
 
 const ViewLayout = (input: JSX.HtmlTag) => {

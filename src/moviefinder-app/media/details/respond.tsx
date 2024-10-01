@@ -5,6 +5,7 @@ import { ROOT_SELECTOR } from "src/moviefinder-app/app/document";
 import { TopBar } from "src/moviefinder-app/app/top-bar";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { encode } from "src/moviefinder-app/route";
+import { ViewErrorPage } from "src/moviefinder-app/ui/error-page";
 import { Image } from "src/moviefinder-app/ui/image";
 import { Spinner } from "src/moviefinder-app/ui/spinner";
 import type { Media } from "../media";
@@ -29,7 +30,7 @@ export const respond = async (input: {
       });
 
       if (isErr(got)) {
-        return html(<ViewError />);
+        return html(<ViewErrorPage error={got.error} />);
       }
 
       const media = got.value.items[0];
@@ -41,10 +42,6 @@ export const respond = async (input: {
       return html(<ViewDetails media={media} />);
     }
   }
-};
-
-const ViewError = () => {
-  return <div>Error</div>;
 };
 
 const ViewNotFound = () => {

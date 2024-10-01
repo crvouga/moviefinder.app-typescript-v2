@@ -1,16 +1,14 @@
 import type { Children } from "src/core/html";
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
-import { html, redirect } from "src/core/res";
-import * as Login from "./login/respond";
-import { isErr, withDefault } from "src/core/result";
+import { html } from "src/core/res";
+import { isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
-import { ROOT_SELECTOR } from "../app/document";
-import { encode } from "../route";
-import { Button } from "../ui/button";
-import { IconDoorOpen } from "../ui/icon";
+import { ViewErrorPage } from "../ui/error-page";
 import type { User } from "../user/user";
+import * as Login from "./login/respond";
+import * as Logout from "./logout/respond";
 import type { Route } from "./route";
 
 export const respond = async (input: {
@@ -20,18 +18,20 @@ export const respond = async (input: {
 }): Promise<Res> => {
   switch (input.route.t) {
     case "login": {
-      return Login.respond({
-        route: input.route.c,
-        ctx: input.ctx,
-        req: input.req,
-      });
+      return Login.respond({ ...input, route: input.route.c });
     }
+
+    case "logout": {
+      return Logout.respond({ ...input, route: input.route.c });
+    }
+
     case "index": {
       const found = await input.ctx.userSessionDb.findBySessionId(
         input.req.sessionId,
       );
+
       if (isErr(found)) {
-        return html(<ViewError error={found.error} />);
+        return html(<ViewErrorPage error={found.error} />);
       }
 
       const userSession = found.value;
@@ -43,7 +43,7 @@ export const respond = async (input: {
       const foundUser = await input.ctx.userDb.get(userSession.userId);
 
       if (isErr(foundUser)) {
-        return html(<ViewError error={foundUser.error} />);
+        return html(<ViewErrorPage error={foundUser.error} />);
       }
 
       const user = foundUser.value;
@@ -53,17 +53,6 @@ export const respond = async (input: {
       }
 
       return html(<ViewLoggedIn user={user} />);
-    }
-
-    case "clicked-logout": {
-      const maybeUserSession = withDefault(
-        await input.ctx.userSessionDb.findBySessionId(input.req.sessionId),
-        null,
-      );
-      if (maybeUserSession?.userSessionId) {
-        await input.ctx.userSessionDb.zap(maybeUserSession.userSessionId);
-      }
-      return redirect(encode({ t: "account", c: { t: "index" } }));
     }
   }
 };
@@ -77,36 +66,10 @@ const ViewLayout = (input: { children: Children }) => {
   );
 };
 
-const ViewError = (input: { error: string }) => {
-  return <div>{input.error}</div>;
-};
-
 export const ViewLoggedOut = () => {
   return (
     <ViewLayout>
-      <div
-        class="flex h-full w-full flex-col items-center justify-center gap-4"
-        data-loading-states
-      >
-        <IconDoorOpen class="size-24" />
-        <p class="text-center text-xl font-bold">
-          Login to access your account.
-        </p>
-
-        <Button
-          label="Login"
-          hx-swap="innerHTML"
-          hx-target={ROOT_SELECTOR}
-          hx-push-url="true"
-          hx-get={encode({
-            t: "account",
-            c: {
-              t: "login",
-              c: { t: "sms", c: { t: "send-code" } },
-            },
-          })}
-        />
-      </div>
+      <Login.ViewLoginCTA />
     </ViewLayout>
   );
 };
@@ -120,17 +83,7 @@ export const ViewLoggedIn = (input: { user: User }) => {
       >
         <p class="text-center text-xl font-bold">Logged in</p>
 
-        <Button
-          label="Logout"
-          hx-swap="innerHTML"
-          hx-target={ROOT_SELECTOR}
-          hx-post={encode({
-            t: "account",
-            c: {
-              t: "clicked-logout",
-            },
-          })}
-        />
+        <Logout.ViewLogoutButton />
       </div>
     </ViewLayout>
   );
