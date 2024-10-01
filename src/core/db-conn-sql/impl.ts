@@ -1,14 +1,14 @@
-import * as ImplPg from "./impl-pg";
+import * as ImplPostgres from "./impl-postgres";
 import type { IDbConnSql } from "./interface";
 
-export type Config = ImplPg.Config & {
-  t: "pg";
+export type Config = ImplPostgres.Config & {
+  t: "postgres";
 };
 
 export const DbConnSql = async (config: Config): Promise<IDbConnSql> => {
   switch (config.t) {
-    case "pg": {
-      return ImplPg.DbConnSql(config);
+    case "postgres": {
+      return ImplPostgres.DbConnSql(config);
     }
   }
 };
