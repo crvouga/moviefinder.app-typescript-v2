@@ -36,16 +36,12 @@ export const respond = async (input: {
       const media = got.value.items[0];
 
       if (!media) {
-        return html(<ViewNotFound />);
+        return html(<ViewErrorPage error="Not found" />);
       }
 
       return html(<ViewDetails media={media} />);
     }
   }
-};
-
-const ViewNotFound = () => {
-  return <div>Not found</div>;
 };
 
 const ViewDetailsLoad = (input: {
@@ -60,23 +56,10 @@ const ViewDetailsLoad = (input: {
       hx-target={ROOT_SELECTOR}
       hx-get={encode({
         t: "media",
-        c: {
-          t: "details",
-          c: {
-            ...input,
-            t: "load",
-          },
-        },
+        c: { t: "details", c: { ...input, t: "load" } },
       })}
     >
-      <TopBar
-        backRoute={{
-          t: "feed",
-          c: {
-            t: "index",
-          },
-        }}
-      />
+      <TopBar backRoute={{ t: "feed", c: { t: "index" } }} />
 
       <div class="aspect-video w-full overflow-hidden border-b">
         <Image class="h-full w-full object-cover" alt=" " src=" " />
@@ -92,14 +75,7 @@ const ViewDetailsLoad = (input: {
 const ViewDetails = (input: { media: Media }) => {
   return (
     <div class="flex h-full w-full flex-col">
-      <TopBar
-        backRoute={{
-          t: "feed",
-          c: {
-            t: "index",
-          },
-        }}
-      />
+      <TopBar backRoute={{ t: "feed", c: { t: "index" } }} />
 
       <div class="aspect-video w-full overflow-hidden border-b">
         <Image
@@ -109,7 +85,7 @@ const ViewDetails = (input: { media: Media }) => {
         />
       </div>
 
-      <div class="flex w-full flex-col gap-4 p-4">
+      <div class="flex w-full flex-col gap-4 overflow-x-hidden overflow-y-scroll p-4">
         <p class="text-center text-3xl font-bold">{input.media.mediaTitle}</p>
 
         <p class="text-center opacity-70">{input.media.mediaDescription}</p>

@@ -9,7 +9,7 @@ export const ImageWebComponentScript = async () => {
 
 type Props = {
   src?: string;
-  alt?: string;
+  alt: string;
   class?: string;
 };
 
