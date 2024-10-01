@@ -1,4 +1,4 @@
-import pg from "pg";
+import postgres from "postgres";
 import type { ILogger } from "../logger";
 import { Err, Ok, type Result } from "../result";
 import { Sql } from "../sql";
@@ -13,9 +13,7 @@ export const DbConnSql = async ({
   databaseUrl,
   logger,
 }: Config): Promise<IDbConnSql> => {
-  const pgPool = new pg.Pool({
-    connectionString: databaseUrl,
-  });
+  const conn = postgres(databaseUrl);
 
   return {
     async query<T>(
@@ -27,7 +25,7 @@ export const DbConnSql = async ({
       try {
         const start = Date.now();
 
-        const queried: pg.QueryResult<any> = await pgPool.query(sql);
+        const rows = await conn.unsafe(sql);
 
         const end = Date.now();
 
@@ -40,27 +38,18 @@ export const DbConnSql = async ({
 
         const output: T[] = [];
 
-        for (let i = 0; i < queried.rows.length; i++) {
-          const row = queried.rows[i]!;
-          for (const columnKey in row) {
-            const value = row[columnKey];
-
-            if (value instanceof Date) {
-              row[columnKey] = value.toUTCString();
-            }
-          }
-
+        for (const row of rows) {
           if (guard(row)) {
             output.push(row);
-          } else {
-            logger.error(`Failed to guard row\nrow=${row}`);
+            continue;
           }
+
+          logger.error(`Failed to guard row\nrow=${row}`);
         }
 
         return Ok({ rows: output });
       } catch (error) {
-        console.error(sql, error);
-        logger.error(`${error} sql=${rawSql}`);
+        logger.error(error);
         return Err(String(error));
       }
     },
