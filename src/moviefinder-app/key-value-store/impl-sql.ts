@@ -29,10 +29,34 @@ export const KeyValueStore = (config: Config): IKeyValueStore => {
       return Ok(result.value.rows[0]?.value ?? null);
     },
     async set(key, value) {
+      const got = await this.get(key);
+
+      if (isErr(got)) {
+        return got;
+      }
+
+      if (got.value === null) {
+        const result = await config.dbConnSql.query(
+          (value): value is string | null =>
+            typeof value === "string" || value === null,
+          `INSERT INTO key_value (key, value) VALUES (:key, :value) ON CONFLICT (key) DO UPDATE SET value = :value`,
+          {
+            key,
+            value,
+          },
+        );
+
+        if (isErr(result)) {
+          return result;
+        }
+
+        return Ok(null);
+      }
+
       const result = await config.dbConnSql.query(
         (value): value is string | null =>
           typeof value === "string" || value === null,
-        `INSERT INTO key_value (key, value) VALUES (:key, :value) ON CONFLICT (key) DO UPDATE SET value = :value`,
+        `UPDATE key_value SET value = :value WHERE key = :key`,
         {
           key,
           value,
