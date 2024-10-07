@@ -47,7 +47,7 @@ export const init = async (config: Config): Promise<Ctx> => {
   };
 
   const dbConnSql = await DbConnSql({
-    t: "postgres",
+    t: "sqlite",
     databaseUrl: config.databaseUrl,
     // logger: Logger({ t: "noop" }),
     logger: logger.child(["db-conn-sql"]),
