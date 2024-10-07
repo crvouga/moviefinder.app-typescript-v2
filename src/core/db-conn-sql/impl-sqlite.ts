@@ -3,18 +3,31 @@ import type { ILogger } from "../logger";
 import { Err, Ok, type Result } from "../result";
 import { Sql } from "../sql";
 import type { IDbConnSql } from "./interface";
+import { Database } from "bun:sqlite";
 
 export type Config = {
-  t: "postgres";
+  t: "sqlite";
   databaseUrl: string;
   logger: ILogger;
+};
+
+const removeSqlitePrefix = (databaseUrl: string): string => {
+  if (databaseUrl.startsWith("sqlite://")) {
+    return databaseUrl.slice("sqlite://".length);
+  }
+  if (databaseUrl.startsWith("sqlite:")) {
+    return databaseUrl.slice("sqlite:".length);
+  }
+  return databaseUrl;
 };
 
 export const DbConnSql = async ({
   databaseUrl,
   logger,
 }: Config): Promise<IDbConnSql> => {
-  const conn = postgres(databaseUrl);
+  const conn = new Database(removeSqlitePrefix(databaseUrl), {
+    create: true,
+  });
 
   return {
     async query<T>(
@@ -26,7 +39,7 @@ export const DbConnSql = async ({
       try {
         const start = Date.now();
 
-        const rows = await conn.unsafe(sql);
+        const rows = conn.query(sql).all();
 
         const end = Date.now();
 
