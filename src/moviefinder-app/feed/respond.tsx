@@ -112,11 +112,10 @@ export const respond = async (input: {
         activeIndex: feedIndex,
       };
 
-      await input.ctx.feedDb.put(feedNew);
-      await input.ctx.sessionFeedMappingDb.put(
-        input.req.sessionId,
-        feedNew.feedId,
-      );
+      await Promise.all([
+        input.ctx.feedDb.put(feedNew),
+        input.ctx.sessionFeedMappingDb.put(input.req.sessionId, feedNew.feedId),
+      ]);
 
       return empty();
     }
