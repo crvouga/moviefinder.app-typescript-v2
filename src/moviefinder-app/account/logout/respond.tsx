@@ -1,7 +1,7 @@
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
 import { redirect } from "src/core/res";
-import { withDefault } from "src/core/result";
+import { unwrap } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { ROOT_SELECTOR } from "../../app/document";
 import { encode } from "../../route";
@@ -15,7 +15,7 @@ export const respond = async (input: {
 }): Promise<Res> => {
   switch (input.route.t) {
     case "clicked-logout": {
-      const maybeUserSession = withDefault(
+      const maybeUserSession = unwrap(
         await input.ctx.userSessionDb.findBySessionId(input.req.sessionId),
         null,
       );

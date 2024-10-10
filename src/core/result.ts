@@ -28,18 +28,11 @@ export const isOk = <Error, Value>(
   result: Result<Error, Value>,
 ): result is Ok<Value> => result.t === "ok";
 
-export const unwrap = <Error, Value>(result: Result<Error, Value>): Value => {
-  if (isErr(result)) {
-    throw new Error(`Tried to unwrap an Err. Error: ${result.error}`);
-  }
-  return result.value;
-};
-
 export const unknownToErr = (unknown: unknown): Err<string> => {
   return Err(String(unknown));
 };
 
-export const withDefault = <Error, Value>(
+export const unwrap = <Error, Value>(
   result: Result<Error, Value>,
   defaultValue: Value,
 ): Value => {
@@ -110,7 +103,6 @@ export const Result = {
   unwrap,
   isErr,
   isOk,
-  withDefault,
   mapOk,
   mapErr,
   collect,

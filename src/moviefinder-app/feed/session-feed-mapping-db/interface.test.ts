@@ -22,9 +22,9 @@ describe(import.meta.file, () => {
     const f = await Fixture();
     const feedId = FeedId.generate();
     const sessionId = SessionId.generate();
-    const before = unwrap(await f.sessionFeedMappingDb.get(sessionId));
+    const before = unwrap(await f.sessionFeedMappingDb.get(sessionId), null);
     const putResult = await f.sessionFeedMappingDb.put(sessionId, feedId);
-    const after = unwrap(await f.sessionFeedMappingDb.get(sessionId));
+    const after = unwrap(await f.sessionFeedMappingDb.get(sessionId), null);
     expect(before).toEqual(null);
     expect(putResult).toEqual(Ok(null));
     expect(after).toEqual(feedId);

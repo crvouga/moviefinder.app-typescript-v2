@@ -1,9 +1,9 @@
-import { expect, describe, test } from "bun:test";
-import { BaseFixture } from "src/moviefinder-app/fixture";
-import { MediaDb, type Config } from "./impl";
-import { unwrap } from "src/core/result";
-import { MediaId } from "../media-id";
+import { describe, expect, test } from "bun:test";
 import { Logger } from "src/core/logger";
+import { unwrap } from "src/core/result";
+import { BaseFixture } from "src/moviefinder-app/fixture";
+import { MediaId } from "../media-id";
+import { MediaDb, type Config } from "./impl";
 
 const Fixture = (config: Config) => {
   const mediaDb = MediaDb(config);
@@ -40,10 +40,11 @@ describe(import.meta.file, () => {
           order: [],
           where: ["=", "mediaId", mediaId],
         }),
+        null,
       );
 
-      expect(queried.items.length).toBe(1);
-      expect(queried.items[0]?.mediaId).toBe(mediaId);
+      expect(queried?.items.length).toBe(1);
+      expect(queried?.items[0]?.mediaId).toBe(mediaId);
     }
   });
 
@@ -52,9 +53,10 @@ describe(import.meta.file, () => {
       const LIMIT = 40;
       const queried = unwrap(
         await f.mediaDb.query({ limit: LIMIT, offset: 0 }),
+        null,
       );
 
-      expect(queried.items.length).toBe(LIMIT);
+      expect(queried?.items.length).toBe(LIMIT);
     }
   });
 
@@ -63,16 +65,17 @@ describe(import.meta.file, () => {
       const LIMIT = 50;
       const queried = unwrap(
         await f.mediaDb.query({ limit: LIMIT, offset: 0 }),
+        null,
       );
 
-      const mediaIds = queried.items.map((media) => media.mediaId);
-      const mediaIdFrequencies = toFrequencies(mediaIds);
-      const duplicateMediaIds = mediaIds.filter(
+      const mediaIds = queried?.items.map((media) => media.mediaId);
+      const mediaIdFrequencies = toFrequencies(mediaIds ?? []);
+      const duplicateMediaIds = mediaIds?.filter(
         (mediaId) => (mediaIdFrequencies.get(mediaId) ?? 0) > 1,
       );
       const uniqueMediaIds = new Set(mediaIds);
       expect(duplicateMediaIds).toEqual([]);
-      expect(mediaIds.length).toBe(uniqueMediaIds.size);
+      expect(mediaIds?.length).toBe(uniqueMediaIds.size);
     }
   });
 
@@ -81,12 +84,13 @@ describe(import.meta.file, () => {
       const LIMIT = 4;
       const queried = unwrap(
         await f.mediaDb.query({ limit: LIMIT, offset: 5 }),
+        null,
       );
 
-      const mediaIds = queried.items.map((media) => media.mediaId);
+      const mediaIds = queried?.items.map((media) => media.mediaId);
       const uniqueMediaIds = new Set(mediaIds);
 
-      expect(mediaIds.length).toBe(uniqueMediaIds.size);
+      expect(mediaIds?.length).toBe(uniqueMediaIds.size);
     }
   });
 });

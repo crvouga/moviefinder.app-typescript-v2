@@ -35,11 +35,11 @@ describe(import.meta.file, () => {
       const key = crypto.randomUUID();
       const value = "value";
 
-      const before = unwrap(await f.keyValueStore.get(key));
+      const before = unwrap(await f.keyValueStore.get(key), null);
 
       await f.keyValueStore.set(key, value);
 
-      const after = unwrap(await f.keyValueStore.get(key));
+      const after = unwrap(await f.keyValueStore.get(key), null);
 
       expect(before).toEqual(null);
       expect(after).toEqual(value);
@@ -52,15 +52,15 @@ describe(import.meta.file, () => {
       const value1 = "value";
       const value2 = "value2";
 
-      const before = unwrap(await f.keyValueStore.get(key));
+      const before = unwrap(await f.keyValueStore.get(key), null);
 
       await f.keyValueStore.set(key, value1);
 
-      const after = unwrap(await f.keyValueStore.get(key));
+      const after = unwrap(await f.keyValueStore.get(key), null);
 
       await f.keyValueStore.set(key, value2);
 
-      const after2 = unwrap(await f.keyValueStore.get(key));
+      const after2 = unwrap(await f.keyValueStore.get(key), null);
 
       expect(before).toEqual(null);
       expect(after).toEqual(value1);

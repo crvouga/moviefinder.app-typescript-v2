@@ -28,7 +28,7 @@ export const BaseFixture = async () => {
   const sleep = async () => {};
 
   const dbConnSql = await DbConnSql({
-    t: "sqlite",
+    t: "postgres",
     databaseUrl: DATABASE_URL,
     logger,
   });

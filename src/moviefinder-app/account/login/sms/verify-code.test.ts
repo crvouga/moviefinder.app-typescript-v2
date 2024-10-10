@@ -26,14 +26,20 @@ describe("verify code", () => {
 
   test("creates new user", async () => {
     const f = await Fixture();
-    const before = unwrap(await f.ctx.userDb.findByPhone({ phone: f.phone }));
+    const before = unwrap(
+      await f.ctx.userDb.findByPhone({ phone: f.phone }),
+      null,
+    );
     await verifyCode({
       code: f.verifySmsCode,
       ctx: f.ctx,
       phone: f.phone,
       sessionId: f.req.sessionId,
     });
-    const after = unwrap(await f.ctx.userDb.findByPhone({ phone: f.phone }));
+    const after = unwrap(
+      await f.ctx.userDb.findByPhone({ phone: f.phone }),
+      null,
+    );
     expect(before).toBe(null);
     expect(after).not.toBe(null);
   });
@@ -42,6 +48,7 @@ describe("verify code", () => {
     const f = await Fixture();
     const before = unwrap(
       await f.ctx.userSessionDb.findBySessionId(f.req.sessionId),
+      null,
     );
     await verifyCode({
       code: f.verifySmsCode,
@@ -51,6 +58,7 @@ describe("verify code", () => {
     });
     const after = unwrap(
       await f.ctx.userSessionDb.findBySessionId(f.req.sessionId),
+      null,
     );
     expect(before).toBe(null);
     expect(after).not.toBe(null);
@@ -67,8 +75,12 @@ describe("verify code", () => {
     });
     const userSession = unwrap(
       await f.ctx.userSessionDb.findBySessionId(f.req.sessionId),
+      null,
     );
-    const user = unwrap(await f.ctx.userDb.findByPhone({ phone: f.phone }));
+    const user = unwrap(
+      await f.ctx.userDb.findByPhone({ phone: f.phone }),
+      null,
+    );
     expect(user?.userId).not.toBeNull();
     if (user?.userId) {
       expect(userSession?.userId).toEqual(user?.userId);

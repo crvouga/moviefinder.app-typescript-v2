@@ -25,13 +25,13 @@ export const respond = async (input: {
 }): Promise<Res> => {
   switch (input.route.t) {
     case "index": {
-      const maybeFeedId = Result.withDefault(
+      const maybeFeedId = Result.unwrap(
         await input.ctx.sessionFeedMappingDb.get(input.req.sessionId),
         null,
       );
 
       const maybeFeed = maybeFeedId
-        ? Result.withDefault(await input.ctx.feedDb.get(maybeFeedId), null)
+        ? Result.unwrap(await input.ctx.feedDb.get(maybeFeedId), null)
         : null;
 
       const feed = maybeFeed ?? Feed.init();
@@ -63,7 +63,7 @@ export const respond = async (input: {
     }
 
     case "load-more": {
-      const maybeFeed = Result.withDefault(
+      const maybeFeed = Result.unwrap(
         await input.ctx.feedDb.get(input.route.feedId),
         null,
       );
@@ -100,7 +100,7 @@ export const respond = async (input: {
     case "changed-slide": {
       const feedIndex = unknownToNumber(input.req.formData["feedIndex"]) ?? 0;
 
-      const maybeFeed = Result.withDefault(
+      const maybeFeed = Result.unwrap(
         await input.ctx.feedDb.get(input.route.feedId),
         null,
       );

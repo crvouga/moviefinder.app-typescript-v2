@@ -6,7 +6,7 @@ import * as Ctx from "./ctx";
 import { DATABASE_URL, TMDB_API_READ_ACCESS_TOKEN } from "./env";
 import * as Route from "./route";
 import { respond } from "./respond";
-import { Result, withDefault } from "src/core/result";
+import { Result, unwrap } from "src/core/result";
 
 const main = async () => {
   const ctx = await Ctx.init({
@@ -20,13 +20,13 @@ const main = async () => {
       fetch: async ({ request, sessionId }) => {
         const route = toRoute(request);
 
-        const userSession = withDefault(
+        const userSession = unwrap(
           await ctx.userSessionDb.findBySessionId(sessionId),
           null,
         );
 
         const user = userSession
-          ? withDefault(await ctx.userDb.get(userSession.userId), null)
+          ? unwrap(await ctx.userDb.get(userSession.userId), null)
           : null;
 
         ctx.currentUser = user;
