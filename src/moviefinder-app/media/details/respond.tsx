@@ -85,7 +85,7 @@ const ViewDetails = (input: { media: Media }) => {
         />
       </div>
 
-      <div class="flex w-full flex-col gap-4 overflow-x-hidden overflow-y-scroll p-4">
+      <div class="flex w-full flex-col gap-4 overflow-y-auto overflow-x-hidden p-4">
         <p class="text-center text-3xl font-bold">{input.media.mediaTitle}</p>
 
         <p class="text-center opacity-70">{input.media.mediaDescription}</p>
