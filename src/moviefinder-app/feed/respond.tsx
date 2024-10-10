@@ -2,7 +2,7 @@ import { ImageSet } from "src/core/image-set";
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
 import { empty, html, hxPushUrl } from "src/core/res";
-import { Result, isErr } from "src/core/result";
+import { isErr, unwrap } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
 import { ROOT_SELECTOR } from "../app/document";
@@ -25,13 +25,13 @@ export const respond = async (input: {
 }): Promise<Res> => {
   switch (input.route.t) {
     case "index": {
-      const maybeFeedId = Result.unwrap(
+      const maybeFeedId = unwrap(
         await input.ctx.sessionFeedMappingDb.get(input.req.sessionId),
         null,
       );
 
       const maybeFeed = maybeFeedId
-        ? Result.unwrap(await input.ctx.feedDb.get(maybeFeedId), null)
+        ? unwrap(await input.ctx.feedDb.get(maybeFeedId), null)
         : null;
 
       const feed = maybeFeed ?? Feed.init();
@@ -63,7 +63,7 @@ export const respond = async (input: {
     }
 
     case "load-more": {
-      const maybeFeed = Result.unwrap(
+      const maybeFeed = unwrap(
         await input.ctx.feedDb.get(input.route.feedId),
         null,
       );
@@ -100,7 +100,7 @@ export const respond = async (input: {
     case "changed-slide": {
       const feedIndex = unknownToNumber(input.req.formData["feedIndex"]) ?? 0;
 
-      const maybeFeed = Result.unwrap(
+      const maybeFeed = unwrap(
         await input.ctx.feedDb.get(input.route.feedId),
         null,
       );
