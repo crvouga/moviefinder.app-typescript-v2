@@ -1,7 +1,7 @@
 import { ImageSet } from "src/core/image-set";
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
-import { empty, html, hxPushUrl, redirect } from "src/core/res";
+import { empty, html, hxPushUrl } from "src/core/res";
 import { Result, isErr } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
