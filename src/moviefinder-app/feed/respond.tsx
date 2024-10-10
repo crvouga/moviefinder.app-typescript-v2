@@ -5,7 +5,7 @@ import { empty, html, hxPushUrl } from "src/core/res";
 import { isErr, unwrap } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { AppBottomButtonBar } from "../app/bottom-button-bar";
-import { ROOT_SELECTOR } from "../app/document";
+import { ROOT_SELECTOR } from "../app/root";
 import { ViewMediaFeedbackForm } from "../media/feedback/respond";
 import type { Media } from "../media/media";
 import { encode } from "../route";

@@ -5,7 +5,7 @@ import { Spinner } from "../ui/spinner";
 const ROOT_ID = "root";
 export const ROOT_SELECTOR = `#${ROOT_ID}`;
 
-export const Document = (input: { route: Route }) => {
+export const Root = (input: { route: Route }) => {
   return (
     <>
       {"<!doctype html>"}

@@ -1,7 +1,7 @@
 import { encode, Route } from "../route";
 import { IconArrowLeft } from "../ui/icon";
 import { IconButton } from "../ui/icon-button";
-import { ROOT_SELECTOR } from "./document";
+import { ROOT_SELECTOR } from "./root";
 
 export const TopBar = (input: { title?: string; backRoute: Route }) => {
   return (

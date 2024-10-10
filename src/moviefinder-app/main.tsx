@@ -1,7 +1,7 @@
 import { fromRequest, wrapSessionId } from "src/core/req/adapter-fetch-api";
 import { html } from "../core/res";
 import { toResponse } from "../core/res/adapter-fetch-api";
-import { Document } from "./app/document";
+import { Root } from "./app/root";
 import * as Ctx from "./ctx";
 import { DATABASE_URL, TMDB_API_READ_ACCESS_TOKEN } from "./env";
 import * as Route from "./route";
@@ -36,16 +36,12 @@ const main = async () => {
         ctx.logger.info(new Date().toISOString(), route, req);
 
         if (request.headers.get("HX-Request") === "true") {
-          const res = await respond({
-            route,
-            ctx,
-            req,
-          });
+          const res = await respond({ route, ctx, req });
 
           return toResponse(res);
         }
 
-        const res = await html(<Document route={route} />);
+        const res = await html(<Root route={route} />);
 
         return toResponse(res);
       },

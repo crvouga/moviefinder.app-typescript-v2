@@ -3,7 +3,7 @@ import type { Res } from "src/core/res";
 import { redirect } from "src/core/res";
 import { unwrap } from "src/core/result";
 import type { Ctx } from "src/moviefinder-app/ctx";
-import { ROOT_SELECTOR } from "../../app/document";
+import { ROOT_SELECTOR } from "../../app/root";
 import { encode } from "../../route";
 import { Button } from "../../ui/button";
 import type { Route } from "./route";

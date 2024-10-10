@@ -1,7 +1,7 @@
 import { encode } from "../route";
 import { BottomButtonBar } from "../ui/bottom-button-bar";
 import { IconHome, IconUserCircle } from "../ui/icon";
-import { ROOT_SELECTOR } from "./document";
+import { ROOT_SELECTOR } from "./root";
 
 export const AppBottomButtonBar = (input: { active: "feed" | "account" }) => {
   return (
