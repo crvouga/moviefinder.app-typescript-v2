@@ -3,7 +3,6 @@ import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
 import { html, redirect } from "src/core/res";
 import { isErr } from "src/core/result";
-import { ROOT_SELECTOR } from "src/moviefinder-app/app/document";
 import { TopBar } from "src/moviefinder-app/app/top-bar";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { encode } from "src/moviefinder-app/route";
@@ -15,6 +14,7 @@ import type { User } from "src/moviefinder-app/user/user";
 import { UserId } from "src/moviefinder-app/user/user-id";
 import { Route } from "./route";
 import { verifyCode } from "./verify-code";
+import { ROOT_SELECTOR } from "src/moviefinder-app/app/root";
 
 export const respond = async (input: {
   req: Req;

@@ -4,6 +4,7 @@ import type { UserSession } from "../user-session";
 import type { IUserSessionDb } from "./interface";
 
 export type Config = {
+  t: "in-memory";
   sleep: (ms: number) => Promise<unknown>;
 };
 

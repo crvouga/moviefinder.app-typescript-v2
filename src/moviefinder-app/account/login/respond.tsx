@@ -1,6 +1,6 @@
 import type { Req } from "src/core/req";
 import type { Res } from "src/core/res";
-import { ROOT_SELECTOR } from "src/moviefinder-app/app/document";
+import { ROOT_SELECTOR } from "src/moviefinder-app/app/root";
 import { encode } from "src/moviefinder-app/route";
 import { Button } from "src/moviefinder-app/ui/button";
 import { IconDoorOpen } from "src/moviefinder-app/ui/icon";

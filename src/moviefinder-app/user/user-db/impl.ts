@@ -4,19 +4,13 @@ import * as ImplInMemory from "./impl-in-memory";
 import * as ImplKeyValueStore from "./impl-key-value-store";
 
 export type Config =
-  | {
-      t: "db-conn";
-    }
-  | (ImplInMemory.Config & {
-      t: "in-memory";
-    })
-  | (ImplKeyValueStore.Config & {
-      t: "key-value-store";
-    });
+  | ImplDb.Config
+  | ImplInMemory.Config
+  | ImplKeyValueStore.Config;
 
 export const UserDb = (config: Config): IUserDb => {
   switch (config.t) {
-    case "db-conn": {
+    case "db": {
       return ImplDb.UserDb();
     }
     case "in-memory": {

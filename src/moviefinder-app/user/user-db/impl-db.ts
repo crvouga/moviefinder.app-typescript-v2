@@ -1,6 +1,10 @@
 import { Err } from "src/core/result";
 import type { IUserDb } from "./interface";
 
+export type Config = {
+  t: "db";
+};
+
 export const UserDb = (): IUserDb => {
   return {
     async get(userId) {

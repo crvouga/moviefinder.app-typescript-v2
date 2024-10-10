@@ -4,6 +4,7 @@ import type { UserId } from "../user-id";
 import type { IUserDb } from "./interface";
 
 export type Config = {
+  t: "in-memory";
   sleep: (ms: number) => Promise<unknown>;
 };
 

@@ -1,7 +1,7 @@
 import { ImageSet } from "src/core/image-set";
 import { html, type Res } from "src/core/res";
 import { isErr } from "src/core/result";
-import { ROOT_SELECTOR } from "src/moviefinder-app/app/document";
+import { ROOT_SELECTOR } from "src/moviefinder-app/app/root";
 import { TopBar } from "src/moviefinder-app/app/top-bar";
 import type { Ctx } from "src/moviefinder-app/ctx";
 import { encode } from "src/moviefinder-app/route";

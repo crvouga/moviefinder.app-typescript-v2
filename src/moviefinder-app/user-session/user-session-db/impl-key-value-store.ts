@@ -6,6 +6,7 @@ import { UserSessionId } from "../user-session-id";
 import type { IUserSessionDb } from "./interface";
 
 export type Config = {
+  t: "key-value-store";
   keyValueStore: IKeyValueStore;
   logger: ILogger;
 };
